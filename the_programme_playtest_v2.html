@@ -1,0 +1,658 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Helvetica Neue, Helvetica, Arial, sans-serif; color: var(--color-text-primary); }
+  .outer { display: flex; justify-content: center; padding: 1.5rem 1rem; }
+  .wrap { width: 100%; max-width: 660px; }
+  h1 { font-size: 23px; font-weight: 600; margin-bottom: 4px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 2rem 0 1rem; }
+  h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  p { font-size: 15px; line-height: 1.65; color: var(--color-text-secondary); }
+  .subtitle { font-size: 13px; color: var(--color-text-tertiary); margin-bottom: 2rem; }
+
+  .tabs { display: flex; gap: 4px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .tab { padding: 6px 14px; font-size: 13px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); cursor: pointer; background: var(--color-background-primary); color: var(--color-text-secondary); transition: all 0.15s; font-family: inherit; }
+  .tab:hover { background: var(--color-background-secondary); }
+  .tab.active { background: #3C3489; color: #EEEDFE; border-color: #3C3489; font-weight: 600; }
+
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 12px; }
+
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: var(--border-radius-md); margin-bottom: 6px; }
+  .badge-purple { background: #EEEDFE; color: #3C3489; }
+  .badge-teal { background: #E1F5EE; color: #0F6E56; }
+  .badge-coral { background: #FAECE7; color: #993C1D; }
+  .badge-amber { background: #FAEEDA; color: #854F0B; }
+  .badge-blue { background: #E6F1FB; color: #185FA5; }
+  .badge-gray { background: #F1EFE8; color: #5F5E5A; }
+  .badge-red { background: #FCEBEB; color: #A32D2D; }
+
+  .phase-track { display: flex; align-items: stretch; gap: 0; margin-bottom: 1.5rem; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
+  .phase-block { flex: 1; padding: 10px 8px; text-align: center; border-right: 0.5px solid var(--color-border-tertiary); }
+  .phase-block:last-child { border-right: none; }
+  .phase-name { font-size: 12px; font-weight: 600; }
+  .phase-sub { font-size: 10px; color: var(--color-text-tertiary); margin-top: 2px; }
+
+  .phase-d { background: #E1F5EE; }
+  .phase-a { background: #E6F1FB; }
+  .phase-b { background: #FAEEDA; }
+  .phase-l { background: #FAECE7; }
+  .phase-r { background: #F1EFE8; }
+  .phase-name-d { color: #0F6E56; }
+  .phase-name-a { color: #185FA5; }
+  .phase-name-b { color: #854F0B; }
+  .phase-name-l { color: #993C1D; }
+  .phase-name-r { color: #5F5E5A; }
+
+  .score-row { display: flex; gap: 12px; margin-bottom: 1.5rem; }
+  .score-card { flex: 1; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem; }
+  .score-label { font-size: 12px; color: var(--color-text-tertiary); margin-bottom: 4px; }
+  .score-val { font-size: 28px; font-weight: 600; }
+  .score-track { height: 6px; background: var(--color-background-secondary); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
+  .dp-fill { background: #D85A30; }
+  .sq-fill { background: #1D9E75; }
+
+  .token-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .token { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; border: 1.5px solid; cursor: pointer; transition: opacity 0.2s; user-select: none; font-family: inherit; }
+  .token.spent { opacity: 0.25; }
+  .token-res { background: #E1F5EE; color: #0F6E56; border-color: #1D9E75; }
+  .token-des { background: #EEEDFE; color: #3C3489; border-color: #7F77DD; }
+  .token-del { background: #FAECE7; color: #993C1D; border-color: #D85A30; }
+
+  .role-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 1rem; }
+  .role-card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px; }
+  .role-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .role-ability { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 6px; line-height: 1.55; }
+  .role-pressure { font-size: 12px; font-style: italic; color: var(--color-text-tertiary); border-top: 0.5px solid var(--color-border-tertiary); padding-top: 6px; margin-top: 6px; }
+
+  .scenario-card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 10px; }
+  .sc-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .sc-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.65; margin-bottom: 10px; }
+  .sc-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; align-items: flex-start; }
+  .sc-meta { font-size: 11px; color: var(--color-text-tertiary); }
+  .sc-meta span { font-weight: 600; color: var(--color-text-secondary); }
+  .resolution-box { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 8px 10px; font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-top: 6px; }
+  .resolution-box strong { color: var(--color-text-primary); font-weight: 600; }
+
+  .event-card { border-left: 3px solid #D85A30; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 12px; margin-bottom: 8px; background: var(--color-background-primary); border-top: 0.5px solid var(--color-border-tertiary); border-right: 0.5px solid var(--color-border-tertiary); border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .ev-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .ev-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 6px; }
+
+  .rule-block { border-left: 2px solid #7F77DD; padding: 8px 12px; margin-bottom: 10px; }
+  .rule-block p { font-size: 14px; }
+
+  .outcome-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 8px; }
+  .outcome-table th { text-align: left; padding: 6px 8px; font-size: 12px; font-weight: 600; color: var(--color-text-tertiary); border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .outcome-table td { padding: 8px 8px; border-bottom: 0.5px solid var(--color-border-tertiary); vertical-align: top; line-height: 1.5; }
+  .outcome-table tr:last-child td { border-bottom: none; }
+
+  .phase-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+  .pf-btn { padding: 4px 10px; font-size: 12px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); cursor: pointer; background: var(--color-background-primary); color: var(--color-text-secondary); font-family: inherit; }
+  .pf-btn.active { background: var(--color-background-secondary); font-weight: 600; color: var(--color-text-primary); }
+
+  .counter-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+  .counter-btn { width: 28px; height: 28px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); font-family: inherit; }
+  .counter-val { font-size: 20px; font-weight: 600; min-width: 32px; text-align: center; }
+
+  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1.5rem 0; }
+  .note { background: #E1F5EE; border-radius: var(--border-radius-md); padding: 8px 12px; font-size: 13px; color: #0F6E56; margin-top: 8px; line-height: 1.55; }
+  .warn { background: #FAEEDA; border-radius: var(--border-radius-md); padding: 8px 12px; font-size: 13px; color: #854F0B; margin-top: 8px; line-height: 1.55; }
+
+  .sc-filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
+
+  .gate-card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px 16px; margin-bottom: 10px; }
+  .gate-q { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .gate-req { font-size: 13px; color: var(--color-text-secondary); line-height: 1.65; }
+  .gate-label { font-size: 11px; color: var(--color-text-tertiary); margin-bottom: 4px; }
+</style>
+
+<div class="outer">
+<div class="wrap">
+  <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;">The Programme playtest reference</h2>
+  <h1>The Programme</h1>
+  <p class="subtitle">Playtest reference document &nbsp;·&nbsp; v0.1</p>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('overview',this)">Overview</div>
+    <div class="tab" onclick="showTab('roles',this)">Roles</div>
+    <div class="tab" onclick="showTab('mechanics',this)">Mechanics</div>
+    <div class="tab" onclick="showTab('scenarios',this)">Scenario cards</div>
+    <div class="tab" onclick="showTab('events',this)">Event cards</div>
+    <div class="tab" onclick="showTab('tracker',this)">Live tracker</div>
+    <div class="tab" onclick="showTab('debrief',this)">Debrief</div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div id="tab-overview" class="section visible">
+    <h2>Board structure</h2>
+    <div class="phase-track">
+      <div class="phase-block phase-d"><div class="phase-name phase-name-d">Discovery</div><div class="phase-sub">3 scenarios</div></div>
+      <div class="phase-block phase-a"><div class="phase-name phase-name-a">Alpha</div><div class="phase-sub">3 scenarios</div></div>
+      <div class="phase-block phase-b"><div class="phase-name phase-name-b">Beta</div><div class="phase-sub">3 scenarios</div></div>
+      <div class="phase-block phase-l"><div class="phase-name phase-name-l">Live</div><div class="phase-sub">2 scenarios</div></div>
+      <div class="phase-block phase-r"><div class="phase-name phase-name-r">Review</div><div class="phase-sub">Scores revealed</div></div>
+    </div>
+
+    <h2>Game objective</h2>
+    <div class="card">
+      <p style="margin-bottom:8px;">The team is delivering a digital health service. Players must reach the Review phase having both hit delivery milestones and genuinely served user needs.</p>
+      <p>A high Delivery Progress score with a low Service Quality score is a valid and intentionally uncomfortable outcome. The debrief makes it useful.</p>
+      <div class="note">There is no win or lose. The scores create the conditions for reflection.</div>
+    </div>
+
+    <h2>Turn sequence (per scenario)</h2>
+    <div class="card">
+      <ol style="font-size:15px; color:var(--color-text-secondary); line-height:2.1; padding-left:1.2rem;">
+        <li>Reveal the top scenario card for the current phase</li>
+        <li>The facilitator reads it aloud</li>
+        <li>Each player whose role is triggered states their perspective and plays any relevant ability</li>
+        <li>The team discusses and agrees a response (2 to 3 minutes)</li>
+        <li>Apply score effects based on the chosen resolution path</li>
+        <li>After completing all scenarios in a phase, draw one event card, resolve it, then check the phase gate</li>
+        <li>If the gate is passed, advance to the next phase</li>
+      </ol>
+    </div>
+
+    <h2>Phase gates</h2>
+    <div class="gate-card">
+      <div class="gate-label">Discovery to Alpha</div>
+      <div class="gate-q">Are we solving the right problem?</div>
+      <div class="gate-req">Requires at least 2 Service Quality points accumulated. If not met, replay one scenario card from this phase before advancing.</div>
+    </div>
+    <div class="gate-card">
+      <div class="gate-label">Alpha to Beta</div>
+      <div class="gate-q">Is this approach viable?</div>
+      <div class="gate-req">Requires the team to have spent at least one Research token and one Design token in this phase. If not, the product manager may spend a resource token to override, but loses 1 SQ.</div>
+    </div>
+    <div class="gate-card">
+      <div class="gate-label">Beta to Live</div>
+      <div class="gate-q">Is the service ready for more users?</div>
+      <div class="gate-req">SQ score must be at least half of DP score. If not, the team may choose to delay (replay one scenario) or push to Live at the cost of 2 SQ.</div>
+    </div>
+    <div class="gate-card">
+      <div class="gate-label">Live to Review</div>
+      <div class="gate-q">Is quality high enough to launch?</div>
+      <div class="gate-req">No gate. The team always enters Review. This is intentional. The question is answered by the scores themselves.</div>
+    </div>
+  </div>
+
+  <!-- ROLES -->
+  <div id="tab-roles" class="section">
+    <h2>Player roles</h2>
+    <p style="margin-bottom:1rem;">Each player holds one role card. The ability is what they can uniquely contribute. The pressure is their default instinct, which is realistic rather than a flaw. The game rewards managing that tension.</p>
+    <div class="role-grid">
+      <div class="role-card">
+        <div class="badge badge-teal">User Researcher</div>
+        <div class="role-ability"><strong>Ability:</strong> May reveal hidden user need text on any scenario card once per phase. This can unlock an additional +1 SQ resolution path.</div>
+        <div class="role-pressure">"We need more evidence before we proceed."</div>
+      </div>
+      <div class="role-card">
+        <div class="badge badge-purple">Content Designer</div>
+        <div class="role-ability"><strong>Ability:</strong> May simplify or reframe any communication or information challenge. Removes a 1 SQ penalty on one scenario per phase.</div>
+        <div class="role-pressure">"I wasn't brought in early enough to help."</div>
+      </div>
+      <div class="role-card">
+        <div class="badge badge-blue">Interaction Designer</div>
+        <div class="role-ability"><strong>Ability:</strong> May resolve any usability or accessibility blocker without token cost. Once per phase.</div>
+        <div class="role-pressure">"This wasn't in the original brief."</div>
+      </div>
+      <div class="role-card">
+        <div class="badge badge-teal" style="background:#9FE1CB; color:#085041;">Service Designer</div>
+        <div class="role-ability"><strong>Ability:</strong> May reframe any scenario as a system-level problem, unlocking a cross-role resolution that adds +1 SQ if three roles contribute.</div>
+        <div class="role-pressure">"The whole system needs rethinking before we touch this."</div>
+      </div>
+      <div class="role-card">
+        <div class="badge badge-amber">Product Manager</div>
+        <div class="role-ability"><strong>Ability:</strong> Can reallocate up to two tokens between players per phase. Can unblock a gate by spending a resource token, at the cost of 1 SQ.</div>
+        <div class="role-pressure">"We have to hit the milestone. We can fix quality later."</div>
+      </div>
+      <div class="role-card">
+        <div class="badge badge-coral">Delivery Manager</div>
+        <div class="role-ability"><strong>Ability:</strong> Can spend from the next phase's token allocation to accelerate (+2 DP), but this reduces next phase's starting tokens by 2.</div>
+        <div class="role-pressure">"We're behind. We need to move, not discuss."</div>
+      </div>
+    </div>
+    <div class="warn">For a trial run with fewer than 6 players, drop Service Designer first, then Content Designer. Redistribute abilities as needed. Do not run with fewer than 4 players as the multi-role resolution mechanic breaks below that.</div>
+  </div>
+
+  <!-- MECHANICS -->
+  <div id="tab-mechanics" class="section">
+    <h2>Tokens</h2>
+    <div class="card">
+      <p style="margin-bottom:10px;">Each player starts each phase with a token allocation. Tokens represent bandwidth and are spent to resolve scenarios or activate abilities.</p>
+      <div style="overflow-x:auto;">
+        <table class="outcome-table">
+          <thead><tr><th>Token type</th><th>Held by</th><th>Spend effect</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-teal" style="margin:0;">Research</span></td><td>User Researcher (2), Service Designer (1)</td><td>Required for any resolution that involves user evidence. Spent once per card.</td></tr>
+            <tr><td><span class="badge badge-purple" style="margin:0;">Design</span></td><td>Content Designer (1), Interaction Designer (1), Service Designer (1)</td><td>Required for usability, content, or design quality resolutions.</td></tr>
+            <tr><td><span class="badge badge-coral" style="margin:0;">Delivery</span></td><td>Product Manager (2), Delivery Manager (2)</td><td>Required for unblocking decisions, accelerating progress, or overriding gates.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">Tokens reset at the start of each phase. Unused tokens do not carry over. The Delivery Manager's borrowing ability pulls from next phase's allocation. Track this explicitly.</div>
+    </div>
+
+    <h2>Resolution paths</h2>
+    <div class="card">
+      <p style="margin-bottom:12px;">Each scenario card has two or three resolution paths. The team must agree which path to take. Paths differ in token cost and score effects.</p>
+      <table class="outcome-table">
+        <thead><tr><th>Path</th><th>Typical cost</th><th>Score effect</th><th>When to use</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Full resolution</strong></td><td>1 Research + 1 Design token</td><td>+2 SQ, +1 DP</td><td>Team takes time to address root cause collaboratively</td></tr>
+          <tr><td><strong>Partial resolution</strong></td><td>1 Delivery token</td><td>+0 SQ, +2 DP</td><td>Team deprioritises quality to hit the milestone</td></tr>
+          <tr><td><strong>Escalation</strong></td><td>No token cost</td><td>-1 SQ, +1 DP</td><td>Team defers the problem and it gets worse</td></tr>
+        </tbody>
+      </table>
+      <div class="note">Most scenarios must involve two or three roles to reach full resolution. If only one player speaks, that counts as partial resolution at best. The facilitator can enforce this.</div>
+    </div>
+
+    <h2>Scoring</h2>
+    <div class="card">
+      <p style="margin-bottom:10px;">Two separate running totals. Both visible throughout the game. Neither is hidden.</p>
+      <table class="outcome-table">
+        <thead><tr><th>Score</th><th>What it measures</th><th>Max (11 scenarios)</th></tr></thead>
+        <tbody>
+          <tr><td><span style="color:#D85A30; font-weight:600;">Delivery Progress (DP)</span></td><td>How far along the track the team is moving. Driven by milestone decisions and event cards.</td><td>Approx. 22 if all partial or full</td></tr>
+          <tr><td><span style="color:#1D9E75; font-weight:600;">Service Quality (SQ)</span></td><td>How well the service meets user needs. Built by research, good design decisions, and inclusive choices.</td><td>Approx. 22 if all full resolution</td></tr>
+        </tbody>
+      </table>
+      <hr class="divider" style="margin:12px 0;">
+      <div class="gate-label" style="margin-bottom:6px;">Final score outcomes (Review phase)</div>
+      <table class="outcome-table">
+        <thead><tr><th>DP vs SQ</th><th>Outcome label</th><th>Debrief tone</th></tr></thead>
+        <tbody>
+          <tr><td>Both high (within 4 pts)</td><td>Sustainable delivery</td><td>What made this possible? What nearly derailed it?</td></tr>
+          <tr><td>DP high, SQ low (gap over 6)</td><td>Delivered, but at a cost</td><td>Who got hurt? What did we skip and why?</td></tr>
+          <tr><td>SQ high, DP low</td><td>Quality without momentum</td><td>What slowed us down? Was it worth it?</td></tr>
+          <tr><td>Both low</td><td>Programme in trouble</td><td>Where did we lose control? What would we do again?</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SCENARIOS -->
+  <div id="tab-scenarios" class="section">
+    <h2>Scenario cards</h2>
+    <div class="sc-filter-row">
+      <span style="font-size:12px; color:var(--color-text-tertiary);">Filter by phase:</span>
+      <div class="pf-btn active" onclick="filterScenarios('all', this)">All</div>
+      <div class="pf-btn" onclick="filterScenarios('discovery', this)">Discovery</div>
+      <div class="pf-btn" onclick="filterScenarios('alpha', this)">Alpha</div>
+      <div class="pf-btn" onclick="filterScenarios('beta', this)">Beta</div>
+      <div class="pf-btn" onclick="filterScenarios('live', this)">Live</div>
+    </div>
+
+    <div class="scenario-card" data-phase="discovery">
+      <div class="sc-row"><span class="badge badge-teal">Discovery</span><span class="badge badge-purple" style="margin-left:4px;">D1</span></div>
+      <div class="sc-title">"We already know what users need"</div>
+      <div class="sc-body">A senior stakeholder has shared a brief that assumes the user need is already understood from previous policy work. The user researcher has flagged that the assumed need does not match what they have seen in analogous services. The product manager is inclined to accept the brief and move on.</div>
+      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>User Researcher, Product Manager, Service Designer</span></span></div>
+      <div class="resolution-box">
+        <strong>Full resolution:</strong> User Researcher spends a Research token to present conflicting evidence. Service Designer reframes the problem. Team agrees to redefine the scope before proceeding. +2 SQ, +1 DP<br><br>
+        <strong>Partial:</strong> Team notes the concern but accepts the brief as given. Delivery Manager records a risk. +0 SQ, +2 DP<br><br>
+        <strong>Escalation:</strong> Brief accepted without challenge. The wrong problem is being solved. -1 SQ, +1 DP
+      </div>
+    </div>
+
+    <div class="scenario-card" data-phase="discovery">
+      <div class="sc-row"><span class="badge badge-teal">Discovery</span><span class="badge badge-purple" style="margin-left:4px;">D2</span></div>
+      <div class="sc-title">"The research will take too long"</div>
+      <div class="sc-body">The discovery phase has a fixed end date set by the programme board. The user researcher has scoped a proper round of contextual interviews but it will not complete in time. The delivery manager wants to proceed with desk research only.</div>
+      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>User Researcher, Delivery Manager, Product Manager</span></span></div>
+      <div class="resolution-box">
+        <strong>Full resolution:</strong> User Researcher proposes a lightweight pop-up research sprint. Product Manager reallocates a Delivery token to create space. +2 SQ, +1 DP<br><br>
+        <strong>Partial:</strong> Desk research only, but User Researcher documents what is unknown for Alpha. +0 SQ, +2 DP<br><br>
+        <strong>Escalation:</strong> Research skipped entirely. Unknown gaps are baked into the service from day one. -1 SQ, +1 DP
+      </div>
+    </div>
+
+    <div class="scenario-card" data-phase="discovery">
+      <div class="sc-row"><span class="badge badge-teal">Discovery</span><span class="badge badge-purple" style="margin-left:4px;">D3</span></div>
+      <div class="sc-title">"Nobody agreed who owns this"</div>
+      <div class="sc-body">Halfway through discovery, it becomes clear that another team in the department is doing adjacent work on the same user journey. There is no agreement on who leads, who supports, and how findings will be shared. Tension is building between the two product managers.</div>
+      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>Product Manager, Service Designer, Delivery Manager</span></span></div>
+      <div class="resolution-box">
+        <strong>Full resolution:</strong> Service Designer maps the overlap. Product Manager initiates a joint session. Clear boundaries agreed. +2 SQ, +1 DP<br><br>
+        <strong>Partial:</strong> Teams continue in parallel and agree to share outputs at the end. Risk of duplication. +0 SQ, +1 DP<br><br>
+        <strong>Escalation:</strong> Neither team blinks. Both proceed separately. -1 SQ, +0 DP
+      </div>
+    </div>
+
+    <div class="scenario-card" data-phase="alpha">
+      <div class="sc-row"><span class="badge badge-blue">Alpha</span><span class="badge badge-purple" style="margin-left:4px;">A1</span></div>
+      <div class="sc-title">"The prototype doesn't test well"</div>
+      <div class="sc-body">First round of usability testing on the Alpha prototype returns poor results. Users are confused by the main flow. The interaction designer says the journey needs a fundamental rethink. The delivery manager says there is not time for a full redesign before the next show-and-tell with stakeholders.</div>
+      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>Interaction Designer, Delivery Manager, Content Designer</span></span></div>
+      <div class="resolution-box">
+        <strong>Full resolution:</strong> Interaction Designer and Content Designer spend tokens to redesign two key screens. Show-and-tell is reframed as a problem-sharing session. +2 SQ, +1 DP<br><br>
+        <strong>Partial:</strong> Surface changes only. Flow issues remain but are documented. +0 SQ, +2 DP<br><br>
+        <strong>Escalation:</strong> Stakeholders are shown the broken prototype. Team loses credibility. -1 SQ, +1 DP
+      </div>
+    </div>
+
+    <div class="scenario-card" data-phase="alpha">
+      <div class="sc-row"><span class="badge badge-blue">Alpha</span><span class="badge badge-purple" style="margin-left:4px;">A2</span></div>
+      <div class="sc-title">"Scope has quietly expanded"</div>
+      <div class="sc-body">Since the start of Alpha, three additional features have been added to the backlog by stakeholders without any formal process. The product manager added them without consulting the design team. The service designer has now mapped out how much extra work this creates and it is significant.</div>
+      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>Service Designer, Product Manager, User Researcher</span></span></div>
+      <div class="resolution-box">
+        <strong>Full resolution:</strong> Service Designer presents an impact analysis. Product Manager runs a prioritisation session. Two features deferred. +2 SQ, +1 DP<br><br>
+        <strong>Partial:</strong> Features retained but timeline extended. Team is under increased pressure. +0 SQ, +1 DP<br><br>
+        <strong>Escalation:</strong> Scope remains unchanged. Team absorbs the extra work silently. -1 SQ, +1 DP
+      </div>
+    </div>
+
+    <div class="scenario-card" data-phase="alpha">
+      <div class="sc-row"><span class="badge badge-blue">Alpha</span><span class="badge badge-purple" style="margin-left:4px;">A3</span></div>
+      <div class="sc-title">"The content hasn't been touched"</div>
+      <div class="sc-body">The interaction designer has been building the prototype using placeholder text. The content designer was not involved in wireframing. Now that content is being written, it is clear the page structure does not work for plain English. Key guidance requires more space than the design allows and some journeys do not make sense without explanatory copy.</div>
+      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>Content Designer, Interaction Designer, Product Manager</span></span></div>
+      <div class="resolution-box">
+        <strong>Full resolution:</strong> Content Designer and Interaction Designer rework three key screens together. Product Manager creates a standing invite for Content Designer in design reviews. +2 SQ, +1 DP<br><br>
+        <strong>Partial:</strong> Content Designer retrofits copy into the existing design. Some structural issues remain unresolved. +0 SQ, +2 DP<br><br>
+        <strong>Escalation:</strong> Placeholder text is replaced with copy that is too long. Prototype is misleading in testing. -1 SQ, +1 DP
+      </div>
+    </div>
+
+    <div class="scenario-card" data-phase="beta">
+      <div class="sc-row"><span class="badge badge-amber">Beta</span><span class="badge badge-purple" style="margin-left:4px;">B1</span></div>
+      <div class="sc-title">"The accessibility audit came back"</div>
+      <div class="sc-body">An independent accessibility audit has flagged four critical issues: missing alt text, a colour contrast failure, a keyboard trap in the main form, and a document download that is not screen-reader compatible. The interaction designer estimates three days of work. The delivery manager says the release schedule does not have three days in it.</div>
+      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>Interaction Designer, Delivery Manager, Product Manager</span></span></div>
+      <div class="resolution-box">
+        <strong>Full resolution:</strong> Interaction Designer uses their ability to resolve all four issues without token cost. Timeline held. +2 SQ, +1 DP<br><br>
+        <strong>Partial:</strong> Two critical issues fixed. Two deferred with an agreed remediation date. +1 SQ, +2 DP<br><br>
+        <strong>Escalation:</strong> Issues are logged but not fixed. Service goes live with known accessibility failures. -2 SQ, +2 DP
+      </div>
+    </div>
+
+    <div class="scenario-card" data-phase="beta">
+      <div class="sc-row"><span class="badge badge-amber">Beta</span><span class="badge badge-purple" style="margin-left:4px;">B2</span></div>
+      <div class="sc-title">"The data is telling a different story"</div>
+      <div class="sc-body">Beta analytics show that 40% of users are abandoning the service at step three of the application journey. The user researcher has a hypothesis but needs time to run follow-up interviews. The product manager wants to ship a fix based on the data alone. The content designer thinks it is a comprehension issue. The interaction designer thinks it is a flow issue.</div>
+      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>User Researcher, Content Designer, Interaction Designer, Product Manager</span></span></div>
+      <div class="resolution-box">
+        <strong>Full resolution:</strong> User Researcher runs five quick interviews. Content Designer and Interaction Designer each contribute a fix. Drop-off addressed at root cause. +2 SQ, +1 DP<br><br>
+        <strong>Partial:</strong> PM pushes an untested fix based on a data assumption. Drop-off is reduced but not resolved. +0 SQ, +2 DP<br><br>
+        <strong>Escalation:</strong> Issue deprioritised until Live. Users continue dropping off. -1 SQ, +1 DP
+      </div>
+    </div>
+
+    <div class="scenario-card" data-phase="beta">
+      <div class="sc-row"><span class="badge badge-amber">Beta</span><span class="badge badge-purple" style="margin-left:4px;">B3</span></div>
+      <div class="sc-title">"A new team member doesn't know the rules"</div>
+      <div class="sc-body">A contractor interaction designer has joined for Beta. They have strong skills but are unfamiliar with government service standards, the team's ways of working, and why certain decisions were made in Alpha. They have started reworking components that were deliberately designed in a particular way, and tensions are building with the content designer who was involved from the start.</div>
+      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>Interaction Designer, Content Designer, Delivery Manager</span></span></div>
+      <div class="resolution-box">
+        <strong>Full resolution:</strong> Delivery Manager creates a structured onboarding session. Content Designer runs a decision log walkthrough. Contractor aligned. +2 SQ, +1 DP<br><br>
+        <strong>Partial:</strong> An informal conversation happens. Some context is shared. Some tensions remain. +0 SQ, +1 DP<br><br>
+        <strong>Escalation:</strong> Nobody has the time. Contractor continues undoing work. -1 SQ, +0 DP
+      </div>
+    </div>
+
+    <div class="scenario-card" data-phase="live">
+      <div class="sc-row"><span class="badge badge-coral">Live</span><span class="badge badge-purple" style="margin-left:4px;">L1</span></div>
+      <div class="sc-title">"The minister wants a feature that wasn't planned"</div>
+      <div class="sc-body">Three days before go-live, the minister's office has requested a dashboard showing real-time service usage statistics. It was not in scope. The product manager is being pressured to agree to it. The service designer thinks it could be built quickly but it will not be accessible and has not been tested. The delivery manager thinks it can be done.</div>
+      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>Product Manager, Service Designer, Interaction Designer, Delivery Manager</span></span></div>
+      <div class="resolution-box">
+        <strong>Full resolution:</strong> Product Manager pushes back diplomatically. Service Designer proposes a post-launch roadmap item with a clear timeline. Request deferred. +2 SQ, +1 DP<br><br>
+        <strong>Partial:</strong> A minimal dashboard is built and shipped. Not tested, not accessible, but politically resolved. -1 SQ, +2 DP<br><br>
+        <strong>Escalation:</strong> PM agrees to everything. Team works through the weekend. Quality failures on day one. -2 SQ, +1 DP
+      </div>
+    </div>
+
+    <div class="scenario-card" data-phase="live">
+      <div class="sc-row"><span class="badge badge-coral">Live</span><span class="badge badge-purple" style="margin-left:4px;">L2</span></div>
+      <div class="sc-title">"A journalist has submitted an FOI request"</div>
+      <div class="sc-body">A journalist has submitted a Freedom of Information request asking for all user research and usability test findings related to the service. The product manager is anxious. Some of the earlier research was documented loosely and some decisions look questionable in retrospect. The user researcher is confident the findings were sound but the documentation is incomplete.</div>
+      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>User Researcher, Product Manager, Content Designer</span></span></div>
+      <div class="resolution-box">
+        <strong>Full resolution:</strong> User Researcher and Content Designer work together to compile a clear, honest summary of findings and decisions. Response is transparent. +2 SQ, +1 DP<br><br>
+        <strong>Partial:</strong> Response submitted but incomplete. Some decisions left unexplained. +0 SQ, +1 DP<br><br>
+        <strong>Escalation:</strong> Legal are brought in and the response is heavily redacted. Public trust damaged. -2 SQ, +0 DP
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENTS -->
+  <div id="tab-events" class="section">
+    <h2>Event cards</h2>
+    <p style="margin-bottom:1rem;">One event card is drawn at the end of each phase (before the gate check). Events are not optional. Some create opportunities. Most create pressure. Apply effects immediately.</p>
+
+    <div class="event-card">
+      <div class="ev-title">A new minister has different priorities</div>
+      <div class="ev-body">The Secretary of State has been reshuffled. The new minister has a different emphasis and has publicly questioned the value of the programme. The team must spend time presenting the case for continuing.</div>
+      <div class="sc-row"><span class="badge badge-coral" style="margin:0;">+2 DP</span><span class="badge badge-red" style="margin:0 0 0 6px;">-1 SQ</span><span class="sc-meta" style="margin-left:6px;">All phases</span></div>
+    </div>
+
+    <div class="event-card">
+      <div class="ev-title">Your user researcher is pulled onto another programme</div>
+      <div class="ev-body">The user researcher is seconded to a higher-priority crisis project for the remainder of this phase. Research tokens are halved for this phase.</div>
+      <div class="sc-row"><span class="badge badge-red" style="margin:0;">-1 Research token this phase</span><span class="sc-meta" style="margin-left:6px;">Discovery, Alpha, Beta</span></div>
+    </div>
+
+    <div class="event-card">
+      <div class="ev-title">The tech team says the API won't be ready</div>
+      <div class="ev-body">A critical third-party API integration is delayed by four weeks. The team must decide whether to redesign part of the journey to work without it, or delay the phase gate.</div>
+      <div class="sc-row"><span class="badge badge-coral" style="margin:0;">-1 DP</span><span class="sc-meta" style="margin-left:6px;">Alpha, Beta</span></div>
+      <div class="ev-body" style="margin-top:6px;">If the team redesigns the journey (requires a Design token), there is no score penalty, but the team must resolve an additional scenario card.</div>
+    </div>
+
+    <div class="event-card">
+      <div class="ev-title">A critical press story about a similar service</div>
+      <div class="ev-body">A comparable government service has been publicly criticised for poor accessibility and confusing guidance. The team's work is mentioned in passing. Stakeholder scrutiny has increased significantly.</div>
+      <div class="sc-row"><span class="badge badge-amber" style="margin:0;">No score effect</span><span class="sc-meta" style="margin-left:6px;">Any phase</span></div>
+      <div class="ev-body" style="margin-top:6px;">The next scenario card must be resolved at full resolution. Partial or escalation is not available this round.</div>
+    </div>
+
+    <div class="event-card">
+      <div class="ev-title">A champion in the department steps up</div>
+      <div class="ev-body">A senior civil servant has become an enthusiastic advocate for the programme. They have cleared a blocker and created space for the team to do good work.</div>
+      <div class="sc-row"><span class="badge badge-teal" style="margin:0;">+2 DP</span><span class="badge badge-teal" style="margin:0 0 0 6px; background:#9FE1CB; color:#085041;">+1 SQ</span><span class="sc-meta" style="margin-left:6px;">Any phase</span></div>
+    </div>
+
+    <div class="event-card">
+      <div class="ev-title">Budget cut: 15% reduction</div>
+      <div class="ev-body">A departmental efficiency review has cut the programme budget. The product manager must immediately reduce scope or reduce team capacity. Choose one: remove one scenario card from the remaining phases, or lose one token permanently for each remaining player.</div>
+      <div class="sc-row"><span class="badge badge-red" style="margin:0;">Choice required</span><span class="sc-meta" style="margin-left:6px;">Alpha, Beta</span></div>
+    </div>
+
+    <div class="event-card">
+      <div class="ev-title">The user panel loved it</div>
+      <div class="ev-body">A citizen advisory panel has reviewed the service and given overwhelmingly positive feedback. The team's morale is high and a positive story is published on the department's blog.</div>
+      <div class="sc-row"><span class="badge badge-teal" style="margin:0; background:#9FE1CB; color:#085041;">+2 SQ</span><span class="sc-meta" style="margin-left:6px;">Beta, Live</span></div>
+    </div>
+
+    <div class="event-card">
+      <div class="ev-title">A team member raises a wellbeing concern</div>
+      <div class="ev-body">One team member (drawn randomly, or chosen by the facilitator) flags that they are close to burnout. The team must decide how to respond. Ignoring it is an option, but it has consequences.</div>
+      <div class="sc-row"><span class="badge badge-amber" style="margin:0;">Choice required</span><span class="sc-meta" style="margin-left:6px;">Beta, Live</span></div>
+      <div class="ev-body" style="margin-top:6px;">If the team responds with support (spend a Delivery token to redistribute work), there is no penalty. If ignored, the affected player's tokens are halved next phase and the team loses 1 SQ.</div>
+    </div>
+  </div>
+
+  <!-- TRACKER -->
+  <div id="tab-tracker" class="section">
+    <h2>Live session tracker</h2>
+    <div class="score-row">
+      <div class="score-card">
+        <div class="score-label">Delivery Progress</div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="score-val" id="dp-val" style="color:#D85A30;">0</div>
+          <div class="counter-row" style="margin:0;">
+            <div class="counter-btn" onclick="adj('dp',-1)">-</div>
+            <div class="counter-btn" onclick="adj('dp',1)">+</div>
+          </div>
+        </div>
+        <div class="score-track"><div class="score-fill dp-fill" id="dp-bar" style="width:0%"></div></div>
+      </div>
+      <div class="score-card">
+        <div class="score-label">Service Quality</div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="score-val" id="sq-val" style="color:#1D9E75;">0</div>
+          <div class="counter-row" style="margin:0;">
+            <div class="counter-btn" onclick="adj('sq',-1)">-</div>
+            <div class="counter-btn" onclick="adj('sq',1)">+</div>
+          </div>
+        </div>
+        <div class="score-track"><div class="score-fill sq-fill" id="sq-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div id="outcome-label" style="font-size:14px; color:var(--color-text-tertiary); margin-bottom:1.5rem;"></div>
+
+    <h2>Token tracker</h2>
+    <p style="margin-bottom:1rem; font-size:14px;">Click tokens to mark as spent. Reset at the start of each new phase.</p>
+    <div class="card">
+      <div style="margin-bottom:14px;">
+        <div style="font-size:14px; font-weight:600; margin-bottom:4px;">Research tokens</div>
+        <div class="token-row" id="res-tokens">
+          <div class="token token-res" onclick="toggleToken(this)">R</div>
+          <div class="token token-res" onclick="toggleToken(this)">R</div>
+          <div class="token token-res" onclick="toggleToken(this)">R</div>
+        </div>
+      </div>
+      <div style="margin-bottom:14px;">
+        <div style="font-size:14px; font-weight:600; margin-bottom:4px;">Design tokens</div>
+        <div class="token-row" id="des-tokens">
+          <div class="token token-des" onclick="toggleToken(this)">D</div>
+          <div class="token token-des" onclick="toggleToken(this)">D</div>
+          <div class="token token-des" onclick="toggleToken(this)">D</div>
+        </div>
+      </div>
+      <div style="margin-bottom:6px;">
+        <div style="font-size:14px; font-weight:600; margin-bottom:4px;">Delivery tokens</div>
+        <div class="token-row" id="del-tokens">
+          <div class="token token-del" onclick="toggleToken(this)">L</div>
+          <div class="token token-del" onclick="toggleToken(this)">L</div>
+          <div class="token token-del" onclick="toggleToken(this)">L</div>
+          <div class="token token-del" onclick="toggleToken(this)">L</div>
+        </div>
+      </div>
+      <button onclick="resetTokens()" style="margin-top:8px; font-size:13px; font-family:inherit;">Reset tokens (new phase)</button>
+    </div>
+
+    <h2>Current phase</h2>
+    <div class="phase-filter">
+      <div class="pf-btn active" id="ph-d" onclick="setPhase('d',this)">Discovery</div>
+      <div class="pf-btn" id="ph-a" onclick="setPhase('a',this)">Alpha</div>
+      <div class="pf-btn" id="ph-b" onclick="setPhase('b',this)">Beta</div>
+      <div class="pf-btn" id="ph-l" onclick="setPhase('l',this)">Live</div>
+      <div class="pf-btn" id="ph-r" onclick="setPhase('r',this)">Review</div>
+    </div>
+    <div id="phase-note" class="note">Discovery: establish user needs and frame the problem. Gate question: Are we solving the right problem?</div>
+  </div>
+
+  <!-- DEBRIEF -->
+  <div id="tab-debrief" class="section">
+    <h2>Debrief guide</h2>
+    <p style="margin-bottom:1rem;">Allow 20 to 30 minutes. The facilitator should not summarise or interpret. Ask the questions and let the team lead.</p>
+
+    <div class="rule-block">
+      <h3>Opening question</h3>
+      <p>What moment in the game felt most like something that has actually happened to you?</p>
+    </div>
+    <div class="rule-block">
+      <h3>On role pressure</h3>
+      <p>When did your role's default tendency work against the team? When did it help? Was the tension fair?</p>
+    </div>
+    <div class="rule-block">
+      <h3>On other roles</h3>
+      <p>What did you learn today about what another role is actually dealing with? What would you do differently to support them on a real project?</p>
+    </div>
+    <div class="rule-block">
+      <h3>On the scores</h3>
+      <p>Look at where Delivery Progress and Service Quality diverged. What decision caused the gap? Was it the right call at the time?</p>
+    </div>
+    <div class="rule-block">
+      <h3>Closing question</h3>
+      <p>Name one concrete thing you will do differently on your next project.</p>
+    </div>
+
+    <hr class="divider">
+
+    <h2>Facilitator notes</h2>
+    <div class="card">
+      <ul style="font-size:14px; color:var(--color-text-secondary); line-height:2.2; padding-left:1.2rem;">
+        <li>Do not allow a single player to dominate scenario resolution. Name the rule: two or three roles must contribute.</li>
+        <li>The delivery manager and product manager will often default to partial resolution. Let them, then debrief it.</li>
+        <li>If the group stalls, set a 90-second timer for discussion per scenario. The pressure to decide is part of the game.</li>
+        <li>Do not intervene in decisions, even clearly bad ones. The discomfort is the learning.</li>
+        <li>After a full run, ask players which scenario they want to replay differently.</li>
+        <li>Record which resolution path was chosen for each scenario. This becomes the debrief data.</li>
+      </ul>
+    </div>
+
+    <h2>Iteration log</h2>
+    <div class="card">
+      <p style="font-size:14px; margin-bottom:8px;">After each playtest session, record:</p>
+      <ul style="font-size:14px; color:var(--color-text-secondary); line-height:2.1; padding-left:1.2rem;">
+        <li>Which scenarios felt too easy, too hard, or unrealistic</li>
+        <li>Which role abilities felt too powerful or too weak</li>
+        <li>Whether the token economy felt constraining enough</li>
+        <li>Whether phase gates slowed or improved play</li>
+        <li>Which event card created the most interesting discussion</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+  var dp = 0, sq = 0, maxScore = 22;
+
+  function showTab(name, el) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('visible');
+    el.classList.add('active');
+  }
+
+  function adj(track, delta) {
+    if (track === 'dp') { dp = Math.max(0, dp + delta); document.getElementById('dp-val').textContent = dp; document.getElementById('dp-bar').style.width = Math.min(100, Math.round(dp / maxScore * 100)) + '%'; }
+    else { sq = Math.max(0, sq + delta); document.getElementById('sq-val').textContent = sq; document.getElementById('sq-bar').style.width = Math.min(100, Math.round(sq / maxScore * 100)) + '%'; }
+    updateOutcome();
+  }
+
+  function updateOutcome() {
+    var el = document.getElementById('outcome-label');
+    if (dp === 0 && sq === 0) { el.textContent = ''; return; }
+    var gap = dp - sq;
+    if (Math.abs(gap) <= 4 && dp > 8) el.textContent = 'Sustainable delivery: both tracks strong';
+    else if (gap > 6) el.textContent = 'Delivered, but at a cost: quality has been sacrificed';
+    else if (gap < -4) el.textContent = 'Quality without momentum: strong service, slow delivery';
+    else if (dp < 6 && sq < 6) el.textContent = 'Programme in trouble: both tracks low';
+    else el.textContent = 'In progress';
+  }
+
+  function toggleToken(el) { el.classList.toggle('spent'); }
+  function resetTokens() { document.querySelectorAll('.token').forEach(t => t.classList.remove('spent')); }
+
+  var phaseNotes = {
+    d: 'Discovery: establish user needs and frame the problem. Gate question: Are we solving the right problem?',
+    a: 'Alpha: first prototypes, negotiate scope. Gate question: Is this approach viable?',
+    b: 'Beta: test at scale, surface quality issues. Gate question: Is the service ready for more users?',
+    l: 'Live: delivery pressure peaks. No gate, the team always enters Review.',
+    r: 'Review: scores revealed. Debrief begins now.'
+  };
+
+  function setPhase(p, el) {
+    document.querySelectorAll('[id^="ph-"]').forEach(e => e.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('phase-note').textContent = phaseNotes[p];
+  }
+
+  function filterScenarios(phase, btn) {
+    document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.scenario-card').forEach(card => {
+      card.style.display = (phase === 'all' || card.dataset.phase === phase) ? '' : 'none';
+    });
+  }
+</script>
