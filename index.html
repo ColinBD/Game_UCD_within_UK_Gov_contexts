@@ -1,271 +1,495 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The UCD Challenge — v0.2</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Helvetica Neue, Helvetica, Arial, sans-serif; color: var(--color-text-primary); }
-  .outer { display: flex; justify-content: center; padding: 1.5rem 1rem; }
-  .wrap { width: 100%; max-width: 660px; }
-  h1 { font-size: 23px; font-weight: 600; margin-bottom: 4px; }
-  h2 { font-size: 19px; font-weight: 600; margin: 2rem 0 1rem; }
-  h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-  p { font-size: 15px; line-height: 1.65; color: var(--color-text-secondary); }
-  .subtitle { font-size: 13px; color: var(--color-text-tertiary); margin-bottom: 2rem; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1a;min-height:100vh;}
+.page{max-width:1100px;margin:0 auto;padding:1.5rem 1.5rem 3rem;}
+.game-title{font-size:28px;font-weight:700;letter-spacing:0.06em;text-align:center;margin-bottom:3px;color:#1a1a1a;}
+.game-sub{font-size:11px;color:#6b6560;text-align:center;margin-bottom:1.4rem;letter-spacing:0.1em;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-transform:uppercase;}
 
-  .tabs { display: flex; gap: 4px; margin-bottom: 1.5rem; flex-wrap: wrap; }
-  .tab { padding: 6px 14px; font-size: 13px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); cursor: pointer; background: var(--color-background-primary); color: var(--color-text-secondary); transition: all 0.15s; font-family: inherit; }
-  .tab:hover { background: var(--color-background-secondary); }
-  .tab.active { background: #3C3489; color: #EEEDFE; border-color: #3C3489; font-weight: 600; }
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:0;border-bottom:2px solid #3C3489;flex-wrap:wrap;align-items:flex-end;}
+.tab{padding:8px 18px;font-size:13px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border:1px solid #c5bfb0;border-bottom:none;border-radius:6px 6px 0 0;cursor:pointer;background:#e8e2d8;color:#5a5450;letter-spacing:0.04em;transition:all 0.15s;}
+.tab:hover{background:#d8d0c4;}
+.tab.active{background:#3C3489;color:#EEEDFE;border-color:#3C3489;font-weight:700;}
+.tab-spacer{flex:1;}
+.brief-reopen-btn{padding:6px 14px;font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border:1px solid #3C3489;border-radius:6px 6px 0 0;cursor:pointer;background:#e4e0f8;color:#3C3489;letter-spacing:0.04em;margin-bottom:0;font-weight:700;transition:all 0.15s;}
+.brief-reopen-btn:hover{background:#3C3489;color:#EEEDFE;}
+.tab-content{display:none;padding:1.4rem 0 0;}
+.tab-content.visible{display:block;}
 
-  .section { display: none; }
-  .section.visible { display: block; }
+/* SECTION PANELS */
+.section-panel{background:#fffef9;border:1.5px solid #c5bfb0;border-radius:10px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;}
+.section-panel h2{font-size:19px;font-weight:700;margin-bottom:0.8rem;color:#1a1a1a;}
+.section-panel h3{font-size:15px;font-weight:700;margin-bottom:6px;color:#1a1a1a;}
+.section-panel p{font-size:14px;line-height:1.7;color:#3a3530;margin-bottom:8px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.section-panel ul,.section-panel ol{font-size:14px;color:#3a3530;line-height:2;padding-left:1.4rem;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
 
-  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 12px; }
+/* GAME BOARD LAYOUT */
+.board-layout{display:grid;grid-template-columns:200px 1fr;gap:14px;align-items:start;}
 
-  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: var(--border-radius-md); margin-bottom: 6px; }
-  .badge-purple { background: #EEEDFE; color: #3C3489; }
-  .badge-teal { background: #E1F5EE; color: #0F6E56; }
-  .badge-coral { background: #FAECE7; color: #993C1D; }
-  .badge-amber { background: #FAEEDA; color: #854F0B; }
-  .badge-blue { background: #E6F1FB; color: #185FA5; }
-  .badge-gray { background: #F1EFE8; color: #5F5E5A; }
-  .badge-red { background: #FCEBEB; color: #A32D2D; }
+/* TRACKER PANEL */
+.tracker-panel{background:#1e1a14;border:2px solid #3C3489;border-radius:10px;padding:12px;color:#ede8df;}
+.tracker-title{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9994bb;margin-bottom:10px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-bottom:1px solid #3C3489;padding-bottom:6px;}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.score-cell{text-align:center;background:#2a2520;border-radius:6px;padding:8px 4px;}
+.score-lbl{font-size:9px;color:#9994bb;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:4px;letter-spacing:0.05em;text-transform:uppercase;}
+.score-val{font-size:26px;font-weight:700;line-height:1;}
+.score-dp{color:#F0997B;}
+.score-sq{color:#5DCAA5;}
+.adj-row{display:flex;justify-content:center;gap:6px;margin-top:6px;}
+.adj-btn{width:24px;height:24px;border:1px solid #534AB7;border-radius:4px;background:#3C3489;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;color:#EEEDFE;font-family:inherit;line-height:1;}
+.adj-btn:hover{background:#534AB7;}
+.token-panel-title{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9994bb;margin-bottom:8px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-bottom:1px solid #3C3489;padding-bottom:6px;margin-top:12px;}
+.token-section{margin-bottom:8px;}
+.token-lbl{font-size:9px;color:#9994bb;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:4px;letter-spacing:0.05em;text-transform:uppercase;}
+.token-row{display:flex;gap:5px;flex-wrap:wrap;}
+.tok{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;border:2px solid;cursor:pointer;user-select:none;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;transition:opacity 0.15s;}
+.tok.spent{opacity:0.18;}
+.tok-r{background:#085041;color:#9FE1CB;border-color:#1D9E75;}
+.tok-d{background:#26215C;color:#CECBF6;border-color:#7F77DD;}
+.tok-l{background:#4A1B0C;color:#F5C4B3;border-color:#D85A30;}
+.reset-btn{font-size:10px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:5px 8px;border-radius:5px;cursor:pointer;width:100%;margin-top:8px;letter-spacing:0.04em;background:#2a2520;color:#9994bb;border:1px solid #534AB7;}
+.reset-btn:hover{background:#3C3489;color:#EEEDFE;}
 
-  .phase-track { display: flex; align-items: stretch; gap: 0; margin-bottom: 1.5rem; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
-  .phase-block { flex: 1; padding: 10px 8px; text-align: center; border-right: 0.5px solid var(--color-border-tertiary); }
-  .phase-block:last-child { border-right: none; }
-  .phase-name { font-size: 12px; font-weight: 600; }
-  .phase-sub { font-size: 10px; color: var(--color-text-tertiary); margin-top: 2px; }
+/* BOARD RIGHT SIDE */
+.board-right{display:flex;flex-direction:column;gap:12px;}
+.board-section{background:#e8e0d0;border:2px solid #a09080;border-radius:10px;padding:14px;}
+.board-section-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#7a7060;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:10px;}
 
-  .phase-d { background: #E1F5EE; }
-  .phase-a { background: #E6F1FB; }
-  .phase-b { background: #FAEEDA; }
-  .phase-l { background: #FAECE7; }
-  .phase-r { background: #F1EFE8; }
-  .phase-name-d { color: #0F6E56; }
-  .phase-name-a { color: #185FA5; }
-  .phase-name-b { color: #854F0B; }
-  .phase-name-l { color: #993C1D; }
-  .phase-name-r { color: #5F5E5A; }
+/* BOARD GRID */
+.board-grid{display:flex;flex-direction:column;align-items:center;gap:0;}
+.board-row{display:flex;align-items:center;justify-content:center;width:100%;}
+.cell{position:relative;width:104px;flex-shrink:0;}
+.cell-inner{margin:3px;border:2px solid #a09080;border-radius:8px;padding:6px 3px;text-align:center;cursor:pointer;transition:all 0.18s;background:#fffef9;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.cell-inner:hover{border-color:#534AB7;background:#f0edf8;}
+.cell-num{font-size:9px;color:#9a9080;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:2px;}
+.cell-type{font-size:11px;font-weight:700;letter-spacing:0.02em;color:#2a2520;}
+.cell-phase{font-size:9px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-top:2px;padding:1px 5px;border-radius:3px;font-weight:700;}
+.cell.visited .cell-inner{background:#d8d0c0;border-color:#b8b0a0;opacity:0.9;}
+.cell.visited .cell-type{color:#6a6050;}
+.cell.active .cell-inner{border:3px solid #3C3489;background:#EEEDFE;transform:scale(1.08);}
+.cell.active .cell-type{color:#26215C;font-size:13px;}
+.cell.active .cell-num{color:#534AB7;}
+.cell.locked .cell-inner{background:#ede8df;border-color:#ccc8bc;cursor:not-allowed;opacity:0.55;}
+.cell.locked .cell-inner:hover{border-color:#ccc8bc;background:#ede8df;}
+.cell.locked .cell-type{color:#9a9080;}
+.cell.locked .cell-num{color:#b8b0a0;}
+.cell-scenario .cell-inner{border-color:#1D9E75;}
+.cell-event .cell-inner{border-color:#D85A30;}
+.cell-gate .cell-inner{border-color:#185FA5;}
+.cell-review-final .cell-inner{border-color:#534AB7;background:#EEEDFE;}
+.cell-review-final.active .cell-inner{background:#CECBF6;}
+.ph-disc{background:#d4ede4;color:#085041;}
+.ph-alpha{background:#d0e4f5;color:#0C447C;}
+.ph-beta{background:#f5e8cc;color:#633806;}
+.ph-live{background:#f5ddd4;color:#712B13;}
+.ph-rev{background:#e4e0f8;color:#3C3489;}
+.arrow-h{width:16px;flex-shrink:0;text-align:center;font-size:14px;color:#a09080;line-height:1;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.arrow-v-row{display:flex;justify-content:center;width:100%;padding:0;}
+.arrow-v{font-size:14px;color:#a09080;line-height:1;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
 
-  .score-row { display: flex; gap: 12px; margin-bottom: 1.5rem; }
-  .score-card { flex: 1; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem; }
-  .score-label { font-size: 12px; color: var(--color-text-tertiary); margin-bottom: 4px; }
-  .score-val { font-size: 28px; font-weight: 600; }
-  .score-track { height: 6px; background: var(--color-background-secondary); border-radius: 3px; margin-top: 8px; overflow: hidden; }
-  .score-fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
-  .dp-fill { background: #D85A30; }
-  .sq-fill { background: #1D9E75; }
+/* CARD DISPLAY */
+.card-section{background:#f8f3e8;border:2.5px solid #2a2520;border-radius:12px;padding:16px 18px;min-height:90px;box-shadow:3px 3px 0 #2a2520;}
+.card-section-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#7a7060;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:10px;}
+.card-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:3px;margin-bottom:8px;letter-spacing:0.06em;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-transform:uppercase;}
+.tag-scenario{background:#085041;color:#9FE1CB;}
+.tag-event{background:#712B13;color:#F5C4B3;}
+.tag-gate{background:#0C447C;color:#B5D4F4;}
+.tag-review{background:#3C3489;color:#CECBF6;}
+.card-title{font-size:16px;font-weight:700;margin-bottom:10px;color:#1a1a1a;line-height:1.3;}
+.card-body{font-size:13px;color:#3a3530;line-height:1.7;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.card-body strong{color:#1a1a1a;font-weight:700;}
+.card-empty{font-size:13px;color:#9a9080;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-style:italic;}
 
-  .token-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-  .token { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; border: 1.5px solid; cursor: pointer; transition: opacity 0.2s; user-select: none; font-family: inherit; }
-  .token.spent { opacity: 0.25; }
-  .token-res { background: #E1F5EE; color: #0F6E56; border-color: #1D9E75; }
-  .token-des { background: #EEEDFE; color: #3C3489; border-color: #7F77DD; }
-  .token-del { background: #FAECE7; color: #993C1D; border-color: #D85A30; }
+/* TRIGGERED ROLES BADGES */
+.triggered-roles-block{margin:10px 0 8px;padding:8px 10px;background:#fffef9;border:1.5px solid #3C3489;border-radius:7px;}
+.triggered-roles-label{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#3C3489;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:6px;}
+.triggered-roles-row{display:flex;gap:6px;flex-wrap:wrap;}
+.role-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;letter-spacing:0.02em;}
+.role-badge .player-name{font-weight:400;font-size:10px;opacity:0.85;}
+.rb-ur{background:#d4ede4;color:#085041;}
+.rb-cd{background:#e4e0f8;color:#3C3489;}
+.rb-id{background:#d0e4f5;color:#0C447C;}
+.rb-sd{background:#c8e8dc;color:#04342C;}
+.rb-pm{background:#f5e8cc;color:#633806;}
+.rb-dm{background:#f5ddd4;color:#712B13;}
 
-  .role-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 1rem; }
-  .role-card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px; }
-  .role-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-  .role-ability { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 6px; line-height: 1.55; }
-  .role-pressure { font-size: 12px; font-style: italic; color: var(--color-text-tertiary); border-top: 0.5px solid var(--color-border-tertiary); padding-top: 6px; margin-top: 6px; }
+/* RESOLUTION PATHS — CLICKABLE */
+.resolution-toggle{margin-top:12px;padding-top:10px;border-top:1px dashed #c5bfb0;}
+.res-toggle-btn{font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:4px 10px;border-radius:4px;cursor:pointer;background:#2a2520;color:#ede8df;border:1px solid #2a2520;letter-spacing:0.04em;}
+.res-toggle-btn:hover{background:#1a1a14;}
+.resolution-content{margin-top:10px;}
+.res-path{padding:10px 14px;background:#fffef9;border:1.5px solid #c5bfb0;border-radius:7px;margin-bottom:8px;cursor:pointer;transition:all 0.15s;font-size:13px;color:#3a3530;line-height:1.7;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;position:relative;}
+.res-path:hover{border-color:#3C3489;background:#f0edf8;}
+.res-path.chosen{border-color:#1D9E75;background:#eaf7f2;cursor:default;}
+.res-path.chosen::after{content:'✓ Chosen';position:absolute;top:8px;right:10px;font-size:10px;font-weight:700;color:#085041;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.res-path strong{color:#1a1a1a;font-weight:700;}
+.res-path-score{display:inline-block;font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;margin-left:6px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;vertical-align:middle;}
+.rps-full{background:#d4ede4;color:#085041;}
+.rps-partial{background:#f5e8cc;color:#633806;}
+.rps-esc{background:#f5ddd4;color:#712B13;}
+.res-path-hint{font-size:10px;color:#7a7060;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-top:4px;font-style:italic;}
 
-  .scenario-card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 10px; }
-  .sc-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-  .sc-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.65; margin-bottom: 10px; }
-  .sc-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; align-items: flex-start; }
-  .sc-meta { font-size: 11px; color: var(--color-text-tertiary); }
-  .sc-meta span { font-weight: 600; color: var(--color-text-secondary); }
-  .resolution-box { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 8px 10px; font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-top: 6px; }
-  .resolution-box strong { color: var(--color-text-primary); font-weight: 600; }
+/* OTHER TABS */
+.phase-track{display:flex;align-items:stretch;border:1.5px solid #c5bfb0;border-radius:8px;overflow:hidden;margin-bottom:1.2rem;}
+.phase-block{flex:1;padding:10px 6px;text-align:center;border-right:1px solid #c5bfb0;}
+.phase-block:last-child{border-right:none;}
+.phase-block .pname{font-size:12px;font-weight:700;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.phase-block .psub{font-size:10px;color:#6b6560;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-top:2px;}
+.phase-d{background:#d4ede4;} .phase-d .pname{color:#085041;}
+.phase-a{background:#d0e4f5;} .phase-a .pname{color:#0C447C;}
+.phase-b{background:#f5e8cc;} .phase-b .pname{color:#633806;}
+.phase-l{background:#f5ddd4;} .phase-l .pname{color:#712B13;}
+.phase-r{background:#e4e0f8;} .phase-r .pname{color:#3C3489;}
+.info-card{background:#fffef9;border:1.5px solid #c5bfb0;border-radius:8px;padding:12px 14px;margin-bottom:10px;}
+.info-card h3{font-size:14px;font-weight:700;margin-bottom:6px;}
+.badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;margin-bottom:6px;letter-spacing:0.04em;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.badge-teal{background:#d4ede4;color:#085041;}
+.badge-purple{background:#e4e0f8;color:#3C3489;}
+.badge-blue{background:#d0e4f5;color:#0C447C;}
+.badge-amber{background:#f5e8cc;color:#633806;}
+.badge-coral{background:#f5ddd4;color:#712B13;}
+.role-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:1rem;}
+.role-card{border:1.5px solid #c5bfb0;border-radius:8px;padding:12px;background:#fffef9;}
+.role-ability{font-size:12px;color:#3a3530;margin-bottom:6px;line-height:1.55;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.role-pressure{font-size:11px;font-style:italic;color:#7a7060;border-top:1px solid #e0dbd0;padding-top:6px;margin-top:6px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.outcome-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.outcome-table th{text-align:left;padding:6px 8px;font-size:11px;font-weight:700;color:#6b6560;border-bottom:1.5px solid #c5bfb0;}
+.outcome-table td{padding:8px;border-bottom:1px solid #e0dbd0;vertical-align:top;line-height:1.5;color:#3a3530;}
+.outcome-table tr:last-child td{border-bottom:none;}
+.rule-block{border-left:3px solid #7F77DD;padding:8px 12px;margin-bottom:10px;background:#f5f0e8;border-radius:0 6px 6px 0;}
+.rule-block p{font-size:14px;color:#3a3530;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.rule-block h3{font-size:14px;font-weight:700;margin-bottom:4px;}
+.note-box{background:#d4ede4;border-radius:6px;padding:8px 12px;font-size:12px;color:#085041;margin-top:8px;line-height:1.55;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.warn-box{background:#f5e8cc;border-radius:6px;padding:8px 12px;font-size:12px;color:#633806;margin-top:8px;line-height:1.55;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.gate-card{border:1.5px solid #c5bfb0;border-radius:8px;padding:12px 14px;margin-bottom:10px;background:#fffef9;}
+.gate-label{font-size:10px;color:#9a9080;margin-bottom:4px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;letter-spacing:0.05em;text-transform:uppercase;}
+.gate-q{font-size:15px;font-weight:700;margin-bottom:6px;}
+.gate-req{font-size:13px;color:#3a3530;line-height:1.65;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.copyright{font-size:10px;color:#9a9080;text-align:center;margin-top:1.5rem;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;letter-spacing:0.05em;}
 
-  .event-card { border-left: 3px solid #D85A30; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 12px; margin-bottom: 8px; background: var(--color-background-primary); border-top: 0.5px solid var(--color-border-tertiary); border-right: 0.5px solid var(--color-border-tertiary); border-bottom: 0.5px solid var(--color-border-tertiary); }
-  .ev-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-  .ev-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 6px; }
+/* SESSION LOG (debrief) */
+.session-log-empty{font-size:13px;color:#9a9080;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-style:italic;padding:10px 0;}
+.log-entry{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-bottom:1px solid #e0dbd0;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-size:12px;color:#3a3530;}
+.log-entry:last-child{border-bottom:none;}
+.log-step{font-weight:700;color:#6b6560;min-width:56px;flex-shrink:0;}
+.log-path{font-weight:700;}
+.log-path-full{color:#085041;}
+.log-path-partial{color:#633806;}
+.log-path-esc{color:#712B13;}
+.log-score{margin-left:auto;font-size:11px;color:#9994bb;white-space:nowrap;}
+.score-summary{display:flex;gap:16px;padding:12px;background:#2a2520;border-radius:8px;margin-bottom:12px;}
+.ss-cell{text-align:center;flex:1;}
+.ss-lbl{font-size:9px;color:#9994bb;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:2px;letter-spacing:0.05em;text-transform:uppercase;}
+.ss-val{font-size:22px;font-weight:700;}
+.ss-outcome{font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;color:#9994bb;margin-top:12px;text-align:center;padding:6px;}
 
-  .rule-block { border-left: 2px solid #7F77DD; padding: 8px 12px; margin-bottom: 10px; }
-  .rule-block p { font-size: 14px; }
+/* BRIEFING MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(26,26,20,0.72);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;}
+.modal-box{background:#f5f0e8;border:2.5px solid #3C3489;border-radius:14px;max-width:640px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:6px 6px 0 #2a2520;}
+.modal-header{background:#3C3489;color:#EEEDFE;padding:16px 20px;border-radius:11px 11px 0 0;display:flex;align-items:center;justify-content:space-between;}
+.modal-header h2{font-size:16px;letter-spacing:0.04em;}
+.modal-header-sub{font-size:10px;color:#CECBF6;letter-spacing:0.1em;text-transform:uppercase;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-top:2px;}
+.modal-body{padding:20px 22px;}
+.modal-section{margin-bottom:18px;}
+.modal-section-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#7a7060;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #c5bfb0;}
+.modal-section p{font-size:13px;line-height:1.75;color:#3a3530;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:6px;}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;}
+.mission-cell{padding:10px 12px;border-radius:7px;}
+.mission-dp{background:#4A1B0C;border:1.5px solid #D85A30;}
+.mission-sq{background:#085041;border:1.5px solid #1D9E75;}
+.mission-cell .mc-label{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:4px;}
+.mission-dp .mc-label{color:#F5C4B3;}
+.mission-sq .mc-label{color:#9FE1CB;}
+.mission-cell .mc-desc{font-size:11px;line-height:1.55;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.mission-dp .mc-desc{color:#F5C4B3;}
+.mission-sq .mc-desc{color:#9FE1CB;}
+.modal-dismiss-btn{display:block;width:100%;margin-top:6px;padding:12px;background:#3C3489;color:#EEEDFE;border:none;border-radius:8px;font-size:13px;font-weight:700;letter-spacing:0.06em;cursor:pointer;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;transition:background 0.15s;}
+.modal-dismiss-btn:hover{background:#534AB7;}
+.modal-note{font-size:11px;color:#9a9080;text-align:center;margin-top:8px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
 
-  .outcome-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 8px; }
-  .outcome-table th { text-align: left; padding: 6px 8px; font-size: 12px; font-weight: 600; color: var(--color-text-tertiary); border-bottom: 0.5px solid var(--color-border-tertiary); }
-  .outcome-table td { padding: 8px 8px; border-bottom: 0.5px solid var(--color-border-tertiary); vertical-align: top; line-height: 1.5; }
-  .outcome-table tr:last-child td { border-bottom: none; }
-
-  .phase-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
-  .pf-btn { padding: 4px 10px; font-size: 12px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); cursor: pointer; background: var(--color-background-primary); color: var(--color-text-secondary); font-family: inherit; }
-  .pf-btn.active { background: var(--color-background-secondary); font-weight: 600; color: var(--color-text-primary); }
-
-  .counter-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-  .counter-btn { width: 28px; height: 28px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); font-family: inherit; }
-  .counter-val { font-size: 20px; font-weight: 600; min-width: 32px; text-align: center; }
-
-  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1.5rem 0; }
-  .note { background: #E1F5EE; border-radius: var(--border-radius-md); padding: 8px 12px; font-size: 13px; color: #0F6E56; margin-top: 8px; line-height: 1.55; }
-  .warn { background: #FAEEDA; border-radius: var(--border-radius-md); padding: 8px 12px; font-size: 13px; color: #854F0B; margin-top: 8px; line-height: 1.55; }
-
-  .sc-filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
-
-  .gate-card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px 16px; margin-bottom: 10px; }
-  .gate-q { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-  .gate-req { font-size: 13px; color: var(--color-text-secondary); line-height: 1.65; }
-  .gate-label { font-size: 11px; color: var(--color-text-tertiary); margin-bottom: 4px; }
+/* PLAYER ROSTER */
+.roster-panel{background:#1e1a14;border:2px solid #3C3489;border-radius:10px;padding:12px;margin-bottom:14px;}
+.roster-title{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9994bb;margin-bottom:8px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-bottom:1px solid #3C3489;padding-bottom:6px;}
+.roster-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.roster-row{display:flex;flex-direction:column;gap:2px;}
+.roster-lbl{font-size:9px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.roster-input{font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:4px 6px;border-radius:4px;border:1px solid #534AB7;background:#2a2520;color:#ede8df;width:100%;outline:none;}
+.roster-input::placeholder{color:#5a5450;}
+.roster-input:focus{border-color:#7F77DD;}
+.rl-ur{color:#9FE1CB;}
+.rl-cd{color:#CECBF6;}
+.rl-id{color:#B5D4F4;}
+.rl-sd{color:#9FE1CB;}
+.rl-pm{color:#F5C4B3;}
+.rl-dm{color:#F5C4B3;}
 </style>
+</head>
+<body>
 
-<div class="outer">
-<div class="wrap">
-  <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;">The Programme playtest reference</h2>
-  <h1>The Programme</h1>
-  <p class="subtitle">Playtest reference document &nbsp;·&nbsp; v0.1</p>
+<!-- BRIEFING MODAL -->
+<div class="modal-overlay" id="briefing-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-header-sub">The UCD Challenge — Facilitator brief</div>
+        <h2>Read this together before you begin</h2>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-label">Scenario context</div>
+        <p>A new viral infection has been detected in the UK. Your team has been tasked with developing a digital health intervention that lets members of the public report symptoms, view the latest health advice, and receive AI-generated advice tailored to their available data points: location, contacts, and wearable health data.</p>
+        <p>There is pressure to ship quickly — this is a live public health emergency. But the team must also be mindful of the quality of what goes out under public health branding, and the significant privacy and ethical implications of the data being used.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">Your mission</div>
+        <p>Deliver this service through five phases — Discovery, Alpha, Beta, Live, and Review — while keeping two things in balance:</p>
+        <div class="mission-grid">
+          <div class="mission-cell mission-dp">
+            <div class="mc-label">Delivery Progress (DP)</div>
+            <div class="mc-desc">Hit your milestones. Keep the programme moving. Don't let the perfect be the enemy of the shipped.</div>
+          </div>
+          <div class="mission-cell mission-sq">
+            <div class="mc-label">Service Quality (SQ)</div>
+            <div class="mc-desc">Genuinely serve user needs. Do the research. Don't ship something that will harm, confuse, or exclude people.</div>
+          </div>
+        </div>
+        <p style="margin-top:10px;">There is no win or lose. Both scores will be visible throughout. The final numbers create the conditions for an honest debrief — not a competition.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">Before you start</div>
+        <p>Assign a role to each player. Six roles are available: User Researcher, Content Designer, Interaction Designer, Service Designer, Product Manager, and Delivery Manager. For groups under 6, drop Service Designer first, then Content Designer.</p>
+        <p>Each role has a unique ability and a realistic default pressure. Read them on the Roles tab. The tension between ability and pressure is the game.</p>
+        <p style="color:#712B13;font-weight:700;">Facilitator: share your screen now, then click "We've read the brief" below to begin.</p>
+      </div>
+      <button class="modal-dismiss-btn" onclick="dismissBrief()">We've read the brief — let's start</button>
+      <div class="modal-note">This brief can be reopened at any time using the Brief button next to the tabs.</div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <div class="game-title">The UCD Challenge</div>
+  <div class="game-sub">A game of design, delivery &amp; difficult decisions</div>
 
   <div class="tabs">
-    <div class="tab active" onclick="showTab('overview',this)">Overview</div>
+    <div class="tab active" onclick="showTab('board',this)">Game board</div>
+    <div class="tab" onclick="showTab('overview',this)">Overview</div>
     <div class="tab" onclick="showTab('roles',this)">Roles</div>
     <div class="tab" onclick="showTab('mechanics',this)">Mechanics</div>
-    <div class="tab" onclick="showTab('scenarios',this)">Scenario cards</div>
-    <div class="tab" onclick="showTab('events',this)">Event cards</div>
-    <div class="tab" onclick="showTab('tracker',this)">Live tracker</div>
     <div class="tab" onclick="showTab('debrief',this)">Debrief</div>
+    <div class="tab-spacer"></div>
+    <button class="brief-reopen-btn" onclick="reopenBrief()">&#9432; Brief</button>
+  </div>
+
+  <!-- GAME BOARD -->
+  <div id="tab-board" class="tab-content visible">
+    <div class="board-layout">
+      <div>
+        <!-- PLAYER ROSTER -->
+        <div class="roster-panel">
+          <div class="roster-title">Players &amp; roles</div>
+          <div class="roster-grid">
+            <div class="roster-row">
+              <div class="roster-lbl rl-ur">User Researcher</div>
+              <input class="roster-input" id="name-ur" type="text" placeholder="Player name" oninput="updateRoster()">
+            </div>
+            <div class="roster-row">
+              <div class="roster-lbl rl-cd">Content Designer</div>
+              <input class="roster-input" id="name-cd" type="text" placeholder="Player name" oninput="updateRoster()">
+            </div>
+            <div class="roster-row">
+              <div class="roster-lbl rl-id">Interaction Designer</div>
+              <input class="roster-input" id="name-id" type="text" placeholder="Player name" oninput="updateRoster()">
+            </div>
+            <div class="roster-row">
+              <div class="roster-lbl rl-sd">Service Designer</div>
+              <input class="roster-input" id="name-sd" type="text" placeholder="Player name" oninput="updateRoster()">
+            </div>
+            <div class="roster-row">
+              <div class="roster-lbl rl-pm">Product Manager</div>
+              <input class="roster-input" id="name-pm" type="text" placeholder="Player name" oninput="updateRoster()">
+            </div>
+            <div class="roster-row">
+              <div class="roster-lbl rl-dm">Delivery Manager</div>
+              <input class="roster-input" id="name-dm" type="text" placeholder="Player name" oninput="updateRoster()">
+            </div>
+          </div>
+        </div>
+
+        <div class="tracker-panel">
+          <div class="tracker-title">Session tracker</div>
+          <div class="score-grid">
+            <div class="score-cell">
+              <div class="score-lbl">Delivery Progress</div>
+              <div class="score-val score-dp" id="dp-val">0</div>
+              <div class="adj-row">
+                <div class="adj-btn" onclick="adj('dp',-1)">−</div>
+                <div class="adj-btn" onclick="adj('dp',1)">+</div>
+              </div>
+            </div>
+            <div class="score-cell">
+              <div class="score-lbl">Service Quality</div>
+              <div class="score-val score-sq" id="sq-val">0</div>
+              <div class="adj-row">
+                <div class="adj-btn" onclick="adj('sq',-1)">−</div>
+                <div class="adj-btn" onclick="adj('sq',1)">+</div>
+              </div>
+            </div>
+          </div>
+          <div class="token-panel-title">Token tracker</div>
+          <div class="token-section">
+            <div class="token-lbl">Research</div>
+            <div class="token-row">
+              <div class="tok tok-r" onclick="this.classList.toggle('spent')">R</div>
+              <div class="tok tok-r" onclick="this.classList.toggle('spent')">R</div>
+              <div class="tok tok-r" onclick="this.classList.toggle('spent')">R</div>
+            </div>
+          </div>
+          <div class="token-section">
+            <div class="token-lbl">Design</div>
+            <div class="token-row">
+              <div class="tok tok-d" onclick="this.classList.toggle('spent')">D</div>
+              <div class="tok tok-d" onclick="this.classList.toggle('spent')">D</div>
+              <div class="tok tok-d" onclick="this.classList.toggle('spent')">D</div>
+            </div>
+          </div>
+          <div class="token-section">
+            <div class="token-lbl">Delivery</div>
+            <div class="token-row">
+              <div class="tok tok-l" onclick="this.classList.toggle('spent')">L</div>
+              <div class="tok tok-l" onclick="this.classList.toggle('spent')">L</div>
+              <div class="tok tok-l" onclick="this.classList.toggle('spent')">L</div>
+              <div class="tok tok-l" onclick="this.classList.toggle('spent')">L</div>
+            </div>
+          </div>
+          <button class="reset-btn" onclick="resetTokens()">Reset tokens (new phase)</button>
+        </div>
+      </div>
+
+      <div class="board-right">
+        <div class="board-section">
+          <div class="board-section-label">Game path — click any step to reveal its card</div>
+          <div class="board-grid" id="board-grid"></div>
+        </div>
+        <div class="card-section" id="card-display">
+          <div class="card-empty">Select a step on the board above to display its card.</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- OVERVIEW -->
-  <div id="tab-overview" class="section visible">
-    <h2>Board structure</h2>
-    <div class="phase-track">
-      <div class="phase-block phase-d"><div class="phase-name phase-name-d">Discovery</div><div class="phase-sub">3 scenarios</div></div>
-      <div class="phase-block phase-a"><div class="phase-name phase-name-a">Alpha</div><div class="phase-sub">3 scenarios</div></div>
-      <div class="phase-block phase-b"><div class="phase-name phase-name-b">Beta</div><div class="phase-sub">3 scenarios</div></div>
-      <div class="phase-block phase-l"><div class="phase-name phase-name-l">Live</div><div class="phase-sub">2 scenarios</div></div>
-      <div class="phase-block phase-r"><div class="phase-name phase-name-r">Review</div><div class="phase-sub">Scores revealed</div></div>
-    </div>
-
-    <h2>Game objective</h2>
-    <div class="card">
-      <p style="margin-bottom:8px;">The team is delivering a digital health service. Players must reach the Review phase having both hit delivery milestones and genuinely served user needs.</p>
+  <div id="tab-overview" class="tab-content">
+    <div class="section-panel">
+      <h2>Board structure</h2>
+      <div class="phase-track">
+        <div class="phase-block phase-d"><div class="pname">Discovery</div><div class="psub">3 scenarios</div></div>
+        <div class="phase-block phase-a"><div class="pname">Alpha</div><div class="psub">3 scenarios</div></div>
+        <div class="phase-block phase-b"><div class="pname">Beta</div><div class="psub">3 scenarios</div></div>
+        <div class="phase-block phase-l"><div class="pname">Live</div><div class="psub">2 scenarios</div></div>
+        <div class="phase-block phase-r"><div class="pname">Review</div><div class="psub">Scores revealed</div></div>
+      </div>
+      <h2>Game objective</h2>
+      <p>Your team is developing a digital health service during a live outbreak. Players must reach the Review phase having both hit delivery milestones and genuinely served user needs — while navigating the ethical and privacy implications of AI-generated advice drawn from location, contacts, and wearable data.</p>
       <p>A high Delivery Progress score with a low Service Quality score is a valid and intentionally uncomfortable outcome. The debrief makes it useful.</p>
-      <div class="note">There is no win or lose. The scores create the conditions for reflection.</div>
+      <div class="note-box">There is no win or lose. The scores create the conditions for reflection.</div>
     </div>
-
-    <h2>Turn sequence (per scenario)</h2>
-    <div class="card">
-      <ol style="font-size:15px; color:var(--color-text-secondary); line-height:2.1; padding-left:1.2rem;">
-        <li>Reveal the top scenario card for the current phase</li>
+    <div class="section-panel">
+      <h2>Turn sequence (per scenario)</h2>
+      <ol>
+        <li>Reveal the scenario card for the current step on the game board</li>
         <li>The facilitator reads it aloud</li>
         <li>Each player whose role is triggered states their perspective and plays any relevant ability</li>
         <li>The team discusses and agrees a response (2 to 3 minutes)</li>
-        <li>Apply score effects based on the chosen resolution path</li>
-        <li>After completing all scenarios in a phase, draw one event card, resolve it, then check the phase gate</li>
-        <li>If the gate is passed, advance to the next phase</li>
+        <li>The facilitator reveals the resolution paths. Click the chosen path to apply its score effects and log the decision.</li>
+        <li>After completing all scenarios in a phase, click the Event card, resolve it, then click the Phase gate</li>
+        <li>If the gate is passed, advance to the next phase on the board</li>
       </ol>
     </div>
-
-    <h2>Phase gates</h2>
-    <div class="gate-card">
-      <div class="gate-label">Discovery to Alpha</div>
-      <div class="gate-q">Are we solving the right problem?</div>
-      <div class="gate-req">Requires at least 2 Service Quality points accumulated. If not met, replay one scenario card from this phase before advancing.</div>
-    </div>
-    <div class="gate-card">
-      <div class="gate-label">Alpha to Beta</div>
-      <div class="gate-q">Is this approach viable?</div>
-      <div class="gate-req">Requires the team to have spent at least one Research token and one Design token in this phase. If not, the product manager may spend a resource token to override, but loses 1 SQ.</div>
-    </div>
-    <div class="gate-card">
-      <div class="gate-label">Beta to Live</div>
-      <div class="gate-q">Is the service ready for more users?</div>
-      <div class="gate-req">SQ score must be at least half of DP score. If not, the team may choose to delay (replay one scenario) or push to Live at the cost of 2 SQ.</div>
-    </div>
-    <div class="gate-card">
-      <div class="gate-label">Live to Review</div>
-      <div class="gate-q">Is quality high enough to launch?</div>
-      <div class="gate-req">No gate. The team always enters Review. This is intentional. The question is answered by the scores themselves.</div>
+    <div class="section-panel">
+      <h2>Phase gates</h2>
+      <div class="gate-card">
+        <div class="gate-label">Discovery to Alpha</div>
+        <div class="gate-q">Are we solving the right problem?</div>
+        <div class="gate-req">Requires at least 2 Service Quality points accumulated. If not met, replay one scenario card from this phase before advancing.</div>
+      </div>
+      <div class="gate-card">
+        <div class="gate-label">Alpha to Beta</div>
+        <div class="gate-q">Is this approach viable?</div>
+        <div class="gate-req">Requires the team to have spent at least one Research token and one Design token in this phase. If not, the product manager may spend a resource token to override, but loses 1 SQ.</div>
+      </div>
+      <div class="gate-card">
+        <div class="gate-label">Beta to Live</div>
+        <div class="gate-q">Is the service ready for more users?</div>
+        <div class="gate-req">SQ score must be at least half of DP score. If not, the team may choose to delay (replay one scenario) or push to Live at the cost of 2 SQ.</div>
+      </div>
+      <div class="gate-card">
+        <div class="gate-label">Live to Review</div>
+        <div class="gate-q">Is quality high enough to launch?</div>
+        <div class="gate-req">No gate. The team always enters Review. This is intentional. The question is answered by the scores themselves.</div>
+      </div>
     </div>
   </div>
 
   <!-- ROLES -->
-  <div id="tab-roles" class="section">
-    <h2>Player roles</h2>
-    <p style="margin-bottom:1rem;">Each player holds one role card. The ability is what they can uniquely contribute. The pressure is their default instinct, which is realistic rather than a flaw. The game rewards managing that tension.</p>
-    <div class="role-grid">
-      <div class="role-card">
-        <div class="badge badge-teal">User Researcher</div>
-        <div class="role-ability"><strong>Ability:</strong> May reveal hidden user need text on any scenario card once per phase. This can unlock an additional +1 SQ resolution path.</div>
-        <div class="role-pressure">"We need more evidence before we proceed."</div>
+  <div id="tab-roles" class="tab-content">
+    <div class="section-panel">
+      <h2>Player roles</h2>
+      <p>Each player holds one role card. The ability is what they can uniquely contribute. The pressure is their default instinct, which is realistic rather than a flaw. The game rewards managing that tension.</p>
+      <div class="role-grid">
+        <div class="role-card"><div class="badge badge-teal">User Researcher</div><div class="role-ability"><strong>Ability:</strong> May reveal hidden user need text on any scenario card once per phase. This can unlock an additional +1 SQ resolution path.</div><div class="role-pressure">"We need more evidence before we proceed."</div></div>
+        <div class="role-card"><div class="badge badge-purple">Content Designer</div><div class="role-ability"><strong>Ability:</strong> May simplify or reframe any communication or information challenge. Removes a 1 SQ penalty on one scenario per phase.</div><div class="role-pressure">"I wasn't brought in early enough to help."</div></div>
+        <div class="role-card"><div class="badge badge-blue">Interaction Designer</div><div class="role-ability"><strong>Ability:</strong> May resolve any usability or accessibility blocker without token cost. Once per phase.</div><div class="role-pressure">"This wasn't in the original brief."</div></div>
+        <div class="role-card"><div class="badge badge-teal" style="background:#c8e8dc;color:#04342C;">Service Designer</div><div class="role-ability"><strong>Ability:</strong> May reframe any scenario as a system-level problem, unlocking a cross-role resolution that adds +1 SQ if three roles contribute.</div><div class="role-pressure">"The whole system needs rethinking before we touch this."</div></div>
+        <div class="role-card"><div class="badge badge-amber">Product Manager</div><div class="role-ability"><strong>Ability:</strong> Can reallocate up to two tokens between players per phase. Can unblock a gate by spending a resource token, at the cost of 1 SQ.</div><div class="role-pressure">"We have to hit the milestone. We can fix quality later."</div></div>
+        <div class="role-card"><div class="badge badge-coral">Delivery Manager</div><div class="role-ability"><strong>Ability:</strong> Can spend from the next phase's token allocation to accelerate (+2 DP), but this reduces next phase's starting tokens by 2.</div><div class="role-pressure">"We're behind. We need to move, not discuss."</div></div>
       </div>
-      <div class="role-card">
-        <div class="badge badge-purple">Content Designer</div>
-        <div class="role-ability"><strong>Ability:</strong> May simplify or reframe any communication or information challenge. Removes a 1 SQ penalty on one scenario per phase.</div>
-        <div class="role-pressure">"I wasn't brought in early enough to help."</div>
-      </div>
-      <div class="role-card">
-        <div class="badge badge-blue">Interaction Designer</div>
-        <div class="role-ability"><strong>Ability:</strong> May resolve any usability or accessibility blocker without token cost. Once per phase.</div>
-        <div class="role-pressure">"This wasn't in the original brief."</div>
-      </div>
-      <div class="role-card">
-        <div class="badge badge-teal" style="background:#9FE1CB; color:#085041;">Service Designer</div>
-        <div class="role-ability"><strong>Ability:</strong> May reframe any scenario as a system-level problem, unlocking a cross-role resolution that adds +1 SQ if three roles contribute.</div>
-        <div class="role-pressure">"The whole system needs rethinking before we touch this."</div>
-      </div>
-      <div class="role-card">
-        <div class="badge badge-amber">Product Manager</div>
-        <div class="role-ability"><strong>Ability:</strong> Can reallocate up to two tokens between players per phase. Can unblock a gate by spending a resource token, at the cost of 1 SQ.</div>
-        <div class="role-pressure">"We have to hit the milestone. We can fix quality later."</div>
-      </div>
-      <div class="role-card">
-        <div class="badge badge-coral">Delivery Manager</div>
-        <div class="role-ability"><strong>Ability:</strong> Can spend from the next phase's token allocation to accelerate (+2 DP), but this reduces next phase's starting tokens by 2.</div>
-        <div class="role-pressure">"We're behind. We need to move, not discuss."</div>
-      </div>
+      <div class="warn-box">For a trial run with fewer than 6 players, drop Service Designer first, then Content Designer. Redistribute abilities as needed. Do not run with fewer than 4 players as the multi-role resolution mechanic breaks below that.</div>
     </div>
-    <div class="warn">For a trial run with fewer than 6 players, drop Service Designer first, then Content Designer. Redistribute abilities as needed. Do not run with fewer than 4 players as the multi-role resolution mechanic breaks below that.</div>
   </div>
 
   <!-- MECHANICS -->
-  <div id="tab-mechanics" class="section">
-    <h2>Tokens</h2>
-    <div class="card">
-      <p style="margin-bottom:10px;">Each player starts each phase with a token allocation. Tokens represent bandwidth and are spent to resolve scenarios or activate abilities.</p>
-      <div style="overflow-x:auto;">
-        <table class="outcome-table">
-          <thead><tr><th>Token type</th><th>Held by</th><th>Spend effect</th></tr></thead>
-          <tbody>
-            <tr><td><span class="badge badge-teal" style="margin:0;">Research</span></td><td>User Researcher (2), Service Designer (1)</td><td>Required for any resolution that involves user evidence. Spent once per card.</td></tr>
-            <tr><td><span class="badge badge-purple" style="margin:0;">Design</span></td><td>Content Designer (1), Interaction Designer (1), Service Designer (1)</td><td>Required for usability, content, or design quality resolutions.</td></tr>
-            <tr><td><span class="badge badge-coral" style="margin:0;">Delivery</span></td><td>Product Manager (2), Delivery Manager (2)</td><td>Required for unblocking decisions, accelerating progress, or overriding gates.</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="note">Tokens reset at the start of each phase. Unused tokens do not carry over. The Delivery Manager's borrowing ability pulls from next phase's allocation. Track this explicitly.</div>
+  <div id="tab-mechanics" class="tab-content">
+    <div class="section-panel">
+      <h2>Tokens</h2>
+      <p>Each player starts each phase with a token allocation. Tokens represent bandwidth and are spent to resolve scenarios or activate abilities.</p>
+      <table class="outcome-table">
+        <thead><tr><th>Token type</th><th>Held by</th><th>Spend effect</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-teal" style="margin:0;">Research</span></td><td>User Researcher (2), Service Designer (1)</td><td>Required for any resolution that involves user evidence. Spent once per card.</td></tr>
+          <tr><td><span class="badge badge-purple" style="margin:0;">Design</span></td><td>Content Designer (1), Interaction Designer (1), Service Designer (1)</td><td>Required for usability, content, or design quality resolutions.</td></tr>
+          <tr><td><span class="badge badge-coral" style="margin:0;">Delivery</span></td><td>Product Manager (2), Delivery Manager (2)</td><td>Required for unblocking decisions, accelerating progress, or overriding gates.</td></tr>
+        </tbody>
+      </table>
+      <div class="note-box">Tokens reset at the start of each phase. Unused tokens do not carry over. The Delivery Manager's borrowing ability pulls from next phase's allocation. Track this explicitly.</div>
     </div>
-
-    <h2>Resolution paths</h2>
-    <div class="card">
-      <p style="margin-bottom:12px;">Each scenario card has two or three resolution paths. The team must agree which path to take. Paths differ in token cost and score effects.</p>
+    <div class="section-panel">
+      <h2>Resolution paths</h2>
+      <p>Each scenario card has two or three resolution paths. The team must agree which path to take before the facilitator reveals the resolution panel. Click the chosen path on the game board to apply its score effects and log the decision.</p>
       <table class="outcome-table">
         <thead><tr><th>Path</th><th>Typical cost</th><th>Score effect</th><th>When to use</th></tr></thead>
         <tbody>
           <tr><td><strong>Full resolution</strong></td><td>1 Research + 1 Design token</td><td>+2 SQ, +1 DP</td><td>Team takes time to address root cause collaboratively</td></tr>
           <tr><td><strong>Partial resolution</strong></td><td>1 Delivery token</td><td>+0 SQ, +2 DP</td><td>Team deprioritises quality to hit the milestone</td></tr>
-          <tr><td><strong>Escalation</strong></td><td>No token cost</td><td>-1 SQ, +1 DP</td><td>Team defers the problem and it gets worse</td></tr>
+          <tr><td><strong>Escalation</strong></td><td>No token cost</td><td>−1 SQ, +1 DP</td><td>Team defers the problem and it gets worse</td></tr>
         </tbody>
       </table>
-      <div class="note">Most scenarios must involve two or three roles to reach full resolution. If only one player speaks, that counts as partial resolution at best. The facilitator can enforce this.</div>
+      <div class="note-box">Most scenarios must involve two or three roles to reach full resolution. If only one player speaks, that counts as partial resolution at best. The facilitator can enforce this.</div>
     </div>
-
-    <h2>Scoring</h2>
-    <div class="card">
-      <p style="margin-bottom:10px;">Two separate running totals. Both visible throughout the game. Neither is hidden.</p>
+    <div class="section-panel">
+      <h2>Scoring</h2>
+      <p>Two separate running totals. Both visible throughout the game on the session tracker. Scores can go negative.</p>
       <table class="outcome-table">
-        <thead><tr><th>Score</th><th>What it measures</th><th>Max (11 scenarios)</th></tr></thead>
+        <thead><tr><th>Final scores (Review phase)</th><th>Outcome label</th><th>Debrief tone</th></tr></thead>
         <tbody>
-          <tr><td><span style="color:#D85A30; font-weight:600;">Delivery Progress (DP)</span></td><td>How far along the track the team is moving. Driven by milestone decisions and event cards.</td><td>Approx. 22 if all partial or full</td></tr>
-          <tr><td><span style="color:#1D9E75; font-weight:600;">Service Quality (SQ)</span></td><td>How well the service meets user needs. Built by research, good design decisions, and inclusive choices.</td><td>Approx. 22 if all full resolution</td></tr>
-        </tbody>
-      </table>
-      <hr class="divider" style="margin:12px 0;">
-      <div class="gate-label" style="margin-bottom:6px;">Final score outcomes (Review phase)</div>
-      <table class="outcome-table">
-        <thead><tr><th>DP vs SQ</th><th>Outcome label</th><th>Debrief tone</th></tr></thead>
-        <tbody>
-          <tr><td>Both high (within 4 pts)</td><td>Sustainable delivery</td><td>What made this possible? What nearly derailed it?</td></tr>
+          <tr><td>Both high (within 4 points)</td><td>Sustainable delivery</td><td>What made this possible? What nearly derailed it?</td></tr>
           <tr><td>DP high, SQ low (gap over 6)</td><td>Delivered, but at a cost</td><td>Who got hurt? What did we skip and why?</td></tr>
           <tr><td>SQ high, DP low</td><td>Quality without momentum</td><td>What slowed us down? Was it worth it?</td></tr>
           <tr><td>Both low</td><td>Programme in trouble</td><td>Where did we lose control? What would we do again?</td></tr>
@@ -274,385 +498,490 @@
     </div>
   </div>
 
-  <!-- SCENARIOS -->
-  <div id="tab-scenarios" class="section">
-    <h2>Scenario cards</h2>
-    <div class="sc-filter-row">
-      <span style="font-size:12px; color:var(--color-text-tertiary);">Filter by phase:</span>
-      <div class="pf-btn active" onclick="filterScenarios('all', this)">All</div>
-      <div class="pf-btn" onclick="filterScenarios('discovery', this)">Discovery</div>
-      <div class="pf-btn" onclick="filterScenarios('alpha', this)">Alpha</div>
-      <div class="pf-btn" onclick="filterScenarios('beta', this)">Beta</div>
-      <div class="pf-btn" onclick="filterScenarios('live', this)">Live</div>
-    </div>
-
-    <div class="scenario-card" data-phase="discovery">
-      <div class="sc-row"><span class="badge badge-teal">Discovery</span><span class="badge badge-purple" style="margin-left:4px;">D1</span></div>
-      <div class="sc-title">"We already know what users need"</div>
-      <div class="sc-body">A senior stakeholder has shared a brief that assumes the user need is already understood from previous policy work. The user researcher has flagged that the assumed need does not match what they have seen in analogous services. The product manager is inclined to accept the brief and move on.</div>
-      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>User Researcher, Product Manager, Service Designer</span></span></div>
-      <div class="resolution-box">
-        <strong>Full resolution:</strong> User Researcher spends a Research token to present conflicting evidence. Service Designer reframes the problem. Team agrees to redefine the scope before proceeding. +2 SQ, +1 DP<br><br>
-        <strong>Partial:</strong> Team notes the concern but accepts the brief as given. Delivery Manager records a risk. +0 SQ, +2 DP<br><br>
-        <strong>Escalation:</strong> Brief accepted without challenge. The wrong problem is being solved. -1 SQ, +1 DP
-      </div>
-    </div>
-
-    <div class="scenario-card" data-phase="discovery">
-      <div class="sc-row"><span class="badge badge-teal">Discovery</span><span class="badge badge-purple" style="margin-left:4px;">D2</span></div>
-      <div class="sc-title">"The research will take too long"</div>
-      <div class="sc-body">The discovery phase has a fixed end date set by the programme board. The user researcher has scoped a proper round of contextual interviews but it will not complete in time. The delivery manager wants to proceed with desk research only.</div>
-      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>User Researcher, Delivery Manager, Product Manager</span></span></div>
-      <div class="resolution-box">
-        <strong>Full resolution:</strong> User Researcher proposes a lightweight pop-up research sprint. Product Manager reallocates a Delivery token to create space. +2 SQ, +1 DP<br><br>
-        <strong>Partial:</strong> Desk research only, but User Researcher documents what is unknown for Alpha. +0 SQ, +2 DP<br><br>
-        <strong>Escalation:</strong> Research skipped entirely. Unknown gaps are baked into the service from day one. -1 SQ, +1 DP
-      </div>
-    </div>
-
-    <div class="scenario-card" data-phase="discovery">
-      <div class="sc-row"><span class="badge badge-teal">Discovery</span><span class="badge badge-purple" style="margin-left:4px;">D3</span></div>
-      <div class="sc-title">"Nobody agreed who owns this"</div>
-      <div class="sc-body">Halfway through discovery, it becomes clear that another team in the department is doing adjacent work on the same user journey. There is no agreement on who leads, who supports, and how findings will be shared. Tension is building between the two product managers.</div>
-      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>Product Manager, Service Designer, Delivery Manager</span></span></div>
-      <div class="resolution-box">
-        <strong>Full resolution:</strong> Service Designer maps the overlap. Product Manager initiates a joint session. Clear boundaries agreed. +2 SQ, +1 DP<br><br>
-        <strong>Partial:</strong> Teams continue in parallel and agree to share outputs at the end. Risk of duplication. +0 SQ, +1 DP<br><br>
-        <strong>Escalation:</strong> Neither team blinks. Both proceed separately. -1 SQ, +0 DP
-      </div>
-    </div>
-
-    <div class="scenario-card" data-phase="alpha">
-      <div class="sc-row"><span class="badge badge-blue">Alpha</span><span class="badge badge-purple" style="margin-left:4px;">A1</span></div>
-      <div class="sc-title">"The prototype doesn't test well"</div>
-      <div class="sc-body">First round of usability testing on the Alpha prototype returns poor results. Users are confused by the main flow. The interaction designer says the journey needs a fundamental rethink. The delivery manager says there is not time for a full redesign before the next show-and-tell with stakeholders.</div>
-      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>Interaction Designer, Delivery Manager, Content Designer</span></span></div>
-      <div class="resolution-box">
-        <strong>Full resolution:</strong> Interaction Designer and Content Designer spend tokens to redesign two key screens. Show-and-tell is reframed as a problem-sharing session. +2 SQ, +1 DP<br><br>
-        <strong>Partial:</strong> Surface changes only. Flow issues remain but are documented. +0 SQ, +2 DP<br><br>
-        <strong>Escalation:</strong> Stakeholders are shown the broken prototype. Team loses credibility. -1 SQ, +1 DP
-      </div>
-    </div>
-
-    <div class="scenario-card" data-phase="alpha">
-      <div class="sc-row"><span class="badge badge-blue">Alpha</span><span class="badge badge-purple" style="margin-left:4px;">A2</span></div>
-      <div class="sc-title">"Scope has quietly expanded"</div>
-      <div class="sc-body">Since the start of Alpha, three additional features have been added to the backlog by stakeholders without any formal process. The product manager added them without consulting the design team. The service designer has now mapped out how much extra work this creates and it is significant.</div>
-      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>Service Designer, Product Manager, User Researcher</span></span></div>
-      <div class="resolution-box">
-        <strong>Full resolution:</strong> Service Designer presents an impact analysis. Product Manager runs a prioritisation session. Two features deferred. +2 SQ, +1 DP<br><br>
-        <strong>Partial:</strong> Features retained but timeline extended. Team is under increased pressure. +0 SQ, +1 DP<br><br>
-        <strong>Escalation:</strong> Scope remains unchanged. Team absorbs the extra work silently. -1 SQ, +1 DP
-      </div>
-    </div>
-
-    <div class="scenario-card" data-phase="alpha">
-      <div class="sc-row"><span class="badge badge-blue">Alpha</span><span class="badge badge-purple" style="margin-left:4px;">A3</span></div>
-      <div class="sc-title">"The content hasn't been touched"</div>
-      <div class="sc-body">The interaction designer has been building the prototype using placeholder text. The content designer was not involved in wireframing. Now that content is being written, it is clear the page structure does not work for plain English. Key guidance requires more space than the design allows and some journeys do not make sense without explanatory copy.</div>
-      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>Content Designer, Interaction Designer, Product Manager</span></span></div>
-      <div class="resolution-box">
-        <strong>Full resolution:</strong> Content Designer and Interaction Designer rework three key screens together. Product Manager creates a standing invite for Content Designer in design reviews. +2 SQ, +1 DP<br><br>
-        <strong>Partial:</strong> Content Designer retrofits copy into the existing design. Some structural issues remain unresolved. +0 SQ, +2 DP<br><br>
-        <strong>Escalation:</strong> Placeholder text is replaced with copy that is too long. Prototype is misleading in testing. -1 SQ, +1 DP
-      </div>
-    </div>
-
-    <div class="scenario-card" data-phase="beta">
-      <div class="sc-row"><span class="badge badge-amber">Beta</span><span class="badge badge-purple" style="margin-left:4px;">B1</span></div>
-      <div class="sc-title">"The accessibility audit came back"</div>
-      <div class="sc-body">An independent accessibility audit has flagged four critical issues: missing alt text, a colour contrast failure, a keyboard trap in the main form, and a document download that is not screen-reader compatible. The interaction designer estimates three days of work. The delivery manager says the release schedule does not have three days in it.</div>
-      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>Interaction Designer, Delivery Manager, Product Manager</span></span></div>
-      <div class="resolution-box">
-        <strong>Full resolution:</strong> Interaction Designer uses their ability to resolve all four issues without token cost. Timeline held. +2 SQ, +1 DP<br><br>
-        <strong>Partial:</strong> Two critical issues fixed. Two deferred with an agreed remediation date. +1 SQ, +2 DP<br><br>
-        <strong>Escalation:</strong> Issues are logged but not fixed. Service goes live with known accessibility failures. -2 SQ, +2 DP
-      </div>
-    </div>
-
-    <div class="scenario-card" data-phase="beta">
-      <div class="sc-row"><span class="badge badge-amber">Beta</span><span class="badge badge-purple" style="margin-left:4px;">B2</span></div>
-      <div class="sc-title">"The data is telling a different story"</div>
-      <div class="sc-body">Beta analytics show that 40% of users are abandoning the service at step three of the application journey. The user researcher has a hypothesis but needs time to run follow-up interviews. The product manager wants to ship a fix based on the data alone. The content designer thinks it is a comprehension issue. The interaction designer thinks it is a flow issue.</div>
-      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>User Researcher, Content Designer, Interaction Designer, Product Manager</span></span></div>
-      <div class="resolution-box">
-        <strong>Full resolution:</strong> User Researcher runs five quick interviews. Content Designer and Interaction Designer each contribute a fix. Drop-off addressed at root cause. +2 SQ, +1 DP<br><br>
-        <strong>Partial:</strong> PM pushes an untested fix based on a data assumption. Drop-off is reduced but not resolved. +0 SQ, +2 DP<br><br>
-        <strong>Escalation:</strong> Issue deprioritised until Live. Users continue dropping off. -1 SQ, +1 DP
-      </div>
-    </div>
-
-    <div class="scenario-card" data-phase="beta">
-      <div class="sc-row"><span class="badge badge-amber">Beta</span><span class="badge badge-purple" style="margin-left:4px;">B3</span></div>
-      <div class="sc-title">"A new team member doesn't know the rules"</div>
-      <div class="sc-body">A contractor interaction designer has joined for Beta. They have strong skills but are unfamiliar with government service standards, the team's ways of working, and why certain decisions were made in Alpha. They have started reworking components that were deliberately designed in a particular way, and tensions are building with the content designer who was involved from the start.</div>
-      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>Interaction Designer, Content Designer, Delivery Manager</span></span></div>
-      <div class="resolution-box">
-        <strong>Full resolution:</strong> Delivery Manager creates a structured onboarding session. Content Designer runs a decision log walkthrough. Contractor aligned. +2 SQ, +1 DP<br><br>
-        <strong>Partial:</strong> An informal conversation happens. Some context is shared. Some tensions remain. +0 SQ, +1 DP<br><br>
-        <strong>Escalation:</strong> Nobody has the time. Contractor continues undoing work. -1 SQ, +0 DP
-      </div>
-    </div>
-
-    <div class="scenario-card" data-phase="live">
-      <div class="sc-row"><span class="badge badge-coral">Live</span><span class="badge badge-purple" style="margin-left:4px;">L1</span></div>
-      <div class="sc-title">"The minister wants a feature that wasn't planned"</div>
-      <div class="sc-body">Three days before go-live, the minister's office has requested a dashboard showing real-time service usage statistics. It was not in scope. The product manager is being pressured to agree to it. The service designer thinks it could be built quickly but it will not be accessible and has not been tested. The delivery manager thinks it can be done.</div>
-      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>Product Manager, Service Designer, Interaction Designer, Delivery Manager</span></span></div>
-      <div class="resolution-box">
-        <strong>Full resolution:</strong> Product Manager pushes back diplomatically. Service Designer proposes a post-launch roadmap item with a clear timeline. Request deferred. +2 SQ, +1 DP<br><br>
-        <strong>Partial:</strong> A minimal dashboard is built and shipped. Not tested, not accessible, but politically resolved. -1 SQ, +2 DP<br><br>
-        <strong>Escalation:</strong> PM agrees to everything. Team works through the weekend. Quality failures on day one. -2 SQ, +1 DP
-      </div>
-    </div>
-
-    <div class="scenario-card" data-phase="live">
-      <div class="sc-row"><span class="badge badge-coral">Live</span><span class="badge badge-purple" style="margin-left:4px;">L2</span></div>
-      <div class="sc-title">"A journalist has submitted an FOI request"</div>
-      <div class="sc-body">A journalist has submitted a Freedom of Information request asking for all user research and usability test findings related to the service. The product manager is anxious. Some of the earlier research was documented loosely and some decisions look questionable in retrospect. The user researcher is confident the findings were sound but the documentation is incomplete.</div>
-      <div class="sc-row"><span class="sc-meta">Roles triggered: <span>User Researcher, Product Manager, Content Designer</span></span></div>
-      <div class="resolution-box">
-        <strong>Full resolution:</strong> User Researcher and Content Designer work together to compile a clear, honest summary of findings and decisions. Response is transparent. +2 SQ, +1 DP<br><br>
-        <strong>Partial:</strong> Response submitted but incomplete. Some decisions left unexplained. +0 SQ, +1 DP<br><br>
-        <strong>Escalation:</strong> Legal are brought in and the response is heavily redacted. Public trust damaged. -2 SQ, +0 DP
-      </div>
-    </div>
-  </div>
-
-  <!-- EVENTS -->
-  <div id="tab-events" class="section">
-    <h2>Event cards</h2>
-    <p style="margin-bottom:1rem;">One event card is drawn at the end of each phase (before the gate check). Events are not optional. Some create opportunities. Most create pressure. Apply effects immediately.</p>
-
-    <div class="event-card">
-      <div class="ev-title">A new minister has different priorities</div>
-      <div class="ev-body">The Secretary of State has been reshuffled. The new minister has a different emphasis and has publicly questioned the value of the programme. The team must spend time presenting the case for continuing.</div>
-      <div class="sc-row"><span class="badge badge-coral" style="margin:0;">+2 DP</span><span class="badge badge-red" style="margin:0 0 0 6px;">-1 SQ</span><span class="sc-meta" style="margin-left:6px;">All phases</span></div>
-    </div>
-
-    <div class="event-card">
-      <div class="ev-title">Your user researcher is pulled onto another programme</div>
-      <div class="ev-body">The user researcher is seconded to a higher-priority crisis project for the remainder of this phase. Research tokens are halved for this phase.</div>
-      <div class="sc-row"><span class="badge badge-red" style="margin:0;">-1 Research token this phase</span><span class="sc-meta" style="margin-left:6px;">Discovery, Alpha, Beta</span></div>
-    </div>
-
-    <div class="event-card">
-      <div class="ev-title">The tech team says the API won't be ready</div>
-      <div class="ev-body">A critical third-party API integration is delayed by four weeks. The team must decide whether to redesign part of the journey to work without it, or delay the phase gate.</div>
-      <div class="sc-row"><span class="badge badge-coral" style="margin:0;">-1 DP</span><span class="sc-meta" style="margin-left:6px;">Alpha, Beta</span></div>
-      <div class="ev-body" style="margin-top:6px;">If the team redesigns the journey (requires a Design token), there is no score penalty, but the team must resolve an additional scenario card.</div>
-    </div>
-
-    <div class="event-card">
-      <div class="ev-title">A critical press story about a similar service</div>
-      <div class="ev-body">A comparable government service has been publicly criticised for poor accessibility and confusing guidance. The team's work is mentioned in passing. Stakeholder scrutiny has increased significantly.</div>
-      <div class="sc-row"><span class="badge badge-amber" style="margin:0;">No score effect</span><span class="sc-meta" style="margin-left:6px;">Any phase</span></div>
-      <div class="ev-body" style="margin-top:6px;">The next scenario card must be resolved at full resolution. Partial or escalation is not available this round.</div>
-    </div>
-
-    <div class="event-card">
-      <div class="ev-title">A champion in the department steps up</div>
-      <div class="ev-body">A senior civil servant has become an enthusiastic advocate for the programme. They have cleared a blocker and created space for the team to do good work.</div>
-      <div class="sc-row"><span class="badge badge-teal" style="margin:0;">+2 DP</span><span class="badge badge-teal" style="margin:0 0 0 6px; background:#9FE1CB; color:#085041;">+1 SQ</span><span class="sc-meta" style="margin-left:6px;">Any phase</span></div>
-    </div>
-
-    <div class="event-card">
-      <div class="ev-title">Budget cut: 15% reduction</div>
-      <div class="ev-body">A departmental efficiency review has cut the programme budget. The product manager must immediately reduce scope or reduce team capacity. Choose one: remove one scenario card from the remaining phases, or lose one token permanently for each remaining player.</div>
-      <div class="sc-row"><span class="badge badge-red" style="margin:0;">Choice required</span><span class="sc-meta" style="margin-left:6px;">Alpha, Beta</span></div>
-    </div>
-
-    <div class="event-card">
-      <div class="ev-title">The user panel loved it</div>
-      <div class="ev-body">A citizen advisory panel has reviewed the service and given overwhelmingly positive feedback. The team's morale is high and a positive story is published on the department's blog.</div>
-      <div class="sc-row"><span class="badge badge-teal" style="margin:0; background:#9FE1CB; color:#085041;">+2 SQ</span><span class="sc-meta" style="margin-left:6px;">Beta, Live</span></div>
-    </div>
-
-    <div class="event-card">
-      <div class="ev-title">A team member raises a wellbeing concern</div>
-      <div class="ev-body">One team member (drawn randomly, or chosen by the facilitator) flags that they are close to burnout. The team must decide how to respond. Ignoring it is an option, but it has consequences.</div>
-      <div class="sc-row"><span class="badge badge-amber" style="margin:0;">Choice required</span><span class="sc-meta" style="margin-left:6px;">Beta, Live</span></div>
-      <div class="ev-body" style="margin-top:6px;">If the team responds with support (spend a Delivery token to redistribute work), there is no penalty. If ignored, the affected player's tokens are halved next phase and the team loses 1 SQ.</div>
-    </div>
-  </div>
-
-  <!-- TRACKER -->
-  <div id="tab-tracker" class="section">
-    <h2>Live session tracker</h2>
-    <div class="score-row">
-      <div class="score-card">
-        <div class="score-label">Delivery Progress</div>
-        <div style="display:flex; align-items:center; gap:12px;">
-          <div class="score-val" id="dp-val" style="color:#D85A30;">0</div>
-          <div class="counter-row" style="margin:0;">
-            <div class="counter-btn" onclick="adj('dp',-1)">-</div>
-            <div class="counter-btn" onclick="adj('dp',1)">+</div>
-          </div>
-        </div>
-        <div class="score-track"><div class="score-fill dp-fill" id="dp-bar" style="width:0%"></div></div>
-      </div>
-      <div class="score-card">
-        <div class="score-label">Service Quality</div>
-        <div style="display:flex; align-items:center; gap:12px;">
-          <div class="score-val" id="sq-val" style="color:#1D9E75;">0</div>
-          <div class="counter-row" style="margin:0;">
-            <div class="counter-btn" onclick="adj('sq',-1)">-</div>
-            <div class="counter-btn" onclick="adj('sq',1)">+</div>
-          </div>
-        </div>
-        <div class="score-track"><div class="score-fill sq-fill" id="sq-bar" style="width:0%"></div></div>
-      </div>
-    </div>
-
-    <div id="outcome-label" style="font-size:14px; color:var(--color-text-tertiary); margin-bottom:1.5rem;"></div>
-
-    <h2>Token tracker</h2>
-    <p style="margin-bottom:1rem; font-size:14px;">Click tokens to mark as spent. Reset at the start of each new phase.</p>
-    <div class="card">
-      <div style="margin-bottom:14px;">
-        <div style="font-size:14px; font-weight:600; margin-bottom:4px;">Research tokens</div>
-        <div class="token-row" id="res-tokens">
-          <div class="token token-res" onclick="toggleToken(this)">R</div>
-          <div class="token token-res" onclick="toggleToken(this)">R</div>
-          <div class="token token-res" onclick="toggleToken(this)">R</div>
-        </div>
-      </div>
-      <div style="margin-bottom:14px;">
-        <div style="font-size:14px; font-weight:600; margin-bottom:4px;">Design tokens</div>
-        <div class="token-row" id="des-tokens">
-          <div class="token token-des" onclick="toggleToken(this)">D</div>
-          <div class="token token-des" onclick="toggleToken(this)">D</div>
-          <div class="token token-des" onclick="toggleToken(this)">D</div>
-        </div>
-      </div>
-      <div style="margin-bottom:6px;">
-        <div style="font-size:14px; font-weight:600; margin-bottom:4px;">Delivery tokens</div>
-        <div class="token-row" id="del-tokens">
-          <div class="token token-del" onclick="toggleToken(this)">L</div>
-          <div class="token token-del" onclick="toggleToken(this)">L</div>
-          <div class="token token-del" onclick="toggleToken(this)">L</div>
-          <div class="token token-del" onclick="toggleToken(this)">L</div>
-        </div>
-      </div>
-      <button onclick="resetTokens()" style="margin-top:8px; font-size:13px; font-family:inherit;">Reset tokens (new phase)</button>
-    </div>
-
-    <h2>Current phase</h2>
-    <div class="phase-filter">
-      <div class="pf-btn active" id="ph-d" onclick="setPhase('d',this)">Discovery</div>
-      <div class="pf-btn" id="ph-a" onclick="setPhase('a',this)">Alpha</div>
-      <div class="pf-btn" id="ph-b" onclick="setPhase('b',this)">Beta</div>
-      <div class="pf-btn" id="ph-l" onclick="setPhase('l',this)">Live</div>
-      <div class="pf-btn" id="ph-r" onclick="setPhase('r',this)">Review</div>
-    </div>
-    <div id="phase-note" class="note">Discovery: establish user needs and frame the problem. Gate question: Are we solving the right problem?</div>
-  </div>
-
   <!-- DEBRIEF -->
-  <div id="tab-debrief" class="section">
-    <h2>Debrief guide</h2>
-    <p style="margin-bottom:1rem;">Allow 20 to 30 minutes. The facilitator should not summarise or interpret. Ask the questions and let the team lead.</p>
-
-    <div class="rule-block">
-      <h3>Opening question</h3>
-      <p>What moment in the game felt most like something that has actually happened to you?</p>
+  <div id="tab-debrief" class="tab-content">
+    <div class="section-panel">
+      <h2>Session summary</h2>
+      <div id="debrief-summary">
+        <div class="score-summary" id="debrief-scores" style="display:none;">
+          <div class="ss-cell">
+            <div class="ss-lbl">Delivery Progress</div>
+            <div class="ss-val score-dp" id="debrief-dp">0</div>
+          </div>
+          <div class="ss-cell">
+            <div class="ss-lbl">Service Quality</div>
+            <div class="ss-val score-sq" id="debrief-sq">0</div>
+          </div>
+        </div>
+        <div id="debrief-outcome" class="ss-outcome" style="display:none;background:#2a2520;border-radius:6px;color:#ede8df;"></div>
+        <div id="debrief-log-wrap">
+          <div class="session-log-empty" id="debrief-empty">No resolution paths have been chosen yet. Play some scenarios, then return here.</div>
+          <div id="debrief-log" style="display:none;border:1.5px solid #c5bfb0;border-radius:8px;background:#fffef9;overflow:hidden;"></div>
+        </div>
+      </div>
     </div>
-    <div class="rule-block">
-      <h3>On role pressure</h3>
-      <p>When did your role's default tendency work against the team? When did it help? Was the tension fair?</p>
+    <div class="section-panel">
+      <h2>Debrief guide</h2>
+      <p>Allow 20 to 30 minutes. The facilitator does not summarise or interpret. Ask the questions and let the team lead.</p>
+      <div class="rule-block"><h3>Opening question</h3><p>What moment in the game felt most like something that has actually happened to you?</p></div>
+      <div class="rule-block"><h3>On role pressure</h3><p>When did your role's default tendency work against the team? When did it help? Was the tension fair?</p></div>
+      <div class="rule-block"><h3>On other roles</h3><p>What did you learn today about what another role is actually dealing with? What would you do differently to support them on a real project?</p></div>
+      <div class="rule-block"><h3>On the scores</h3><p>Look at where Delivery Progress and Service Quality diverged. What decision caused the gap? Was it the right call at the time?</p></div>
+      <div class="rule-block"><h3>Closing question</h3><p>Name one concrete thing you will do differently on your next project.</p></div>
     </div>
-    <div class="rule-block">
-      <h3>On other roles</h3>
-      <p>What did you learn today about what another role is actually dealing with? What would you do differently to support them on a real project?</p>
-    </div>
-    <div class="rule-block">
-      <h3>On the scores</h3>
-      <p>Look at where Delivery Progress and Service Quality diverged. What decision caused the gap? Was it the right call at the time?</p>
-    </div>
-    <div class="rule-block">
-      <h3>Closing question</h3>
-      <p>Name one concrete thing you will do differently on your next project.</p>
-    </div>
-
-    <hr class="divider">
-
-    <h2>Facilitator notes</h2>
-    <div class="card">
-      <ul style="font-size:14px; color:var(--color-text-secondary); line-height:2.2; padding-left:1.2rem;">
+    <div class="section-panel">
+      <h2>Facilitator notes</h2>
+      <ul>
         <li>Do not allow a single player to dominate scenario resolution. Name the rule: two or three roles must contribute.</li>
         <li>The delivery manager and product manager will often default to partial resolution. Let them, then debrief it.</li>
+        <li>Keep the resolution paths hidden until the team has agreed their approach. Use the toggle on the game board.</li>
         <li>If the group stalls, set a 90-second timer for discussion per scenario. The pressure to decide is part of the game.</li>
         <li>Do not intervene in decisions, even clearly bad ones. The discomfort is the learning.</li>
         <li>After a full run, ask players which scenario they want to replay differently.</li>
-        <li>Record which resolution path was chosen for each scenario. This becomes the debrief data.</li>
-      </ul>
-    </div>
-
-    <h2>Iteration log</h2>
-    <div class="card">
-      <p style="font-size:14px; margin-bottom:8px;">After each playtest session, record:</p>
-      <ul style="font-size:14px; color:var(--color-text-secondary); line-height:2.1; padding-left:1.2rem;">
-        <li>Which scenarios felt too easy, too hard, or unrealistic</li>
-        <li>Which role abilities felt too powerful or too weak</li>
-        <li>Whether the token economy felt constraining enough</li>
-        <li>Whether phase gates slowed or improved play</li>
-        <li>Which event card created the most interesting discussion</li>
+        <li>The session summary above records which resolution path was chosen for each scenario — use it as your debrief data.</li>
       </ul>
     </div>
   </div>
 
-</div>
+  <div class="copyright">Copyright Colin Bone Dodds 2026. All rights reserved.</div>
 </div>
 
 <script>
-  var dp = 0, sq = 0, maxScore = 22;
+// ============================================================
+// STATE
+// ============================================================
+var dp = 0, sq = 0;
+var activeCell = null;
+var sessionLog = []; // {step, cardId, title, path, dpDelta, sqDelta}
+var chosenPaths = {}; // cardId -> path key
 
-  function showTab(name, el) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('tab-' + name).classList.add('visible');
-    el.classList.add('active');
-  }
+// Roster
+var roster = {ur:'',cd:'',id:'',sd:'',pm:'',dm:''};
 
-  function adj(track, delta) {
-    if (track === 'dp') { dp = Math.max(0, dp + delta); document.getElementById('dp-val').textContent = dp; document.getElementById('dp-bar').style.width = Math.min(100, Math.round(dp / maxScore * 100)) + '%'; }
-    else { sq = Math.max(0, sq + delta); document.getElementById('sq-val').textContent = sq; document.getElementById('sq-bar').style.width = Math.min(100, Math.round(sq / maxScore * 100)) + '%'; }
-    updateOutcome();
-  }
+// ============================================================
+// BRIEF MODAL
+// ============================================================
+function dismissBrief(){
+  document.getElementById('briefing-modal').style.display = 'none';
+}
+function reopenBrief(){
+  document.getElementById('briefing-modal').style.display = 'flex';
+}
 
-  function updateOutcome() {
-    var el = document.getElementById('outcome-label');
-    if (dp === 0 && sq === 0) { el.textContent = ''; return; }
-    var gap = dp - sq;
-    if (Math.abs(gap) <= 4 && dp > 8) el.textContent = 'Sustainable delivery: both tracks strong';
-    else if (gap > 6) el.textContent = 'Delivered, but at a cost: quality has been sacrificed';
-    else if (gap < -4) el.textContent = 'Quality without momentum: strong service, slow delivery';
-    else if (dp < 6 && sq < 6) el.textContent = 'Programme in trouble: both tracks low';
-    else el.textContent = 'In progress';
-  }
+// ============================================================
+// ROSTER
+// ============================================================
+function updateRoster(){
+  roster.ur = document.getElementById('name-ur').value.trim();
+  roster.cd = document.getElementById('name-cd').value.trim();
+  roster.id = document.getElementById('name-id').value.trim();
+  roster.sd = document.getElementById('name-sd').value.trim();
+  roster.pm = document.getElementById('name-pm').value.trim();
+  roster.dm = document.getElementById('name-dm').value.trim();
+  // Re-render active card if any to update badges
+  if(activeCell !== null) selectStep(activeCell, true);
+}
 
-  function toggleToken(el) { el.classList.toggle('spent'); }
-  function resetTokens() { document.querySelectorAll('.token').forEach(t => t.classList.remove('spent')); }
+// ============================================================
+// SCORE
+// ============================================================
+function adj(t,d){
+  if(t==='dp'){dp+=d;document.getElementById('dp-val').textContent=dp;}
+  else{sq+=d;document.getElementById('sq-val').textContent=sq;}
+  updateDebriefSummary();
+}
+function applyScore(dpDelta, sqDelta){
+  dp += dpDelta; sq += sqDelta;
+  document.getElementById('dp-val').textContent = dp;
+  document.getElementById('sq-val').textContent = sq;
+  updateDebriefSummary();
+}
+function resetTokens(){
+  document.querySelectorAll('.tok').forEach(function(t){t.classList.remove('spent');});
+}
+function showTab(name,el){
+  document.querySelectorAll('.tab-content').forEach(function(s){s.classList.remove('visible');});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('tab-'+name).classList.add('visible');
+  if(el) el.classList.add('active');
+  if(name==='debrief') updateDebriefSummary();
+}
 
-  var phaseNotes = {
-    d: 'Discovery: establish user needs and frame the problem. Gate question: Are we solving the right problem?',
-    a: 'Alpha: first prototypes, negotiate scope. Gate question: Is this approach viable?',
-    b: 'Beta: test at scale, surface quality issues. Gate question: Is the service ready for more users?',
-    l: 'Live: delivery pressure peaks. No gate, the team always enters Review.',
-    r: 'Review: scores revealed. Debrief begins now.'
-  };
+// ============================================================
+// BOARD DATA
+// ============================================================
+var STEPS=[
+  {n:1,type:'scenario',phase:'discovery',label:'Scenario',card:'D1'},
+  {n:2,type:'scenario',phase:'discovery',label:'Scenario',card:'D2'},
+  {n:3,type:'scenario',phase:'discovery',label:'Scenario',card:'D3'},
+  {n:4,type:'event',phase:'discovery',label:'Event',card:'E1'},
+  {n:5,type:'gate',phase:'discovery',label:'Phase gate',card:'G1'},
+  {n:6,type:'scenario',phase:'alpha',label:'Scenario',card:'A1'},
+  {n:7,type:'scenario',phase:'alpha',label:'Scenario',card:'A2'},
+  {n:8,type:'scenario',phase:'alpha',label:'Scenario',card:'A3'},
+  {n:9,type:'event',phase:'alpha',label:'Event',card:'E2'},
+  {n:10,type:'gate',phase:'alpha',label:'Phase gate',card:'G2'},
+  {n:11,type:'scenario',phase:'beta',label:'Scenario',card:'B1'},
+  {n:12,type:'scenario',phase:'beta',label:'Scenario',card:'B2'},
+  {n:13,type:'scenario',phase:'beta',label:'Scenario',card:'B3'},
+  {n:14,type:'event',phase:'beta',label:'Event',card:'E3'},
+  {n:15,type:'gate',phase:'beta',label:'Phase gate',card:'G3'},
+  {n:16,type:'scenario',phase:'live',label:'Scenario',card:'L1'},
+  {n:17,type:'scenario',phase:'live',label:'Scenario',card:'L2'},
+  {n:18,type:'event',phase:'live',label:'Event',card:'E4'},
+  {n:19,type:'gate',phase:'live',label:'Phase gate',card:'G4'},
+  {n:20,type:'review',phase:'review',label:'Review',card:'REV'}
+];
 
-  function setPhase(p, el) {
-    document.querySelectorAll('[id^="ph-"]').forEach(e => e.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('phase-note').textContent = phaseNotes[p];
-  }
+var PHASE_CSS={discovery:'ph-disc',alpha:'ph-alpha',beta:'ph-beta',live:'ph-live',review:'ph-rev'};
+var PHASE_NAMES={discovery:'Discovery',alpha:'Alpha',beta:'Beta',live:'Live',review:'Review'};
 
-  function filterScenarios(phase, btn) {
-    document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.scenario-card').forEach(card => {
-      card.style.display = (phase === 'all' || card.dataset.phase === phase) ? '' : 'none';
+// Role key → {label, css, rosterKey}
+var ROLE_MAP = {
+  'User Researcher':     {css:'rb-ur', key:'ur'},
+  'Content Designer':    {css:'rb-cd', key:'cd'},
+  'Interaction Designer':{css:'rb-id', key:'id'},
+  'Service Designer':    {css:'rb-sd', key:'sd'},
+  'Product Manager':     {css:'rb-pm', key:'pm'},
+  'Delivery Manager':    {css:'rb-dm', key:'dm'}
+};
+
+// Resolution path definitions
+// type: 'full'|'partial'|'escalation'|'none'
+var CARDS={
+  D1:{tag:'Scenario',tagCss:'tag-scenario',title:'"We already know what users need"',
+    scenario:'A senior stakeholder has shared a brief that assumes the user need is already understood from previous policy work. The user researcher has flagged that the assumed need does not match what they have seen in analogous services. The product manager is inclined to accept the brief and move on.',
+    triggeredRoles:['User Researcher','Product Manager','Service Designer'],
+    paths:[
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'User Researcher spends a Research token to present conflicting evidence. Service Designer reframes the problem. Team agrees to redefine the scope before proceeding.'},
+      {type:'partial',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'Team notes the concern but accepts the brief as given. Delivery Manager records a risk.'},
+      {type:'escalation',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Brief accepted without challenge. The wrong problem is being solved.'}
+    ]},
+  D2:{tag:'Scenario',tagCss:'tag-scenario',title:'"The research will take too long"',
+    scenario:'The discovery phase has a fixed end date set by the programme board. The user researcher has scoped a proper round of contextual interviews but it will not complete in time. The delivery manager wants to proceed with desk research only.',
+    triggeredRoles:['User Researcher','Delivery Manager','Product Manager'],
+    paths:[
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'User Researcher proposes a lightweight pop-up research sprint. Product Manager reallocates a Delivery token to create space.'},
+      {type:'partial',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'Desk research only, but User Researcher documents what is unknown for Alpha.'},
+      {type:'escalation',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Research skipped entirely. Unknown gaps are baked into the service from day one.'}
+    ]},
+  D3:{tag:'Scenario',tagCss:'tag-scenario',title:'"Nobody agreed who owns this"',
+    scenario:'Halfway through discovery, it becomes clear that another team in the department is doing adjacent work on the same user journey. There is no agreement on who leads, who supports, and how findings will be shared. Tension is building between the two product managers.',
+    triggeredRoles:['Product Manager','Service Designer','Delivery Manager'],
+    paths:[
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Service Designer maps the overlap. Product Manager initiates a joint session. Clear boundaries agreed.'},
+      {type:'partial',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'Teams continue in parallel and agree to share outputs at the end. Risk of duplication.'},
+      {type:'escalation',label:'Escalation',dpDelta:0,sqDelta:-1,desc:'Neither team blinks. Both proceed separately.'}
+    ]},
+  E1:{tag:'Event',tagCss:'tag-event',title:'A new minister has different priorities',
+    scenario:'The Secretary of State has been reshuffled. The new minister has a different emphasis and has publicly questioned the value of the programme. The team must spend time presenting the case for continuing.\n\nEffect: +2 DP, −1 SQ. Applies immediately.',
+    triggeredRoles:[],paths:[]},
+  G1:{tag:'Phase gate',tagCss:'tag-gate',title:'Discovery to Alpha',
+    scenario:'Gate question: Are we solving the right problem?\n\nRequires at least 2 Service Quality points accumulated. If not met, replay one scenario card from this phase before advancing.\n\nIf the gate is passed, advance to Alpha and reset tokens.',
+    triggeredRoles:[],paths:[]},
+  A1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The prototype doesn\'t test well"',
+    scenario:'First round of usability testing on the Alpha prototype returns poor results. Users are confused by the main flow. The interaction designer says the journey needs a fundamental rethink. The delivery manager says there is not time for a full redesign before the next show-and-tell with stakeholders.',
+    triggeredRoles:['Interaction Designer','Delivery Manager','Content Designer'],
+    paths:[
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Interaction Designer and Content Designer spend tokens to redesign two key screens. Show-and-tell is reframed as a problem-sharing session.'},
+      {type:'partial',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'Surface changes only. Flow issues remain but are documented.'},
+      {type:'escalation',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Stakeholders are shown the broken prototype. Team loses credibility.'}
+    ]},
+  A2:{tag:'Scenario',tagCss:'tag-scenario',title:'"Scope has quietly expanded"',
+    scenario:'Since the start of Alpha, three additional features have been added to the backlog by stakeholders without any formal process. The product manager added them without consulting the design team. The service designer has now mapped out how much extra work this creates and it is significant.',
+    triggeredRoles:['Service Designer','Product Manager','User Researcher'],
+    paths:[
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Service Designer presents an impact analysis. Product Manager runs a prioritisation session. Two features deferred.'},
+      {type:'partial',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'Features retained but timeline extended. Team is under increased pressure.'},
+      {type:'escalation',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Scope remains unchanged. Team absorbs the extra work silently.'}
+    ]},
+  A3:{tag:'Scenario',tagCss:'tag-scenario',title:'"The content hasn\'t been touched"',
+    scenario:'The interaction designer has been building the prototype using placeholder text. The content designer was not involved in wireframing. Now that content is being written, it is clear the page structure does not work for plain English. Key guidance requires more space than the design allows and some journeys do not make sense without explanatory copy.',
+    triggeredRoles:['Content Designer','Interaction Designer','Product Manager'],
+    paths:[
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Content Designer and Interaction Designer rework three key screens together. Product Manager creates a standing invite for Content Designer in design reviews.'},
+      {type:'partial',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'Content Designer retrofits copy into the existing design. Some structural issues remain.'},
+      {type:'escalation',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Placeholder text is replaced with copy that is too long. Prototype is misleading in testing.'}
+    ]},
+  E2:{tag:'Event',tagCss:'tag-event',title:'Your user researcher is pulled onto another programme',
+    scenario:'The user researcher is seconded to a higher-priority crisis project for the remainder of this phase. Research tokens are halved for this phase.\n\nEffect: Remove 1 Research token for the rest of this phase.',
+    triggeredRoles:[],paths:[]},
+  G2:{tag:'Phase gate',tagCss:'tag-gate',title:'Alpha to Beta',
+    scenario:'Gate question: Is this approach viable?\n\nRequires the team to have spent at least one Research token and one Design token in this phase. If not, the product manager may spend a resource token to override, but loses 1 SQ.\n\nIf the gate is passed, advance to Beta and reset tokens.',
+    triggeredRoles:[],paths:[]},
+  B1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The accessibility audit came back"',
+    scenario:'An independent accessibility audit has flagged four critical issues: missing alt text, a colour contrast failure, a keyboard trap in the main form, and a document download that is not screen-reader compatible. The interaction designer estimates three days of work. The delivery manager says the release schedule does not have three days in it.',
+    triggeredRoles:['Interaction Designer','Delivery Manager','Product Manager'],
+    paths:[
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Interaction Designer uses their ability to resolve all four issues without token cost. Timeline held.'},
+      {type:'partial',label:'Partial resolution',dpDelta:2,sqDelta:1,desc:'Two critical issues fixed. Two deferred with an agreed remediation date.'},
+      {type:'escalation',label:'Escalation',dpDelta:2,sqDelta:-2,desc:'Issues are logged but not fixed. Service goes live with known accessibility failures.'}
+    ]},
+  B2:{tag:'Scenario',tagCss:'tag-scenario',title:'"The data is telling a different story"',
+    scenario:'Beta analytics show that 40% of users are abandoning the service at step three of the application journey. The user researcher has a hypothesis but needs time to run follow-up interviews. The product manager wants to ship a fix based on the data alone. The content designer thinks it is a comprehension issue. The interaction designer thinks it is a flow issue.',
+    triggeredRoles:['User Researcher','Content Designer','Interaction Designer','Product Manager'],
+    paths:[
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'User Researcher runs five quick interviews. Content Designer and Interaction Designer each contribute a fix. Drop-off addressed at root cause.'},
+      {type:'partial',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'PM pushes an untested fix based on a data assumption. Drop-off reduced but not resolved.'},
+      {type:'escalation',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Issue deprioritised until Live. Users continue dropping off.'}
+    ]},
+  B3:{tag:'Scenario',tagCss:'tag-scenario',title:'"A new team member doesn\'t know the rules"',
+    scenario:'A contractor interaction designer has joined for Beta. They have strong skills but are unfamiliar with government service standards, the team\'s ways of working, and why certain decisions were made in Alpha. They have started reworking components that were deliberately designed in a particular way, and tensions are building with the content designer who was involved from the start.',
+    triggeredRoles:['Interaction Designer','Content Designer','Delivery Manager'],
+    paths:[
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Delivery Manager creates a structured onboarding session. Content Designer runs a decision log walkthrough. Contractor aligned.'},
+      {type:'partial',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'An informal conversation happens. Some context is shared. Some tensions remain.'},
+      {type:'escalation',label:'Escalation',dpDelta:0,sqDelta:-1,desc:'Nobody has the time. Contractor continues undoing work.'}
+    ]},
+  E3:{tag:'Event',tagCss:'tag-event',title:'A critical press story about a similar service',
+    scenario:'A comparable government service has been publicly criticised for poor accessibility and confusing guidance. The team\'s work is mentioned in passing. Stakeholder scrutiny has increased significantly.\n\nEffect: No score change, but the next scenario card must be resolved at full resolution. Partial or escalation is not available this round.',
+    triggeredRoles:[],paths:[]},
+  G3:{tag:'Phase gate',tagCss:'tag-gate',title:'Beta to Live',
+    scenario:'Gate question: Is the service ready for more users?\n\nThe SQ score must be at least half of the DP score. If not, the team may choose to delay (replay one scenario card) or push to Live at the cost of 2 SQ.\n\nIf the gate is passed, advance to Live and reset tokens.',
+    triggeredRoles:[],paths:[]},
+  L1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The minister wants a feature that wasn\'t planned"',
+    scenario:'Three days before go-live, the minister\'s office has requested a dashboard showing real-time service usage statistics. It was not in scope. The product manager is being pressured to agree to it. The service designer thinks it could be built quickly but it will not be accessible and has not been tested. The delivery manager thinks it can be done.',
+    triggeredRoles:['Product Manager','Service Designer','Interaction Designer','Delivery Manager'],
+    paths:[
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Product Manager pushes back diplomatically. Service Designer proposes a post-launch roadmap item with a clear timeline. Request deferred.'},
+      {type:'partial',label:'Partial resolution',dpDelta:2,sqDelta:-1,desc:'A minimal dashboard is built and shipped. Not tested, not accessible, but politically resolved.'},
+      {type:'escalation',label:'Escalation',dpDelta:1,sqDelta:-2,desc:'PM agrees to everything. Team works through the weekend. Quality failures on day one.'}
+    ]},
+  L2:{tag:'Scenario',tagCss:'tag-scenario',title:'"A journalist has submitted an FOI request"',
+    scenario:'A journalist has submitted a Freedom of Information request asking for all user research and usability test findings related to the service. The product manager is anxious. Some of the earlier research was documented loosely and some decisions look questionable in retrospect. The user researcher is confident the findings were sound but the documentation is incomplete.',
+    triggeredRoles:['User Researcher','Product Manager','Content Designer'],
+    paths:[
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'User Researcher and Content Designer work together to compile a clear, honest summary of findings and decisions. Response is transparent.'},
+      {type:'partial',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'Response submitted but incomplete. Some decisions left unexplained.'},
+      {type:'escalation',label:'Escalation',dpDelta:0,sqDelta:-2,desc:'Legal are brought in and the response is heavily redacted. Public trust damaged.'}
+    ]},
+  E4:{tag:'Event',tagCss:'tag-event',title:'A team member raises a wellbeing concern',
+    scenario:'One team member (drawn randomly, or chosen by the facilitator) flags that they are close to burnout. The team must decide how to respond.\n\nIf the team responds with support (spend a Delivery token to redistribute work): no penalty.\nIf ignored: that player\'s tokens are halved next phase and the team loses 1 SQ.',
+    triggeredRoles:[],paths:[]},
+  G4:{tag:'Phase gate',tagCss:'tag-gate',title:'Live to Review',
+    scenario:'Gate question: Is quality high enough to launch?\n\nThere is no gate here. The team always enters Review. This is intentional. The question is answered by the final scores themselves.\n\nAdvance to Review.',
+    triggeredRoles:[],paths:[]},
+  REV:{tag:'Review',tagCss:'tag-review',title:'Final review',
+    scenario:'The programme is complete. Reveal both scores and read the outcome below.\n\nBoth high (within 4 points): Sustainable delivery. What made this possible? What nearly derailed it?\n\nDP high, SQ low (gap over 6): Delivered, but at a cost. Who got hurt? What did we skip and why?\n\nSQ high, DP low: Quality without momentum. What slowed us down? Was it worth it?\n\nBoth low: Programme in trouble. Where did we lose control? What would we do again?\n\nProceed to the Debrief tab.',
+    triggeredRoles:[],paths:[]}
+};
+
+// ============================================================
+// BOARD BUILD
+// ============================================================
+function buildBoard(){
+  var grid = document.getElementById('board-grid');
+  var rows = [[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15],[16,17,18,19,20]];
+  rows.forEach(function(row,ri){
+    var isReverse = (ri%2===1);
+    var rowEl = document.createElement('div');
+    rowEl.className = 'board-row';
+    var displayed = isReverse ? row.slice().reverse() : row;
+    displayed.forEach(function(stepNum,ci){
+      var step = STEPS[stepNum-1];
+      var cellEl = document.createElement('div');
+      cellEl.className = 'cell cell-'+step.type;
+      if(step.type==='review') cellEl.className += ' cell-review-final';
+      if(stepNum > 1) cellEl.classList.add('locked');
+      cellEl.id = 'cell-'+stepNum;
+      var inner = document.createElement('div');
+      inner.className = 'cell-inner';
+      var num = document.createElement('div'); num.className='cell-num'; num.textContent=stepNum;
+      var lbl = document.createElement('div'); lbl.className='cell-type'; lbl.textContent=step.label;
+      var phase = document.createElement('div');
+      phase.className = 'cell-phase '+PHASE_CSS[step.phase];
+      phase.textContent = PHASE_NAMES[step.phase];
+      inner.appendChild(num); inner.appendChild(lbl); inner.appendChild(phase);
+      cellEl.appendChild(inner);
+      cellEl.addEventListener('click',function(){selectStep(stepNum);});
+      rowEl.appendChild(cellEl);
+      if(ci<displayed.length-1){
+        var arr = document.createElement('div');
+        arr.className = 'arrow-h';
+        arr.textContent = isReverse ? '\u2190' : '\u2192';
+        rowEl.appendChild(arr);
+      }
     });
+    grid.appendChild(rowEl);
+    if(ri<rows.length-1){
+      var vrow = document.createElement('div');
+      vrow.className = 'arrow-v-row';
+      vrow.style.justifyContent = (ri%2===0) ? 'flex-end' : 'flex-start';
+      vrow.style.paddingRight = (ri%2===0) ? '55px' : '0';
+      vrow.style.paddingLeft  = (ri%2===1) ? '55px' : '0';
+      var va = document.createElement('div'); va.className='arrow-v'; va.textContent='\u2193';
+      vrow.appendChild(va); grid.appendChild(vrow);
+    }
+  });
+}
+
+// ============================================================
+// SELECT STEP
+// ============================================================
+function selectStep(n, silent){
+  var step = STEPS[n-1];
+  var card = CARDS[step.card];
+  if(!silent){
+    // Block clicks on locked cells
+    var cur = document.getElementById('cell-'+n);
+    if(cur && cur.classList.contains('locked')) return;
+    if(activeCell !== null && activeCell !== n){
+      var prev = document.getElementById('cell-'+activeCell);
+      if(prev){prev.classList.remove('active');prev.classList.add('visited');}
+    }
+    if(cur){cur.classList.remove('visited');cur.classList.add('active');}
+    activeCell = n;
+    // Unlock the next step if it exists and is still locked
+    if(n < 20){
+      var nextEl = document.getElementById('cell-'+(n+1));
+      if(nextEl && nextEl.classList.contains('locked')) nextEl.classList.remove('locked');
+    }
   }
+  var disp = document.getElementById('card-display');
+  if(!card){disp.innerHTML='<div class="card-empty">No content for this step.</div>';return;}
+
+  var html = '';
+  html += '<span class="card-tag '+card.tagCss+'">'+card.tag+'</span>';
+  html += '<div class="card-title">'+card.title+'</div>';
+
+  // Triggered roles block
+  if(card.triggeredRoles && card.triggeredRoles.length > 0){
+    html += '<div class="triggered-roles-block">';
+    html += '<div class="triggered-roles-label">Roles triggered this card</div>';
+    html += '<div class="triggered-roles-row">';
+    card.triggeredRoles.forEach(function(role){
+      var rm = ROLE_MAP[role];
+      var playerName = rm ? roster[rm.key] : '';
+      html += '<span class="role-badge '+(rm?rm.css:'')+'">';
+      html += role;
+      if(playerName) html += ' <span class="player-name">— '+playerName+'</span>';
+      html += '</span>';
+    });
+    html += '</div></div>';
+  }
+
+  // Scenario body
+  var scenarioText = card.scenario.replace(/\n/g,'<br>');
+  html += '<div class="card-body" style="margin-top:8px;">'+scenarioText+'</div>';
+
+  // Resolution paths
+  if(card.paths && card.paths.length > 0){
+    html += '<div class="resolution-toggle">';
+    html += '<button class="res-toggle-btn" onclick="toggleRes(this)">Show resolution paths</button>';
+    html += '<div class="resolution-content" style="display:none;">';
+    var alreadyChosen = chosenPaths[step.card];
+    card.paths.forEach(function(path, pi){
+      var typeLabel = path.type;
+      var scoreCss = path.type==='full'?'rps-full':path.type==='partial'?'rps-partial':'rps-esc';
+      var dpStr = (path.dpDelta>=0?'+':'')+path.dpDelta+' DP';
+      var sqStr = (path.sqDelta>=0?'+':'')+path.sqDelta+' SQ';
+      var isChosen = alreadyChosen === pi;
+      var chosenClass = isChosen ? ' chosen' : '';
+      var clickAttr = isChosen ? '' : ' onclick="chooseResolution(\''+step.card+'\','+n+','+pi+')"';
+      html += '<div class="res-path'+chosenClass+'"'+clickAttr+'>';
+      html += '<strong>'+path.label+'</strong>';
+      html += '<span class="res-path-score '+scoreCss+'">'+dpStr+', '+sqStr+'</span>';
+      html += '<div class="res-path-hint">'+path.desc+'</div>';
+      html += '</div>';
+    });
+    html += '</div></div>';
+  }
+
+  disp.innerHTML = html;
+}
+
+function toggleRes(btn){
+  var content = btn.nextElementSibling;
+  if(content.style.display==='none'){
+    content.style.display='block'; btn.textContent='Hide resolution paths';
+  } else {
+    content.style.display='none'; btn.textContent='Show resolution paths';
+  }
+}
+
+// ============================================================
+// CHOOSE RESOLUTION
+// ============================================================
+function chooseResolution(cardId, stepNum, pathIndex){
+  var card = CARDS[cardId];
+  var path = card.paths[pathIndex];
+  // Apply scores
+  applyScore(path.dpDelta, path.sqDelta);
+  // Log it
+  chosenPaths[cardId] = pathIndex;
+  var stepData = STEPS[stepNum-1];
+  sessionLog.push({
+    step: stepNum,
+    phase: PHASE_NAMES[stepData.phase],
+    cardId: cardId,
+    title: card.title,
+    pathLabel: path.label,
+    pathType: path.type,
+    dpDelta: path.dpDelta,
+    sqDelta: path.sqDelta
+  });
+  // Re-render the card to show chosen state
+  selectStep(stepNum, true);
+  // Restore toggle open state
+  var disp = document.getElementById('card-display');
+  var btn = disp.querySelector('.res-toggle-btn');
+  var content = disp.querySelector('.resolution-content');
+  if(btn && content){
+    content.style.display='block';
+    btn.textContent='Hide resolution paths';
+  }
+}
+
+// ============================================================
+// DEBRIEF SUMMARY
+// ============================================================
+function getOutcomeLabel(dpVal, sqVal){
+  var gap = dpVal - sqVal;
+  if(dpVal >= 6 && sqVal >= 6 && Math.abs(gap) <= 4) return 'Sustainable delivery';
+  if(dpVal > sqVal && gap > 6) return 'Delivered, but at a cost';
+  if(sqVal > dpVal) return 'Quality without momentum';
+  return 'Programme in trouble';
+}
+
+function updateDebriefSummary(){
+  var scoreEl = document.getElementById('debrief-scores');
+  var outcomeEl = document.getElementById('debrief-outcome');
+  var logEl = document.getElementById('debrief-log');
+  var emptyEl = document.getElementById('debrief-empty');
+
+  // Scores
+  document.getElementById('debrief-dp').textContent = dp;
+  document.getElementById('debrief-sq').textContent = sq;
+  scoreEl.style.display = 'flex';
+  outcomeEl.style.display = 'block';
+  outcomeEl.textContent = 'Outcome: ' + getOutcomeLabel(dp, sq);
+
+  if(sessionLog.length === 0){
+    emptyEl.style.display = 'block';
+    logEl.style.display = 'none';
+    return;
+  }
+  emptyEl.style.display = 'none';
+  logEl.style.display = 'block';
+  var logHtml = '';
+  sessionLog.forEach(function(entry){
+    var pathClass = entry.pathType==='full'?'log-path-full':entry.pathType==='partial'?'log-path-partial':'log-path-esc';
+    var dpStr = (entry.dpDelta>=0?'+':'')+entry.dpDelta;
+    var sqStr = (entry.sqDelta>=0?'+':'')+entry.sqDelta;
+    logHtml += '<div class="log-entry">';
+    logHtml += '<div class="log-step">Step '+entry.step+'<br><span style="font-weight:400;color:#9a9080;">'+entry.phase+'</span></div>';
+    logHtml += '<div><div style="font-weight:700;font-size:12px;color:#1a1a1a;margin-bottom:2px;">'+entry.title+'</div>';
+    logHtml += '<div class="log-path '+pathClass+'">'+entry.pathLabel+'</div></div>';
+    logHtml += '<div class="log-score"><span style="color:#F0997B;">DP '+dpStr+'</span> &nbsp;<span style="color:#5DCAA5;">SQ '+sqStr+'</span></div>';
+    logHtml += '</div>';
+  });
+  logEl.innerHTML = logHtml;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+buildBoard();
 </script>
+</body>
+</html>
