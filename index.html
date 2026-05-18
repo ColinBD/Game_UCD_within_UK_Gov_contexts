@@ -461,6 +461,12 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
               </div>
             </div>
           </div>
+          <div style="margin-top:10px;padding:6px;background:#2a2520;border-radius:6px;">
+            <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer;">
+              <input type="checkbox" id="score-toggle" onclick="toggleScoreEffects(this.checked)" style="cursor:pointer;">
+              <span>Show score effects on paths</span>
+            </label>
+          </div>
           <button class="reset-btn" onclick="resetTokens()" style="margin-top:8px;">Reset all tokens (new phase)</button>
         </div>
       </div>
@@ -551,7 +557,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <h2>Player roles</h2>
       <p>Each player holds one role card. The ability is shared knowledge — read it now so everyone understands what each role can contribute. Each role also has a private pressure: a default instinct that is realistic rather than a flaw. Pressures are not listed here; they are given to each player individually before the session begins (facilitators can access these near the bottom of the brief). The tension between ability and pressure is the game.</p>
       <div class="role-grid">
-        <div class="role-card"><div class="badge badge-teal">User Researcher</div><div class="role-ability"><strong>Ability:</strong> May reveal hidden user need text on any scenario card once per phase. This can unlock an additional +1 SQ resolution path.</div></div>
+        <div class="role-card"><div class="badge badge-teal">User Researcher</div><div class="role-ability"><strong>Ability:</strong> Once per phase, may add +1 SQ to any full resolution path that the team chooses, representing deeper user insight.</div></div>
         <div class="role-card"><div class="badge badge-purple">Content Designer</div><div class="role-ability"><strong>Ability:</strong> May simplify or reframe any communication or information challenge. Removes a 1 SQ penalty on one scenario per phase.</div></div>
         <div class="role-card"><div class="badge badge-blue">Interaction Designer</div><div class="role-ability"><strong>Ability:</strong> May resolve any usability or accessibility blocker without token cost. Once per phase.</div></div>
         <div class="role-card"><div class="badge badge-teal" style="background:#c8e8dc;color:#04342C;">Service Designer</div><div class="role-ability"><strong>Ability:</strong> May reframe any scenario as a system-level problem, unlocking a cross-role resolution that adds +1 SQ if three roles contribute.</div></div>
@@ -662,6 +668,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 // ============================================================
 var dp = 0, sq = 0;
 var activeCell = null;
+var showScoreEffects = false; // Toggle for showing/hiding score effects during play
 var sessionLog = []; // {step, cardId, title, path, dpDelta, sqDelta}
 var chosenPaths = {}; // cardId -> path key
 
@@ -709,6 +716,15 @@ function applyScore(dpDelta, sqDelta){
 function resetTokens(){
   document.querySelectorAll('.tok,.tok-sm').forEach(function(t){t.classList.remove('spent');});
 }
+
+function toggleScoreEffects(checked){
+  showScoreEffects = checked;
+  // Refresh the current card display to show/hide score effects
+  if(activeCell !== null){
+    selectStep(activeCell, true); // true = silent refresh, don't change state
+  }
+}
+
 function showTab(name,el){
   document.querySelectorAll('.tab-content').forEach(function(s){s.classList.remove('visible');});
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
@@ -722,23 +738,23 @@ function showTab(name,el){
 // ============================================================
 var STEPS=[
   {n:1,type:'scenario',phase:'discovery',label:'Scenario',card:'D1'},
-  {n:2,type:'scenario',phase:'discovery',label:'Scenario',card:'D2'},
-  {n:3,type:'scenario',phase:'discovery',label:'Scenario',card:'D3'},
-  {n:4,type:'event',phase:'discovery',label:'Event',card:'E1'},
+  {n:2,type:'event',phase:'discovery',label:'Event',card:'E1'},
+  {n:3,type:'scenario',phase:'discovery',label:'Scenario',card:'D2'},
+  {n:4,type:'scenario',phase:'discovery',label:'Scenario',card:'D3'},
   {n:5,type:'gate',phase:'discovery',label:'Phase gate',card:'G1'},
   {n:6,type:'scenario',phase:'alpha',label:'Scenario',card:'A1'},
-  {n:7,type:'scenario',phase:'alpha',label:'Scenario',card:'A2'},
-  {n:8,type:'scenario',phase:'alpha',label:'Scenario',card:'A3'},
-  {n:9,type:'event',phase:'alpha',label:'Event',card:'E2'},
+  {n:7,type:'event',phase:'alpha',label:'Event',card:'E2'},
+  {n:8,type:'scenario',phase:'alpha',label:'Scenario',card:'A2'},
+  {n:9,type:'scenario',phase:'alpha',label:'Scenario',card:'A3'},
   {n:10,type:'gate',phase:'alpha',label:'Phase gate',card:'G2'},
   {n:11,type:'scenario',phase:'beta',label:'Scenario',card:'B1'},
-  {n:12,type:'scenario',phase:'beta',label:'Scenario',card:'B2'},
-  {n:13,type:'scenario',phase:'beta',label:'Scenario',card:'B3'},
-  {n:14,type:'event',phase:'beta',label:'Event',card:'E3'},
+  {n:12,type:'event',phase:'beta',label:'Event',card:'E3'},
+  {n:13,type:'scenario',phase:'beta',label:'Scenario',card:'B2'},
+  {n:14,type:'scenario',phase:'beta',label:'Scenario',card:'B3'},
   {n:15,type:'gate',phase:'beta',label:'Phase gate',card:'G3'},
   {n:16,type:'scenario',phase:'live',label:'Scenario',card:'L1'},
-  {n:17,type:'scenario',phase:'live',label:'Scenario',card:'L2'},
-  {n:18,type:'event',phase:'live',label:'Event',card:'E4'},
+  {n:17,type:'event',phase:'live',label:'Event',card:'E4'},
+  {n:18,type:'scenario',phase:'live',label:'Scenario',card:'L2'},
   {n:19,type:'gate',phase:'live',label:'Phase gate',card:'G4'},
   {n:20,type:'review',phase:'review',label:'Review',card:'REV'}
 ];
@@ -1010,7 +1026,10 @@ function selectStep(n, silent){
       var clickAttr = isChosen ? '' : ' onclick="chooseResolution(\''+step.card+'\','+n+','+pi+')"';
       html += '<div class="res-path'+chosenClass+'"'+clickAttr+'>';
       html += '<strong>'+path.label+'</strong>';
-      html += '<span class="res-path-score '+scoreCss+'">'+dpStr+', '+sqStr+'</span>';
+      // Only show score effects if toggle is enabled
+      if(showScoreEffects){
+        html += '<span class="res-path-score '+scoreCss+'">'+dpStr+', '+sqStr+'</span>';
+      }
       html += '<div class="res-path-hint">'+path.desc+'</div>';
       html += '</div>';
     });
