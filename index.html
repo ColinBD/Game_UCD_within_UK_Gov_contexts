@@ -30,7 +30,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .section-panel ul,.section-panel ol{font-size:14px;color:#3a3530;line-height:2;padding-left:1.4rem;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
 
 /* GAME BOARD LAYOUT */
-.board-layout{display:grid;grid-template-columns:200px 1fr;gap:14px;align-items:start;}
+.board-layout{display:grid;grid-template-columns:260px 1fr;gap:14px;align-items:start;}
 
 /* TRACKER PANEL */
 .tracker-panel{background:#1e1a14;border:2px solid #3C3489;border-radius:10px;padding:12px;color:#ede8df;}
@@ -64,7 +64,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 /* BOARD GRID */
 .board-grid{display:flex;flex-direction:column;align-items:center;gap:0;}
 .board-row{display:flex;align-items:center;justify-content:center;width:100%;}
-.cell{position:relative;width:104px;flex-shrink:0;}
+.cell{position:relative;width:88px;flex-shrink:0;}
 .cell-inner{margin:3px;border:2px solid #a09080;border-radius:8px;padding:6px 3px;text-align:center;cursor:pointer;transition:all 0.18s;background:#fffef9;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .cell-inner:hover{border-color:#534AB7;background:#f0edf8;}
 .cell-num{font-size:9px;color:#9a9080;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:2px;}
@@ -90,8 +90,8 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .ph-live{background:#f5ddd4;color:#712B13;}
 .ph-rev{background:#e4e0f8;color:#3C3489;}
 .arrow-h{width:16px;flex-shrink:0;text-align:center;font-size:14px;color:#a09080;line-height:1;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
-.arrow-v-row{display:flex;justify-content:center;width:100%;padding:0;}
-.arrow-v{font-size:14px;color:#a09080;line-height:1;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.arrow-v-row{position:relative;width:100%;height:20px;display:flex;align-items:center;}
+.arrow-v{position:absolute;font-size:14px;color:#a09080;line-height:1;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
 
 /* CARD DISPLAY */
 .card-section{background:#f8f3e8;border:2.5px solid #2a2520;border-radius:12px;padding:16px 18px;min-height:90px;box-shadow:3px 3px 0 #2a2520;}
@@ -118,6 +118,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .rb-sd{background:#c8e8dc;color:#04342C;}
 .rb-pm{background:#f5e8cc;color:#633806;}
 .rb-dm{background:#f5ddd4;color:#712B13;}
+.rb-ba{background:#dde3ed;color:#4a5a78;}
 
 /* RESOLUTION PATHS — CLICKABLE */
 .resolution-toggle{margin-top:12px;padding-top:10px;border-top:1px dashed #c5bfb0;}
@@ -213,11 +214,22 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .modal-dismiss-btn:hover{background:#534AB7;}
 .modal-note{font-size:11px;color:#9a9080;text-align:center;margin-top:8px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
 
+/* ROSTER TOKEN ROWS */
+.roster-role-line{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.roster-lbl{font-size:9px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;flex:1;}
+.roster-input{font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:3px 6px;border-radius:4px;border:1px solid #534AB7;background:#1e1a14;color:#ede8df;width:100%;outline:none;}
+.roster-input::placeholder{color:#5a5450;}
+.roster-input:focus{border-color:#7F77DD;}
+.roster-token-row{display:flex;gap:4px;flex-wrap:wrap;min-height:18px;}
+.tok-sm{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;border:2px solid;cursor:pointer;user-select:none;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;transition:opacity 0.15s;}
+.tok-sm.spent{opacity:0.18;}
+.tok-sm-r{background:#085041;color:#9FE1CB;border-color:#1D9E75;}
+.tok-sm-d{background:#26215C;color:#CECBF6;border-color:#7F77DD;}
+.tok-sm-l{background:#4A1B0C;color:#F5C4B3;border-color:#D85A30;}
+
 /* PLAYER ROSTER */
 .roster-panel{background:#1e1a14;border:2px solid #3C3489;border-radius:10px;padding:12px;margin-bottom:14px;}
 .roster-title{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9994bb;margin-bottom:8px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-bottom:1px solid #3C3489;padding-bottom:6px;}
-.roster-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-.roster-row{display:flex;flex-direction:column;gap:2px;}
 .roster-lbl{font-size:9px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
 .roster-input{font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:4px 6px;border-radius:4px;border:1px solid #534AB7;background:#2a2520;color:#ede8df;width:100%;outline:none;}
 .roster-input::placeholder{color:#5a5450;}
@@ -228,6 +240,26 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .rl-sd{color:#9FE1CB;}
 .rl-pm{color:#F5C4B3;}
 .rl-dm{color:#F5C4B3;}
+.rl-ba{color:#A0A8B8;}
+
+/* SCENARIO TIMER */
+.timer-panel{background:#1e1a14;border:2px solid #3C3489;border-radius:10px;padding:12px;margin-bottom:14px;color:#ede8df;}
+.timer-title{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9994bb;margin-bottom:10px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-bottom:1px solid #3C3489;padding-bottom:6px;}
+.timer-display{font-size:38px;font-weight:700;text-align:center;letter-spacing:0.06em;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;line-height:1;margin-bottom:10px;transition:color 0.3s;}
+.timer-display.running{color:#5DCAA5;}
+.timer-display.paused{color:#F0997B;}
+.timer-display.warning{color:#F0997B;}
+.timer-display.idle{color:#6b6560;}
+.timer-presets{display:flex;gap:5px;margin-bottom:8px;}
+.timer-preset-btn{flex:1;padding:5px 2px;font-size:11px;font-weight:700;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-radius:4px;border:1px solid #534AB7;background:#2a2520;color:#9994bb;cursor:pointer;letter-spacing:0.03em;transition:all 0.15s;}
+.timer-preset-btn:hover{background:#3C3489;color:#EEEDFE;}
+.timer-preset-btn.selected{background:#3C3489;color:#EEEDFE;border-color:#7F77DD;}
+.timer-controls{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.timer-btn{padding:6px 4px;font-size:11px;font-weight:700;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-radius:4px;cursor:pointer;letter-spacing:0.04em;transition:all 0.15s;border:1px solid;}
+.timer-btn-start{background:#085041;color:#9FE1CB;border-color:#1D9E75;}
+.timer-btn-start:hover{background:#0a6652;}
+.timer-btn-reset{background:#4A1B0C;color:#F5C4B3;border-color:#D85A30;grid-column:1/-1;}
+.timer-btn-reset:hover{background:#5c2210;}
 </style>
 </head>
 <body>
@@ -245,7 +277,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <div class="modal-section">
         <div class="modal-section-label">Scenario context</div>
         <p>A new viral infection has been detected in the UK. Your team has been tasked with developing a digital health intervention that lets members of the public report symptoms, view the latest health advice, and receive AI-generated advice tailored to their available data points: location, contacts, and wearable health data.</p>
-        <p>There is pressure to ship quickly — this is a live public health emergency. But the team must also be mindful of the quality of what goes out under public health branding, and the significant privacy and ethical implications of the data being used.</p>
+        <p>There is pressure to realse a fully functional product quickly as this is a live public health emergency. But the team must also be mindful of the quality of what goes out under public health branding, and the significant privacy and ethical implications of the data being used.</p>
       </div>
       <div class="modal-section">
         <div class="modal-section-label">Your mission</div>
@@ -253,20 +285,39 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         <div class="mission-grid">
           <div class="mission-cell mission-dp">
             <div class="mc-label">Delivery Progress (DP)</div>
-            <div class="mc-desc">Hit your milestones. Keep the programme moving. Don't let the perfect be the enemy of the shipped.</div>
+            <div class="mc-desc">Hit your milestones. Keep the programme moving. Don't let the perfect be the enemy of the good.</div>
           </div>
           <div class="mission-cell mission-sq">
             <div class="mc-label">Service Quality (SQ)</div>
-            <div class="mc-desc">Genuinely serve user needs. Do the research. Don't ship something that will harm, confuse, or exclude people.</div>
+            <div class="mc-desc">Genuinely serve user needs. Do the research. Don't release something that will harm, confuse, or exclude people.</div>
           </div>
         </div>
-        <p style="margin-top:10px;">There is no win or lose. Both scores will be visible throughout. The final numbers create the conditions for an honest debrief — not a competition.</p>
+        <p style="margin-top:10px;">There is no win or lose. Both scores will be visible throughout. The final numbers create the conditions for an honest debrief.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">Session timing</div>
+        <p>Allow <strong>90 minutes to 2 hours</strong> for a full session. This breaks down as approximately 60–90 minutes for gameplay and 20–30 minutes for debrief. A first run with an unfamiliar facilitator will sit closer to 2 hours; an experienced group can complete gameplay in under an hour.</p>
+        <p>If time is short, stopping at the end of Beta rather than running all four phases is a clean cut — you will still have enough scenario data for a meaningful debrief.</p>
       </div>
       <div class="modal-section">
         <div class="modal-section-label">Before you start</div>
-        <p>Assign a role to each player. Six roles are available: User Researcher, Content Designer, Interaction Designer, Service Designer, Product Manager, and Delivery Manager. For groups under 6, drop Service Designer first, then Content Designer.</p>
-        <p>Each role has a unique ability and a realistic default pressure. Read them on the Roles tab. The tension between ability and pressure is the game.</p>
-        <p style="color:#712B13;font-weight:700;">Facilitator: share your screen now, then click "We've read the brief" below to begin.</p>
+        <p>Assign a role to each player. Seven roles are available: User Researcher, Content Designer, Interaction Designer, Service Designer, Product Manager, Delivery Manager, and Business Analyst.</p>
+        <p>Each role has a unique ability, which is shared knowledge — abilities are visible to everyone on the Roles tab. Each role also has a private pressure: a default instinct that reflects how that role tends to behave under real project conditions.</p>
+        <p><strong>Pressures are private.</strong> Before dismissing this brief, tell each player their pressure individually — send it to them via a back channel e.g. MS Teams or email. Players should not share their pressure with the group. The tension between ability and pressure is the game, and it works best when pressures are discovered through play, not announced in advance.</p>
+        <button onclick="togglePressures(this)" style="font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:5px 12px;border-radius:4px;cursor:pointer;background:#2a2520;color:#ede8df;border:1px solid #2a2520;letter-spacing:0.04em;margin-bottom:8px;">Show pressure information</button>
+        <div id="pressure-list" style="display:none;">
+          <p style="margin-bottom:4px;">The pressures are:</p>
+          <ul style="margin:6px 0 10px 16px;font-size:12px;line-height:2;color:#3a3530;">
+            <li><strong>User Researcher:</strong> "We need more evidence before we proceed."</li>
+            <li><strong>Content Designer:</strong> "I wasn't brought in early enough to help."</li>
+            <li><strong>Interaction Designer:</strong> "This wasn't in the original brief."</li>
+            <li><strong>Service Designer:</strong> "The whole system needs rethinking before we touch this."</li>
+            <li><strong>Product Manager:</strong> "We have to hit the milestone. We can fix quality later."</li>
+            <li><strong>Delivery Manager:</strong> "We're behind. We need to move, not discuss."</li>
+            <li><strong>Business Analyst:</strong> "We need to define the requirements before we can decide."</li>
+          </ul>
+        </div>
+        <p style="color:#712B13;font-weight:700;">Facilitator: brief each player on their pressure privately, ensure the pressure info is hidden from view, then share your screen and click "We've read the brief" below to begin.</p>
       </div>
       <button class="modal-dismiss-btn" onclick="dismissBrief()">We've read the brief — let's start</button>
       <div class="modal-note">This brief can be reopened at any time using the Brief button next to the tabs.</div>
@@ -296,30 +347,97 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         <div class="roster-panel">
           <div class="roster-title">Players &amp; roles</div>
           <div class="roster-grid">
+
             <div class="roster-row">
-              <div class="roster-lbl rl-ur">User Researcher</div>
+              <div class="roster-role-line">
+                <div class="roster-lbl rl-ur">User Researcher</div>
+              </div>
               <input class="roster-input" id="name-ur" type="text" placeholder="Player name" oninput="updateRoster()">
+              <div class="roster-token-row" style="margin-top:5px;">
+                <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
+                <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
+              </div>
             </div>
+
             <div class="roster-row">
-              <div class="roster-lbl rl-cd">Content Designer</div>
+              <div class="roster-role-line">
+                <div class="roster-lbl rl-cd">Content Designer</div>
+              </div>
               <input class="roster-input" id="name-cd" type="text" placeholder="Player name" oninput="updateRoster()">
+              <div class="roster-token-row" style="margin-top:5px;">
+                <div class="tok-sm tok-sm-d" onclick="this.classList.toggle('spent')">D</div>
+              </div>
             </div>
+
             <div class="roster-row">
-              <div class="roster-lbl rl-id">Interaction Designer</div>
+              <div class="roster-role-line">
+                <div class="roster-lbl rl-id">Interaction Designer</div>
+              </div>
               <input class="roster-input" id="name-id" type="text" placeholder="Player name" oninput="updateRoster()">
+              <div class="roster-token-row" style="margin-top:5px;">
+                <div class="tok-sm tok-sm-d" onclick="this.classList.toggle('spent')">D</div>
+              </div>
             </div>
+
             <div class="roster-row">
-              <div class="roster-lbl rl-sd">Service Designer</div>
+              <div class="roster-role-line">
+                <div class="roster-lbl rl-sd">Service Designer</div>
+              </div>
               <input class="roster-input" id="name-sd" type="text" placeholder="Player name" oninput="updateRoster()">
+              <div class="roster-token-row" style="margin-top:5px;">
+                <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
+                <div class="tok-sm tok-sm-d" onclick="this.classList.toggle('spent')">D</div>
+              </div>
             </div>
+
             <div class="roster-row">
-              <div class="roster-lbl rl-pm">Product Manager</div>
+              <div class="roster-role-line">
+                <div class="roster-lbl rl-pm">Product Manager</div>
+              </div>
               <input class="roster-input" id="name-pm" type="text" placeholder="Player name" oninput="updateRoster()">
+              <div class="roster-token-row" style="margin-top:5px;">
+                <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
+                <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
+              </div>
             </div>
+
             <div class="roster-row">
-              <div class="roster-lbl rl-dm">Delivery Manager</div>
+              <div class="roster-role-line">
+                <div class="roster-lbl rl-dm">Delivery Manager</div>
+              </div>
               <input class="roster-input" id="name-dm" type="text" placeholder="Player name" oninput="updateRoster()">
+              <div class="roster-token-row" style="margin-top:5px;">
+                <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
+                <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
+              </div>
             </div>
+
+            <div class="roster-row">
+              <div class="roster-role-line">
+                <div class="roster-lbl rl-ba">Business Analyst</div>
+              </div>
+              <input class="roster-input" id="name-ba" type="text" placeholder="Player name" oninput="updateRoster()">
+              <div class="roster-token-row" style="margin-top:5px;">
+                <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SCENARIO TIMER -->
+        <div class="timer-panel">
+          <div class="timer-title">Scenario timer</div>
+          <div class="timer-display idle" id="timer-display">5:00</div>
+          <div class="timer-presets">
+            <button class="timer-preset-btn selected" onclick="setTimer(5,this)">5 min</button>
+            <button class="timer-preset-btn" onclick="setTimer(6,this)">6 min</button>
+            <button class="timer-preset-btn" onclick="setTimer(7,this)">7 min</button>
+          </div>
+          <div class="timer-controls">
+            <button class="timer-btn timer-btn-start" id="timer-start-btn" onclick="toggleTimer()">Start</button>
+            <button class="timer-btn" style="background:#26215C;color:#CECBF6;border-color:#534AB7;" onclick="resetTimer()">Reset</button>
+            <button class="timer-btn timer-btn-reset" onclick="resetTimer()">&#8635; Reset &amp; clear</button>
           </div>
         </div>
 
@@ -343,39 +461,13 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
               </div>
             </div>
           </div>
-          <div class="token-panel-title">Token tracker</div>
-          <div class="token-section">
-            <div class="token-lbl">Research</div>
-            <div class="token-row">
-              <div class="tok tok-r" onclick="this.classList.toggle('spent')">R</div>
-              <div class="tok tok-r" onclick="this.classList.toggle('spent')">R</div>
-              <div class="tok tok-r" onclick="this.classList.toggle('spent')">R</div>
-            </div>
-          </div>
-          <div class="token-section">
-            <div class="token-lbl">Design</div>
-            <div class="token-row">
-              <div class="tok tok-d" onclick="this.classList.toggle('spent')">D</div>
-              <div class="tok tok-d" onclick="this.classList.toggle('spent')">D</div>
-              <div class="tok tok-d" onclick="this.classList.toggle('spent')">D</div>
-            </div>
-          </div>
-          <div class="token-section">
-            <div class="token-lbl">Delivery</div>
-            <div class="token-row">
-              <div class="tok tok-l" onclick="this.classList.toggle('spent')">L</div>
-              <div class="tok tok-l" onclick="this.classList.toggle('spent')">L</div>
-              <div class="tok tok-l" onclick="this.classList.toggle('spent')">L</div>
-              <div class="tok tok-l" onclick="this.classList.toggle('spent')">L</div>
-            </div>
-          </div>
-          <button class="reset-btn" onclick="resetTokens()">Reset tokens (new phase)</button>
+          <button class="reset-btn" onclick="resetTokens()" style="margin-top:8px;">Reset all tokens (new phase)</button>
         </div>
       </div>
 
       <div class="board-right">
         <div class="board-section">
-          <div class="board-section-label">Game path — click any step to reveal its card</div>
+          <div class="board-section-label">Game path — follow the sequence, clicking each step to reveal its card</div>
           <div class="board-grid" id="board-grid"></div>
         </div>
         <div class="card-section" id="card-display">
@@ -414,6 +506,21 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       </ol>
     </div>
     <div class="section-panel">
+      <h2>Session timing</h2>
+      <p>Plan for <strong>90 minutes to 2 hours</strong> for a complete session including debrief.</p>
+      <table class="outcome-table">
+        <thead><tr><th>Part</th><th>Expected time</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Setup &amp; brief</strong></td><td>5–10 min</td><td>Facilitator reads brief, assigns roles, sends pressures privately</td></tr>
+          <tr><td><strong>Scenario cards</strong> (×11)</td><td>5–7 min each<br><em>55–77 min total</em></td><td>Read aloud, triggered roles respond, team discusses, path chosen</td></tr>
+          <tr><td><strong>Event cards &amp; gates</strong> (×8)</td><td>~1 min each<br><em>~8 min total</em></td><td>No team discussion required; facilitator resolves and advances</td></tr>
+          <tr><td><strong>Debrief</strong></td><td>20–30 min</td><td>See Debrief tab for guide and questions</td></tr>
+        </tbody>
+      </table>
+      <div class="note-box">Aim for 5–7 minutes per scenario. The on-screen timer on the game board can help keep discussions on pace. If a group consistently runs slow, name the time constraint — the pressure to decide is part of the game.</div>
+      <div class="warn-box">If time is short, stopping at the end of Beta is a clean cut. You will still have 9 scenario decisions for a meaningful debrief.</div>
+    </div>
+    <div class="section-panel">
       <h2>Phase gates</h2>
       <div class="gate-card">
         <div class="gate-label">Discovery to Alpha</div>
@@ -442,16 +549,17 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
   <div id="tab-roles" class="tab-content">
     <div class="section-panel">
       <h2>Player roles</h2>
-      <p>Each player holds one role card. The ability is what they can uniquely contribute. The pressure is their default instinct, which is realistic rather than a flaw. The game rewards managing that tension.</p>
+      <p>Each player holds one role card. The ability is shared knowledge — read it now so everyone understands what each role can contribute. Each role also has a private pressure: a default instinct that is realistic rather than a flaw. Pressures are not listed here; they are given to each player individually before the session begins (facilitators can access these near the bottom of the brief). The tension between ability and pressure is the game.</p>
       <div class="role-grid">
-        <div class="role-card"><div class="badge badge-teal">User Researcher</div><div class="role-ability"><strong>Ability:</strong> May reveal hidden user need text on any scenario card once per phase. This can unlock an additional +1 SQ resolution path.</div><div class="role-pressure">"We need more evidence before we proceed."</div></div>
-        <div class="role-card"><div class="badge badge-purple">Content Designer</div><div class="role-ability"><strong>Ability:</strong> May simplify or reframe any communication or information challenge. Removes a 1 SQ penalty on one scenario per phase.</div><div class="role-pressure">"I wasn't brought in early enough to help."</div></div>
-        <div class="role-card"><div class="badge badge-blue">Interaction Designer</div><div class="role-ability"><strong>Ability:</strong> May resolve any usability or accessibility blocker without token cost. Once per phase.</div><div class="role-pressure">"This wasn't in the original brief."</div></div>
-        <div class="role-card"><div class="badge badge-teal" style="background:#c8e8dc;color:#04342C;">Service Designer</div><div class="role-ability"><strong>Ability:</strong> May reframe any scenario as a system-level problem, unlocking a cross-role resolution that adds +1 SQ if three roles contribute.</div><div class="role-pressure">"The whole system needs rethinking before we touch this."</div></div>
-        <div class="role-card"><div class="badge badge-amber">Product Manager</div><div class="role-ability"><strong>Ability:</strong> Can reallocate up to two tokens between players per phase. Can unblock a gate by spending a resource token, at the cost of 1 SQ.</div><div class="role-pressure">"We have to hit the milestone. We can fix quality later."</div></div>
-        <div class="role-card"><div class="badge badge-coral">Delivery Manager</div><div class="role-ability"><strong>Ability:</strong> Can spend from the next phase's token allocation to accelerate (+2 DP), but this reduces next phase's starting tokens by 2.</div><div class="role-pressure">"We're behind. We need to move, not discuss."</div></div>
+        <div class="role-card"><div class="badge badge-teal">User Researcher</div><div class="role-ability"><strong>Ability:</strong> May reveal hidden user need text on any scenario card once per phase. This can unlock an additional +1 SQ resolution path.</div></div>
+        <div class="role-card"><div class="badge badge-purple">Content Designer</div><div class="role-ability"><strong>Ability:</strong> May simplify or reframe any communication or information challenge. Removes a 1 SQ penalty on one scenario per phase.</div></div>
+        <div class="role-card"><div class="badge badge-blue">Interaction Designer</div><div class="role-ability"><strong>Ability:</strong> May resolve any usability or accessibility blocker without token cost. Once per phase.</div></div>
+        <div class="role-card"><div class="badge badge-teal" style="background:#c8e8dc;color:#04342C;">Service Designer</div><div class="role-ability"><strong>Ability:</strong> May reframe any scenario as a system-level problem, unlocking a cross-role resolution that adds +1 SQ if three roles contribute.</div></div>
+        <div class="role-card"><div class="badge badge-amber">Product Manager</div><div class="role-ability"><strong>Ability:</strong> Can reallocate up to two tokens between players per phase. Can unblock a gate by spending a resource token, at the cost of 1 SQ.</div></div>
+        <div class="role-card"><div class="badge badge-coral">Delivery Manager</div><div class="role-ability"><strong>Ability:</strong> Can spend from the next phase's token allocation to accelerate (+2 DP), but this reduces next phase's starting tokens by 2.</div></div>
+        <div class="role-card"><div class="badge" style="background:#dde3ed;color:#4a5a78;">Business Analyst</div><div class="role-ability"><strong>Ability:</strong> Once per phase, may reframe a scenario as a problem statement with two or more options. If the team adopts the recommended option, the chosen resolution gains an additional +1 SQ. Cannot be used in combination with the Service Designer's system reframing ability on the same card.</div></div>
       </div>
-      <div class="warn-box">For a trial run with fewer than 6 players, drop Service Designer first, then Content Designer. Redistribute abilities as needed. Do not run with fewer than 4 players as the multi-role resolution mechanic breaks below that.</div>
+      <div class="note-box">The game works best with all seven roles represented. Do not run with fewer than 4 players as the multi-role resolution mechanic breaks below that.</div>
     </div>
   </div>
 
@@ -463,7 +571,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <table class="outcome-table">
         <thead><tr><th>Token type</th><th>Held by</th><th>Spend effect</th></tr></thead>
         <tbody>
-          <tr><td><span class="badge badge-teal" style="margin:0;">Research</span></td><td>User Researcher (2), Service Designer (1)</td><td>Required for any resolution that involves user evidence. Spent once per card.</td></tr>
+          <tr><td><span class="badge badge-teal" style="margin:0;">Research</span></td><td>User Researcher (2), Service Designer (1), Business Analyst (1)</td><td>Required for any resolution that involves user evidence. Spent once per card.</td></tr>
           <tr><td><span class="badge badge-purple" style="margin:0;">Design</span></td><td>Content Designer (1), Interaction Designer (1), Service Designer (1)</td><td>Required for usability, content, or design quality resolutions.</td></tr>
           <tr><td><span class="badge badge-coral" style="margin:0;">Delivery</span></td><td>Product Manager (2), Delivery Manager (2)</td><td>Required for unblocking decisions, accelerating progress, or overriding gates.</td></tr>
         </tbody>
@@ -524,8 +632,9 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <h2>Debrief guide</h2>
       <p>Allow 20 to 30 minutes. The facilitator does not summarise or interpret. Ask the questions and let the team lead.</p>
       <div class="rule-block"><h3>Opening question</h3><p>What moment in the game felt most like something that has actually happened to you?</p></div>
-      <div class="rule-block"><h3>On role pressure</h3><p>When did your role's default tendency work against the team? When did it help? Was the tension fair?</p></div>
+      <div class="rule-block"><h3>On role pressure</h3><p>This is the moment pressures become visible to the group for the first time. Each player: describe the instinct your role gave you. When did it work against the team? When did it help? Was it a fair representation of how that role behaves in practice?</p></div>
       <div class="rule-block"><h3>On other roles</h3><p>What did you learn today about what another role is actually dealing with? What would you do differently to support them on a real project?</p></div>
+      <div class="rule-block"><h3>On the Business Analyst</h3><p>When did the Business Analyst's instinct to define before deciding help the team? When did it slow you down?</p></div>
       <div class="rule-block"><h3>On the scores</h3><p>Look at where Delivery Progress and Service Quality diverged. What decision caused the gap? Was it the right call at the time?</p></div>
       <div class="rule-block"><h3>Closing question</h3><p>Name one concrete thing you will do differently on your next project.</p></div>
     </div>
@@ -534,8 +643,9 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <ul>
         <li>Do not allow a single player to dominate scenario resolution. Name the rule: two or three roles must contribute.</li>
         <li>The delivery manager and product manager will often default to partial resolution. Let them, then debrief it.</li>
+        <li>The Business Analyst will often want more time to clarify requirements. Watch for whether the team uses this productively or as avoidance.</li>
         <li>Keep the resolution paths hidden until the team has agreed their approach. Use the toggle on the game board.</li>
-        <li>If the group stalls, set a 90-second timer for discussion per scenario. The pressure to decide is part of the game.</li>
+        <li>Aim for 5–7 minutes per scenario. Use the on-screen scenario timer on the game board to keep discussions on pace. If the group stalls, name the time — the pressure to decide is part of the game.</li>
         <li>Do not intervene in decisions, even clearly bad ones. The discomfort is the learning.</li>
         <li>After a full run, ask players which scenario they want to replay differently.</li>
         <li>The session summary above records which resolution path was chosen for each scenario — use it as your debrief data.</li>
@@ -556,7 +666,7 @@ var sessionLog = []; // {step, cardId, title, path, dpDelta, sqDelta}
 var chosenPaths = {}; // cardId -> path key
 
 // Roster
-var roster = {ur:'',cd:'',id:'',sd:'',pm:'',dm:''};
+var roster = {ur:'',cd:'',id:'',sd:'',pm:'',dm:'',ba:''};
 
 // ============================================================
 // BRIEF MODAL
@@ -597,7 +707,7 @@ function applyScore(dpDelta, sqDelta){
   updateDebriefSummary();
 }
 function resetTokens(){
-  document.querySelectorAll('.tok').forEach(function(t){t.classList.remove('spent');});
+  document.querySelectorAll('.tok,.tok-sm').forEach(function(t){t.classList.remove('spent');});
 }
 function showTab(name,el){
   document.querySelectorAll('.tab-content').forEach(function(s){s.classList.remove('visible');});
@@ -643,7 +753,8 @@ var ROLE_MAP = {
   'Interaction Designer':{css:'rb-id', key:'id'},
   'Service Designer':    {css:'rb-sd', key:'sd'},
   'Product Manager':     {css:'rb-pm', key:'pm'},
-  'Delivery Manager':    {css:'rb-dm', key:'dm'}
+  'Delivery Manager':    {css:'rb-dm', key:'dm'},
+  'Business Analyst':    {css:'rb-ba', key:'ba'}
 };
 
 // Resolution path definitions
@@ -651,9 +762,9 @@ var ROLE_MAP = {
 var CARDS={
   D1:{tag:'Scenario',tagCss:'tag-scenario',title:'"We already know what users need"',
     scenario:'A senior stakeholder has shared a brief that assumes the user need is already understood from previous policy work. The user researcher has flagged that the assumed need does not match what they have seen in analogous services. The product manager is inclined to accept the brief and move on.',
-    triggeredRoles:['User Researcher','Product Manager','Service Designer'],
+    triggeredRoles:['User Researcher','Product Manager','Service Designer','Business Analyst'],
     paths:[
-      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'User Researcher spends a Research token to present conflicting evidence. Service Designer reframes the problem. Team agrees to redefine the scope before proceeding.'},
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'User Researcher presents conflicting evidence. Business Analyst structures the alternative problem statements and runs an options session. Team agrees to redefine the scope before proceeding.'},
       {type:'partial',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'Team notes the concern but accepts the brief as given. Delivery Manager records a risk.'},
       {type:'escalation',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Brief accepted without challenge. The wrong problem is being solved.'}
     ]},
@@ -667,9 +778,9 @@ var CARDS={
     ]},
   D3:{tag:'Scenario',tagCss:'tag-scenario',title:'"Nobody agreed who owns this"',
     scenario:'Halfway through discovery, it becomes clear that another team in the department is doing adjacent work on the same user journey. There is no agreement on who leads, who supports, and how findings will be shared. Tension is building between the two product managers.',
-    triggeredRoles:['Product Manager','Service Designer','Delivery Manager'],
+    triggeredRoles:['Product Manager','Service Designer','Delivery Manager','Business Analyst'],
     paths:[
-      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Service Designer maps the overlap. Product Manager initiates a joint session. Clear boundaries agreed.'},
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Business Analyst maps the overlap and scope boundaries. Product Manager initiates a joint session. Clear ownership and handoffs agreed.'},
       {type:'partial',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'Teams continue in parallel and agree to share outputs at the end. Risk of duplication.'},
       {type:'escalation',label:'Escalation',dpDelta:0,sqDelta:-1,desc:'Neither team blinks. Both proceed separately.'}
     ]},
@@ -689,9 +800,9 @@ var CARDS={
     ]},
   A2:{tag:'Scenario',tagCss:'tag-scenario',title:'"Scope has quietly expanded"',
     scenario:'Since the start of Alpha, three additional features have been added to the backlog by stakeholders without any formal process. The product manager added them without consulting the design team. The service designer has now mapped out how much extra work this creates and it is significant.',
-    triggeredRoles:['Service Designer','Product Manager','User Researcher'],
+    triggeredRoles:['Service Designer','Product Manager','User Researcher','Business Analyst'],
     paths:[
-      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Service Designer presents an impact analysis. Product Manager runs a prioritisation session. Two features deferred.'},
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Business Analyst documents the impact on requirements and validates with User Researcher. Product Manager runs a prioritisation session. Two features deferred.'},
       {type:'partial',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'Features retained but timeline extended. Team is under increased pressure.'},
       {type:'escalation',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Scope remains unchanged. Team absorbs the extra work silently.'}
     ]},
@@ -741,17 +852,17 @@ var CARDS={
     triggeredRoles:[],paths:[]},
   L1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The minister wants a feature that wasn\'t planned"',
     scenario:'Three days before go-live, the minister\'s office has requested a dashboard showing real-time service usage statistics. It was not in scope. The product manager is being pressured to agree to it. The service designer thinks it could be built quickly but it will not be accessible and has not been tested. The delivery manager thinks it can be done.',
-    triggeredRoles:['Product Manager','Service Designer','Interaction Designer','Delivery Manager'],
+    triggeredRoles:['Product Manager','Service Designer','Interaction Designer','Delivery Manager','Business Analyst'],
     paths:[
-      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Product Manager pushes back diplomatically. Service Designer proposes a post-launch roadmap item with a clear timeline. Request deferred.'},
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Business Analyst runs an impact and feasibility assessment. Product Manager pushes back diplomatically with evidence. Service Designer proposes a post-launch roadmap item with a clear timeline. Request deferred.'},
       {type:'partial',label:'Partial resolution',dpDelta:2,sqDelta:-1,desc:'A minimal dashboard is built and shipped. Not tested, not accessible, but politically resolved.'},
       {type:'escalation',label:'Escalation',dpDelta:1,sqDelta:-2,desc:'PM agrees to everything. Team works through the weekend. Quality failures on day one.'}
     ]},
   L2:{tag:'Scenario',tagCss:'tag-scenario',title:'"A journalist has submitted an FOI request"',
     scenario:'A journalist has submitted a Freedom of Information request asking for all user research and usability test findings related to the service. The product manager is anxious. Some of the earlier research was documented loosely and some decisions look questionable in retrospect. The user researcher is confident the findings were sound but the documentation is incomplete.',
-    triggeredRoles:['User Researcher','Product Manager','Content Designer'],
+    triggeredRoles:['User Researcher','Product Manager','Content Designer','Business Analyst'],
     paths:[
-      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'User Researcher and Content Designer work together to compile a clear, honest summary of findings and decisions. Response is transparent.'},
+      {type:'full',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Business Analyst works with User Researcher to compile decision traceability documentation. Content Designer shapes the response. Submission is clear, honest and complete.'},
       {type:'partial',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'Response submitted but incomplete. Some decisions left unexplained.'},
       {type:'escalation',label:'Escalation',dpDelta:0,sqDelta:-2,desc:'Legal are brought in and the response is heavily redacted. Public trust damaged.'}
     ]},
@@ -806,11 +917,30 @@ function buildBoard(){
     if(ri<rows.length-1){
       var vrow = document.createElement('div');
       vrow.className = 'arrow-v-row';
-      vrow.style.justifyContent = (ri%2===0) ? 'flex-end' : 'flex-start';
-      vrow.style.paddingRight = (ri%2===0) ? '55px' : '0';
-      vrow.style.paddingLeft  = (ri%2===1) ? '55px' : '0';
-      var va = document.createElement('div'); va.className='arrow-v'; va.textContent='\u2193';
-      vrow.appendChild(va); grid.appendChild(vrow);
+      vrow.dataset.rowIndex = ri;
+      var va = document.createElement('div'); 
+      va.className='arrow-v'; 
+      va.textContent='\u2193';
+      va.dataset.arrowFor = rows[ri][rows[ri].length - 1]; // Store which step this arrow follows
+      vrow.appendChild(va); 
+      grid.appendChild(vrow);
+    }
+  });
+  
+  // Position vertical arrows after all rows are rendered
+  positionVerticalArrows();
+}
+
+function positionVerticalArrows(){
+  document.querySelectorAll('.arrow-v').forEach(function(arrow){
+    var stepNum = parseInt(arrow.dataset.arrowFor);
+    var cell = document.getElementById('cell-'+stepNum);
+    if(cell){
+      var cellRect = cell.getBoundingClientRect();
+      var arrowRow = arrow.parentElement;
+      var rowRect = arrowRow.getBoundingClientRect();
+      // Position arrow at the horizontal center of the last cell in the previous row
+      arrow.style.left = (cellRect.left - rowRect.left + cellRect.width/2 - 7) + 'px';
     }
   });
 }
@@ -979,9 +1109,102 @@ function updateDebriefSummary(){
 }
 
 // ============================================================
+// SCENARIO TIMER
+// ============================================================
+var timerDuration = 5 * 60; // seconds
+var timerRemaining = timerDuration;
+var timerInterval = null;
+var timerRunning = false;
+
+function setTimer(mins, btn){
+  // Update selected preset button
+  document.querySelectorAll('.timer-preset-btn').forEach(function(b){b.classList.remove('selected');});
+  btn.classList.add('selected');
+  timerDuration = mins * 60;
+  timerRemaining = timerDuration;
+  if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+  timerRunning = false;
+  var startBtn = document.getElementById('timer-start-btn');
+  startBtn.textContent = 'Start';
+  updateTimerDisplay();
+  var disp = document.getElementById('timer-display');
+  disp.className = 'timer-display idle';
+}
+
+function toggleTimer(){
+  if(timerRunning){
+    clearInterval(timerInterval);
+    timerInterval = null;
+    timerRunning = false;
+    var startBtn = document.getElementById('timer-start-btn');
+    startBtn.textContent = 'Resume';
+    var disp = document.getElementById('timer-display');
+    disp.classList.remove('running','warning');
+    disp.classList.add('paused');
+  } else {
+    if(timerRemaining <= 0) return;
+    timerRunning = true;
+    var startBtn = document.getElementById('timer-start-btn');
+    startBtn.textContent = 'Pause';
+    var disp = document.getElementById('timer-display');
+    disp.classList.remove('idle','paused');
+    disp.classList.add(timerRemaining <= 60 ? 'warning' : 'running');
+    timerInterval = setInterval(function(){
+      timerRemaining--;
+      updateTimerDisplay();
+      var d = document.getElementById('timer-display');
+      if(timerRemaining <= 60 && timerRemaining > 0){
+        d.classList.remove('running'); d.classList.add('warning');
+      }
+      if(timerRemaining <= 0){
+        clearInterval(timerInterval); timerInterval = null; timerRunning = false;
+        d.className = 'timer-display warning';
+        document.getElementById('timer-start-btn').textContent = 'Start';
+      }
+    }, 1000);
+  }
+}
+
+function resetTimer(){
+  if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+  timerRunning = false;
+  timerRemaining = timerDuration;
+  updateTimerDisplay();
+  var disp = document.getElementById('timer-display');
+  disp.className = 'timer-display idle';
+  var startBtn = document.getElementById('timer-start-btn');
+  startBtn.textContent = 'Start';
+}
+
+function updateTimerDisplay(){
+  var m = Math.floor(timerRemaining / 60);
+  var s = timerRemaining % 60;
+  document.getElementById('timer-display').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+// ============================================================
+// PRESSURE TOGGLE (brief modal)
+// ============================================================
+function togglePressures(btn){
+  var list = document.getElementById('pressure-list');
+  if(list.style.display === 'none'){
+    list.style.display = 'block';
+    btn.textContent = 'Hide pressure information';
+  } else {
+    list.style.display = 'none';
+    btn.textContent = 'Show pressure information';
+  }
+}
+
+// ============================================================
 // INIT
 // ============================================================
 buildBoard();
+
+// Reposition vertical arrows on window resize
+window.addEventListener('resize', function(){
+  positionVerticalArrows();
+});
 </script>
 </body>
 </html>
