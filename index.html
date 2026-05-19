@@ -216,12 +216,12 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .modal-note{font-size:11px;color:#9a9080;text-align:center;margin-top:8px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
 
 /* ROSTER TOKEN ROWS */
-.roster-role-line{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
-.roster-lbl{font-size:9px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;flex:1;}
-.roster-input{font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:3px 6px;border-radius:4px;border:1px solid #534AB7;background:#1e1a14;color:#ede8df;width:100%;outline:none;}
-.roster-input::placeholder{color:#5a5450;}
+.roster-lbl{font-size:9px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;display:block;margin-bottom:3px;}
+.roster-inline{display:flex;align-items:center;gap:5px;}
+.roster-input{font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:3px 5px;border-radius:4px;border:1px solid #534AB7;background:#1e1a14;color:#ede8df;width:80px;min-width:0;outline:none;flex-shrink:0;}
+.roster-input::placeholder{color:#5a5450;font-size:10px;}
 .roster-input:focus{border-color:#7F77DD;}
-.roster-token-row{display:flex;gap:4px;flex-wrap:wrap;min-height:18px;}
+.roster-token-row{display:flex;gap:4px;flex-wrap:wrap;align-items:center;}
 .tok-sm{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;border:2px solid;cursor:pointer;user-select:none;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;transition:opacity 0.15s;}
 .tok-sm.spent{opacity:0.18;}
 .tok-sm-r{background:#085041;color:#9FE1CB;border-color:#1D9E75;}
@@ -231,10 +231,9 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 /* PLAYER ROSTER */
 .roster-panel{background:#1e1a14;border:2px solid #3C3489;border-radius:10px;padding:12px;margin-bottom:14px;}
 .roster-title{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9994bb;margin-bottom:8px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-bottom:1px solid #3C3489;padding-bottom:6px;}
-.roster-lbl{font-size:9px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
-.roster-input{font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:4px 6px;border-radius:4px;border:1px solid #534AB7;background:#2a2520;color:#ede8df;width:100%;outline:none;}
-.roster-input::placeholder{color:#5a5450;}
-.roster-input:focus{border-color:#7F77DD;}
+.roster-grid{display:flex;flex-direction:column;gap:0;}
+.roster-row{background:#2a2520;border-radius:6px;padding:7px 8px;margin-bottom:4px;border-bottom:1px solid #3a3530;}
+/* roster-lbl and roster-input defined above */
 .rl-ur{color:#9FE1CB;}
 .rl-cd{color:#CECBF6;}
 .rl-id{color:#B5D4F4;}
@@ -348,76 +347,76 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
           <div class="roster-grid">
 
             <div class="roster-row">
-              <div class="roster-role-line">
-                <div class="roster-lbl rl-ur">User Researcher</div>
-              </div>
-              <input class="roster-input" id="name-ur" type="text" placeholder="Player name" oninput="updateRoster()">
-              <div class="roster-token-row" style="margin-top:5px;">
-                <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
-                <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
-              </div>
-            </div>
-
-            <div class="roster-row">
-              <div class="roster-role-line">
-                <div class="roster-lbl rl-cd">Content Designer</div>
-              </div>
-              <input class="roster-input" id="name-cd" type="text" placeholder="Player name" oninput="updateRoster()">
-              <div class="roster-token-row" style="margin-top:5px;">
-                <div class="tok-sm tok-sm-d" onclick="this.classList.toggle('spent')">D</div>
+              <div class="roster-lbl rl-ur">User Researcher</div>
+              <div class="roster-inline">
+                <input class="roster-input" id="name-ur" type="text" placeholder="Name" oninput="updateRoster()">
+                <div class="roster-token-row">
+                  <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
+                  <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
+                </div>
               </div>
             </div>
 
             <div class="roster-row">
-              <div class="roster-role-line">
-                <div class="roster-lbl rl-id">Interaction Designer</div>
-              </div>
-              <input class="roster-input" id="name-id" type="text" placeholder="Player name" oninput="updateRoster()">
-              <div class="roster-token-row" style="margin-top:5px;">
-                <div class="tok-sm tok-sm-d" onclick="this.classList.toggle('spent')">D</div>
-              </div>
-            </div>
-
-            <div class="roster-row">
-              <div class="roster-role-line">
-                <div class="roster-lbl rl-sd">Service Designer</div>
-              </div>
-              <input class="roster-input" id="name-sd" type="text" placeholder="Player name" oninput="updateRoster()">
-              <div class="roster-token-row" style="margin-top:5px;">
-                <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
-                <div class="tok-sm tok-sm-d" onclick="this.classList.toggle('spent')">D</div>
+              <div class="roster-lbl rl-cd">Content Designer</div>
+              <div class="roster-inline">
+                <input class="roster-input" id="name-cd" type="text" placeholder="Name" oninput="updateRoster()">
+                <div class="roster-token-row">
+                  <div class="tok-sm tok-sm-d" onclick="this.classList.toggle('spent')">D</div>
+                </div>
               </div>
             </div>
 
             <div class="roster-row">
-              <div class="roster-role-line">
-                <div class="roster-lbl rl-pm">Product Manager</div>
-              </div>
-              <input class="roster-input" id="name-pm" type="text" placeholder="Player name" oninput="updateRoster()">
-              <div class="roster-token-row" style="margin-top:5px;">
-                <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
-                <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
-              </div>
-            </div>
-
-            <div class="roster-row">
-              <div class="roster-role-line">
-                <div class="roster-lbl rl-dm">Delivery Manager</div>
-              </div>
-              <input class="roster-input" id="name-dm" type="text" placeholder="Player name" oninput="updateRoster()">
-              <div class="roster-token-row" style="margin-top:5px;">
-                <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
-                <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
+              <div class="roster-lbl rl-id">Interaction Designer</div>
+              <div class="roster-inline">
+                <input class="roster-input" id="name-id" type="text" placeholder="Name" oninput="updateRoster()">
+                <div class="roster-token-row">
+                  <div class="tok-sm tok-sm-d" onclick="this.classList.toggle('spent')">D</div>
+                </div>
               </div>
             </div>
 
             <div class="roster-row">
-              <div class="roster-role-line">
-                <div class="roster-lbl rl-ba">Business Analyst</div>
+              <div class="roster-lbl rl-sd">Service Designer</div>
+              <div class="roster-inline">
+                <input class="roster-input" id="name-sd" type="text" placeholder="Name" oninput="updateRoster()">
+                <div class="roster-token-row">
+                  <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
+                  <div class="tok-sm tok-sm-d" onclick="this.classList.toggle('spent')">D</div>
+                </div>
               </div>
-              <input class="roster-input" id="name-ba" type="text" placeholder="Player name" oninput="updateRoster()">
-              <div class="roster-token-row" style="margin-top:5px;">
-                <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
+            </div>
+
+            <div class="roster-row">
+              <div class="roster-lbl rl-pm">Product Manager</div>
+              <div class="roster-inline">
+                <input class="roster-input" id="name-pm" type="text" placeholder="Name" oninput="updateRoster()">
+                <div class="roster-token-row">
+                  <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
+                  <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="roster-row">
+              <div class="roster-lbl rl-dm">Delivery Manager</div>
+              <div class="roster-inline">
+                <input class="roster-input" id="name-dm" type="text" placeholder="Name" oninput="updateRoster()">
+                <div class="roster-token-row">
+                  <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
+                  <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="roster-row">
+              <div class="roster-lbl rl-ba">Business Analyst</div>
+              <div class="roster-inline">
+                <input class="roster-input" id="name-ba" type="text" placeholder="Name" oninput="updateRoster()">
+                <div class="roster-token-row">
+                  <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
+                </div>
               </div>
             </div>
 
@@ -814,7 +813,7 @@ var CARDS={
     scenario:'The Secretary of State has been reshuffled. The new minister has a different emphasis and has publicly questioned the value of the programme you are developing. The team must spend time presenting the case for continuing.\n\nEffect: -1 DP. Applies immediately.',
     triggeredRoles:[],paths:[]},
   G1:{tag:'Phase gate',tagCss:'tag-gate',title:'Discovery to Alpha',
-    scenario:'Gate question: Are we solving the right problem?\n\nRequires at least 2 Service Quality points accumulated. If not met, the team have failed their service assessment and must remediate during the next phase. 1 Research and 1 Design token must be removed from the team\'s Alpha phase starting allocation.\n\nIf the gate is passed, advance to Alpha and reset tokens.',
+    scenario:'Gate question: Are we solving the right problem?\n\nRequires at least 2 Service Quality points accumulated. If not met, the team have failed their service assessment and must remediate during the next phase. 1 Research and 1 Design token must be removed from the team\'s Alpha phase starting allocation.\n\nAdvance to Alpha and reset tokens appropriately.',
     triggeredRoles:[],paths:[]},
   A1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The prototype doesn\'t test well"',
     scenario:'First round of usability testing on the Alpha prototype returns poor results. Users are confused by the main flow. The interaction designer says the journey needs a fundamental rethink. The delivery manager says there is not time for a full redesign before the next show-and-tell with stakeholders.',
