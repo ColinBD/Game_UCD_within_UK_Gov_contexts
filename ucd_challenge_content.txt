@@ -1,0 +1,550 @@
+UCD CHALLENGE — GAME CONTENT
+=============================
+Edit any field below and return this file to update the game.
+
+RULES FOR EDITING:
+- Do not change the lines beginning with ID:, TYPE:, STEP: — these are used to locate content in the game
+- You may freely edit TITLE:, SCENARIO:, TRIGGERED ROLES:, and all PATH fields
+- For TRIGGERED ROLES: use a comma-separated list from these exact names:
+    User Researcher, Content Designer, Interaction Designer, Service Designer,
+    Product Manager, Delivery Manager, Business Analyst
+- For DP and SQ: use whole numbers, negative values are allowed (e.g. -1)
+- For TOKEN COST: use plain text (e.g. "1 Research + 1 Design" or "None")
+- Do not add or remove PATH blocks — contact the developer to change path count
+- Blank lines between sections are ignored and can be adjusted freely
+
+================================================================================
+DISCOVERY PHASE
+================================================================================
+
+--------------------------------------------------------------------------------
+ID: D1
+STEP: 1
+TYPE: Scenario
+TITLE: "We already know what users need"
+TRIGGERED ROLES: User Researcher, Product Manager, Service Designer, Business Analyst
+
+SCENARIO:
+A senior stakeholder has shared a brief that assumes the user need is already
+understood from previous policy work. The user researcher has flagged that the
+assumed need does not match what they have seen in analogous services. The
+product manager is inclined to accept the brief and move on.
+
+PATH 1
+  TOKEN COST: 1 Research + 1 Design
+  DP: +1
+  SQ: +2
+  DESCRIPTION: User Researcher presents conflicting evidence. Business Analyst
+  structures the alternative problem statements and runs an options session.
+  Team agrees to redefine the scope before proceeding.
+
+PATH 2
+  TOKEN COST: 1 Delivery
+  DP: +2
+  SQ: 0
+  DESCRIPTION: Team notes the concern but accepts the brief as given. Delivery
+  Manager records a risk.
+
+PATH 3
+  TOKEN COST: None
+  DP: +1
+  SQ: -1
+  DESCRIPTION: Brief accepted without challenge. The wrong problem is being
+  solved.
+
+--------------------------------------------------------------------------------
+ID: D2
+STEP: 3
+TYPE: Scenario
+TITLE: "The research will take too long"
+TRIGGERED ROLES: User Researcher, Delivery Manager, Product Manager
+
+SCENARIO:
+The discovery phase has a fixed end date set by the programme board. The user
+researcher has scoped a proper round of contextual interviews but it will not
+complete in time. The delivery manager wants to proceed with desk research only.
+
+PATH 1
+  TOKEN COST: 2 Research
+  DP: -1
+  SQ: +3
+  DESCRIPTION: User Researcher insists on proper contextual interviews. Project
+  slips by two weeks, but the team has genuine user insight to build on.
+
+PATH 2
+  TOKEN COST: 1 Research + 1 Design
+  DP: +1
+  SQ: +2
+  DESCRIPTION: User Researcher proposes a lightweight pop-up research sprint.
+  Product Manager reallocates a token to create space. Quick but valuable.
+
+PATH 3
+  TOKEN COST: None
+  DP: +1
+  SQ: -1
+  DESCRIPTION: Research skipped entirely. Unknown gaps are baked into the
+  service from day one.
+
+--------------------------------------------------------------------------------
+ID: D3
+STEP: 4
+TYPE: Scenario
+TITLE: "Nobody agreed who owns this"
+TRIGGERED ROLES: Product Manager, Service Designer, Delivery Manager, Business Analyst
+
+SCENARIO:
+Halfway through discovery, it becomes clear that another team in the department
+is doing adjacent work on the same user journey. There is no agreement on who
+leads, who supports, and how findings will be shared. Tension is building
+between the two product managers.
+
+PATH 1
+  TOKEN COST: 1 Research + 1 Delivery
+  DP: +1
+  SQ: +2
+  DESCRIPTION: Business Analyst maps the overlap and scope boundaries. Product
+  Manager initiates a joint session. Clear ownership and handoffs agreed.
+
+PATH 2
+  TOKEN COST: 1 Delivery
+  DP: +1
+  SQ: 0
+  DESCRIPTION: Teams continue in parallel and agree to share outputs at the
+  end. Risk of duplication.
+
+PATH 3
+  TOKEN COST: None
+  DP: 0
+  SQ: -1
+  DESCRIPTION: Neither team blinks. Both proceed separately.
+
+--------------------------------------------------------------------------------
+ID: E1
+STEP: 2
+TYPE: Event
+TITLE: A new minister has different priorities
+
+SCENARIO:
+The Secretary of State has been reshuffled. The new minister has a different
+emphasis and has publicly questioned the value of the programme. The team must
+spend time presenting the case for continuing.
+
+Effect: +2 DP, -1 SQ. Applies immediately.
+
+--------------------------------------------------------------------------------
+ID: G1
+STEP: 5
+TYPE: Phase gate
+TITLE: Discovery to Alpha
+
+SCENARIO:
+Gate question: Are we solving the right problem?
+
+Requires at least 2 Service Quality points accumulated. If not met, replay one
+scenario card from this phase before advancing.
+
+If the gate is passed, advance to Alpha and reset tokens.
+
+================================================================================
+ALPHA PHASE
+================================================================================
+
+--------------------------------------------------------------------------------
+ID: A1
+STEP: 6
+TYPE: Scenario
+TITLE: "The prototype doesn't test well"
+TRIGGERED ROLES: Interaction Designer, Delivery Manager, Content Designer
+
+SCENARIO:
+First round of usability testing on the Alpha prototype returns poor results.
+Users are confused by the main flow. The interaction designer says the journey
+needs a fundamental rethink. The delivery manager says there is not time for a
+full redesign before the next show-and-tell with stakeholders.
+
+PATH 1
+  TOKEN COST: 1 Research + 2 Design
+  DP: +1
+  SQ: +2
+  DESCRIPTION: Interaction Designer and Content Designer spend tokens to
+  redesign two key screens. Show-and-tell is reframed as a problem-sharing
+  session.
+
+PATH 2
+  TOKEN COST: 1 Design
+  DP: +2
+  SQ: 0
+  DESCRIPTION: Surface changes only. Flow issues remain but are documented.
+
+PATH 3
+  TOKEN COST: None
+  DP: +1
+  SQ: -1
+  DESCRIPTION: Stakeholders are shown the broken prototype. Team loses
+  credibility.
+
+--------------------------------------------------------------------------------
+ID: A2
+STEP: 8
+TYPE: Scenario
+TITLE: "Scope has quietly expanded"
+TRIGGERED ROLES: Service Designer, Product Manager, User Researcher, Business Analyst
+
+SCENARIO:
+Since the start of Alpha, three additional features have been added to the
+backlog by stakeholders without any formal process. The product manager added
+them without consulting the design team. The service designer has now mapped out
+how much extra work this creates and it is significant.
+
+PATH 1
+  TOKEN COST: 1 Research + 1 Delivery
+  DP: +1
+  SQ: +2
+  DESCRIPTION: Business Analyst documents the impact on requirements and
+  validates with User Researcher. Product Manager runs a prioritisation session.
+  Two features deferred.
+
+PATH 2
+  TOKEN COST: 1 Delivery
+  DP: +1
+  SQ: 0
+  DESCRIPTION: Features retained but timeline extended. Team is under increased
+  pressure.
+
+PATH 3
+  TOKEN COST: None
+  DP: +1
+  SQ: -1
+  DESCRIPTION: Scope remains unchanged. Team absorbs the extra work silently.
+
+--------------------------------------------------------------------------------
+ID: A3
+STEP: 9
+TYPE: Scenario
+TITLE: "The content hasn't been touched"
+TRIGGERED ROLES: Content Designer, Interaction Designer, Product Manager
+
+SCENARIO:
+The interaction designer has been building the prototype using placeholder text.
+The content designer was not involved in wireframing. Now that content is being
+written, it is clear the page structure does not work for plain English. Key
+guidance requires more space than the design allows and some journeys do not
+make sense without explanatory copy.
+
+PATH 1
+  TOKEN COST: 2 Design
+  DP: +1
+  SQ: +2
+  DESCRIPTION: Content Designer and Interaction Designer rework three key
+  screens together. Product Manager creates a standing invite for Content
+  Designer in design reviews.
+
+PATH 2
+  TOKEN COST: 1 Design
+  DP: +2
+  SQ: 0
+  DESCRIPTION: Content Designer retrofits copy into the existing design. Some
+  structural issues remain.
+
+PATH 3
+  TOKEN COST: None
+  DP: +1
+  SQ: -1
+  DESCRIPTION: Placeholder text is replaced with copy that is too long.
+  Prototype is misleading in testing.
+
+--------------------------------------------------------------------------------
+ID: E2
+STEP: 7
+TYPE: Event
+TITLE: Your user researcher is pulled onto another programme
+
+SCENARIO:
+The user researcher is seconded to a higher-priority crisis project for the
+remainder of this phase. Research tokens are halved for this phase.
+
+Effect: Remove 1 Research token for the rest of this phase.
+
+--------------------------------------------------------------------------------
+ID: G2
+STEP: 10
+TYPE: Phase gate
+TITLE: Alpha to Beta
+
+SCENARIO:
+Gate question: Is this approach viable?
+
+Requires the team to have spent at least one Research token and one Design token
+in this phase. If not, the product manager may spend a resource token to
+override, but loses 1 SQ.
+
+If the gate is passed, advance to Beta and reset tokens.
+
+================================================================================
+BETA PHASE
+================================================================================
+
+--------------------------------------------------------------------------------
+ID: B1
+STEP: 11
+TYPE: Scenario
+TITLE: "The accessibility audit came back"
+TRIGGERED ROLES: Interaction Designer, Delivery Manager, Product Manager
+
+SCENARIO:
+An independent accessibility audit has flagged four critical issues: missing alt
+text, a colour contrast failure, a keyboard trap in the main form, and a
+document download that is not screen-reader compatible. The interaction designer
+estimates three days of work. The delivery manager says the release schedule
+does not have three days in it.
+
+PATH 1
+  TOKEN COST: 2 Design
+  DP: -1
+  SQ: +3
+  DESCRIPTION: Interaction Designer uses their ability to resolve all four
+  issues without token cost. Release delayed by three days to fix properly.
+
+PATH 2
+  TOKEN COST: 1 Design
+  DP: +1
+  SQ: +1
+  DESCRIPTION: Two critical issues fixed now. Two deferred with an agreed
+  remediation date post-launch.
+
+PATH 3
+  TOKEN COST: None
+  DP: +2
+  SQ: -2
+  DESCRIPTION: Issues are logged but not fixed. Service goes live with known
+  accessibility failures.
+
+--------------------------------------------------------------------------------
+ID: B2
+STEP: 13
+TYPE: Scenario
+TITLE: "The data is telling a different story"
+TRIGGERED ROLES: User Researcher, Content Designer, Interaction Designer, Product Manager
+
+SCENARIO:
+Beta analytics show that 40% of users are abandoning the service at step three
+of the application journey. The user researcher has a hypothesis but needs time
+to run follow-up interviews. The product manager wants to ship a fix based on
+the data alone. The content designer thinks it is a comprehension issue. The
+interaction designer thinks it is a flow issue.
+
+PATH 1
+  TOKEN COST: 1 Research + 2 Design
+  DP: +1
+  SQ: +2
+  DESCRIPTION: User Researcher runs five quick interviews. Content Designer and
+  Interaction Designer each contribute a fix. Drop-off addressed at root cause.
+
+PATH 2
+  TOKEN COST: 1 Delivery
+  DP: +2
+  SQ: 0
+  DESCRIPTION: PM pushes an untested fix based on a data assumption. Drop-off
+  reduced but not resolved.
+
+PATH 3
+  TOKEN COST: None
+  DP: +1
+  SQ: -1
+  DESCRIPTION: Issue deprioritised until Live. Users continue dropping off.
+
+--------------------------------------------------------------------------------
+ID: B3
+STEP: 14
+TYPE: Scenario
+TITLE: "A new team member doesn't know the rules"
+TRIGGERED ROLES: Interaction Designer, Content Designer, Delivery Manager
+
+SCENARIO:
+A contractor interaction designer has joined for Beta. They have strong skills
+but are unfamiliar with government service standards, the team's ways of working,
+and why certain decisions were made in Alpha. They have started reworking
+components that were deliberately designed in a particular way, and tensions are
+building with the content designer who was involved from the start.
+
+PATH 1
+  TOKEN COST: 1 Design + 1 Delivery
+  DP: +1
+  SQ: +2
+  DESCRIPTION: Delivery Manager creates a structured onboarding session. Content
+  Designer runs a decision log walkthrough. Contractor aligned.
+
+PATH 2
+  TOKEN COST: 1 Delivery
+  DP: +1
+  SQ: 0
+  DESCRIPTION: An informal conversation happens. Some context is shared. Some
+  tensions remain.
+
+PATH 3
+  TOKEN COST: None
+  DP: 0
+  SQ: -1
+  DESCRIPTION: Nobody has the time. Contractor continues undoing work.
+
+--------------------------------------------------------------------------------
+ID: E3
+STEP: 12
+TYPE: Event
+TITLE: A critical press story about a similar service
+
+SCENARIO:
+A comparable government service has been publicly criticised for poor
+accessibility and confusing guidance. The team's work is mentioned in passing.
+Stakeholder scrutiny has increased significantly.
+
+Effect: No score change, but the next scenario card must be resolved at the
+highest quality option. The lower quality options are not available this round.
+
+--------------------------------------------------------------------------------
+ID: G3
+STEP: 15
+TYPE: Phase gate
+TITLE: Beta to Live
+
+SCENARIO:
+Gate question: Is the service ready for more users?
+
+The SQ score must be at least half of the DP score. If not, the team may choose
+to delay (replay one scenario card) or push to Live at the cost of 2 SQ.
+
+If the gate is passed, advance to Live and reset tokens.
+
+================================================================================
+LIVE PHASE
+================================================================================
+
+--------------------------------------------------------------------------------
+ID: L1
+STEP: 16
+TYPE: Scenario
+TITLE: "The minister wants a feature that wasn't planned"
+TRIGGERED ROLES: Product Manager, Service Designer, Interaction Designer, Delivery Manager, Business Analyst
+
+SCENARIO:
+Three days before go-live, the minister's office has requested a dashboard
+showing real-time service usage statistics. It was not in scope. The product
+manager is being pressured to agree to it. The service designer thinks it could
+be built quickly but it will not be accessible and has not been tested. The
+delivery manager thinks it can be done.
+
+PATH 1
+  TOKEN COST: 1 Research + 1 Delivery
+  DP: -1
+  SQ: +2
+  DESCRIPTION: Business Analyst runs an impact assessment. Product Manager
+  pushes back diplomatically with evidence. Service Designer proposes a
+  post-launch roadmap item. Request deferred, but launch delayed.
+
+PATH 2
+  TOKEN COST: 2 Delivery
+  DP: +2
+  SQ: -1
+  DESCRIPTION: A minimal dashboard is built and shipped. Not tested, not
+  accessible, but politically resolved. Launch on time.
+
+PATH 3
+  TOKEN COST: None
+  DP: 0
+  SQ: -2
+  DESCRIPTION: PM agrees to everything. Team works through the weekend. Quality
+  failures on day one.
+
+--------------------------------------------------------------------------------
+ID: L2
+STEP: 18
+TYPE: Scenario
+TITLE: "A journalist has submitted an FOI request"
+TRIGGERED ROLES: User Researcher, Product Manager, Content Designer, Business Analyst
+
+SCENARIO:
+A journalist has submitted a Freedom of Information request asking for all user
+research and usability test findings related to the service. The product manager
+is anxious. Some of the earlier research was documented loosely and some
+decisions look questionable in retrospect. The user researcher is confident the
+findings were sound but the documentation is incomplete.
+
+PATH 1
+  TOKEN COST: 1 Research + 1 Design
+  DP: +1
+  SQ: +2
+  DESCRIPTION: Business Analyst works with User Researcher to compile decision
+  traceability documentation. Content Designer shapes the response. Submission
+  is clear, honest and complete.
+
+PATH 2
+  TOKEN COST: 1 Delivery
+  DP: +1
+  SQ: 0
+  DESCRIPTION: Response submitted but incomplete. Some decisions left
+  unexplained.
+
+PATH 3
+  TOKEN COST: None
+  DP: 0
+  SQ: -2
+  DESCRIPTION: Legal are brought in and the response is heavily redacted.
+  Public trust damaged.
+
+--------------------------------------------------------------------------------
+ID: E4
+STEP: 17
+TYPE: Event
+TITLE: A team member raises a wellbeing concern
+
+SCENARIO:
+One team member (drawn randomly, or chosen by the facilitator) flags that they
+are close to burnout. The team must decide how to respond.
+
+If the team responds with support (spend a Delivery token to redistribute work):
+no penalty.
+If ignored: that player's tokens are halved next phase and the team loses 1 SQ.
+
+--------------------------------------------------------------------------------
+ID: G4
+STEP: 19
+TYPE: Phase gate
+TITLE: Live to Review
+
+SCENARIO:
+Gate question: Is quality high enough to launch?
+
+There is no gate here. The team always enters Review. This is intentional. The
+question is answered by the final scores themselves.
+
+Advance to Review.
+
+================================================================================
+REVIEW
+================================================================================
+
+--------------------------------------------------------------------------------
+ID: REV
+STEP: 20
+TYPE: Review
+TITLE: Final review
+
+SCENARIO:
+The programme is complete. Reveal both scores and read the outcome below.
+
+Both high (within 4 points): Sustainable delivery. What made this possible?
+What nearly derailed it?
+
+DP high, SQ low (gap over 6): Delivered, but at a cost. Who got hurt? What did
+we skip and why?
+
+SQ high, DP low: Quality without momentum. What slowed us down? Was it worth it?
+
+Both low: Programme in trouble. Where did we lose control? What would we do
+again?
+
+Proceed to the Debrief tab.
+
+================================================================================
+END OF CONTENT FILE
+================================================================================
