@@ -546,7 +546,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <div class="gate-card">
         <div class="gate-label">Alpha to Beta</div>
         <div class="gate-q">Is this approach viable?</div>
-        <div class="gate-req">Requires the team to have spent at least one Research token and one Design token in this phase. If not, the product manager may spend a resource token to override, but loses 1 SQ.</div>
+        <div class="gate-req">Requires the team to have spent at least one Research token and one Design token in this phase. If not, the product manager may spend a Delivery token to override (the PM starts the next phase with 1 less Delivery token), but loses 1 SQ.</div>
       </div>
       <div class="gate-card">
         <div class="gate-label">Beta to Live</div>
@@ -844,7 +844,7 @@ var CARDS={
     scenario:'The user researcher is seconded to a higher-priority crisis project for the remainder of this phase.\n\nEffect: Remove all Research tokens from the User Researcher for the rest of this phase.',
     triggeredRoles:[],paths:[]},
   G2:{tag:'Phase gate',tagCss:'tag-gate',title:'Alpha to Beta',
-    scenario:'Gate question: Is this approach viable?\n\nRequires the team to have spent at least one Research token and one Design token in this phase. If not, the product manager may spend a Delivery token to override (take this from the PM\'s token allocation after the forthcoming reset), but loses 1 SQ.\n\nIf the gate is passed, advance to Beta and reset tokens.',
+    scenario:'Gate question: Is this approach viable?\n\nRequires the team to have spent at least one Research token and one Design token in this phase. If not, the product manager may spend a Delivery token to override (the PM starts the next phase with 1 less Delivery token), but loses 1 SQ.\n\nAdvance to Beta and reset tokens appropriately.',
     triggeredRoles:[],paths:[]},
   B1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The accessibility audit came back"',
     scenario:'An independent accessibility audit has flagged four critical issues: missing alt text, a colour contrast failure, a keyboard trap in the main form, and a document download that is not screen-reader compatible. The interaction designer estimates three days of work. The delivery manager says the release schedule does not have three days in it.',

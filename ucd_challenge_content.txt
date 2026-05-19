@@ -139,8 +139,10 @@ TITLE: Discovery to Alpha
 SCENARIO:
 Gate question: Are we solving the right problem?
 
-Requires at least 2 Service Quality points accumulated. If not met, replay one
-scenario card from this phase before advancing.
+Requires at least 2 Service Quality points accumulated. If not met, then the team 
+have failed their service assessment and must remediate during the next phase. 
+1 Research and 1 Design token must be removed from the team's Alpha phase starting 
+allocation.
 
 If the gate is passed, advance to Alpha and reset tokens.
 
@@ -274,10 +276,11 @@ SCENARIO:
 Gate question: Is this approach viable?
 
 Requires the team to have spent at least one Research token and one Design token
-in this phase. If not, the product manager may spend a resource token to
-override, but loses 1 SQ.
+in this phase. If not, the product manager may spend a Delivery token to
+override (the PM starts the next phase with 1 less Delivery token), 
+but loses 1 SQ.
 
-If the gate is passed, advance to Beta and reset tokens.
+Advance to Beta and reset tokens appropriately.
 
 ================================================================================
 BETA PHASE
