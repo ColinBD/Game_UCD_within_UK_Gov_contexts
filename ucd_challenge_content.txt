@@ -31,7 +31,7 @@ assumed need does not match what they have seen in analogous services. The
 product manager is inclined to accept the brief and move on.
 
 PATH 1
-  TOKEN COST: 1 Research + 1 Design
+  TOKEN COST: 2 Research + 1 Delivery
   DP: +1
   SQ: +2
   DESCRIPTION: User Researcher presents conflicting evidence. Business Analyst
@@ -41,28 +41,27 @@ PATH 1
 PATH 2
   TOKEN COST: 1 Delivery
   DP: +2
-  SQ: 0
+  SQ: -1
   DESCRIPTION: Team notes the concern but accepts the brief as given. Delivery
   Manager records a risk.
 
 PATH 3
   TOKEN COST: None
-  DP: +1
-  SQ: -1
-  DESCRIPTION: Brief accepted without challenge. The wrong problem is being
-  solved.
+  DP: +3
+  SQ: -2
+  DESCRIPTION: Brief accepted without challenge. The team may be trying to solve the wrong problem!
 
 --------------------------------------------------------------------------------
 ID: D2
 STEP: 3
 TYPE: Scenario
 TITLE: "The research will take too long"
-TRIGGERED ROLES: User Researcher, Delivery Manager, Product Manager
+TRIGGERED ROLES: User Researcher, Delivery Manager, Content Designer
 
 SCENARIO:
 The discovery phase has a fixed end date set by the programme board. The user
-researcher has scoped a proper round of contextual interviews but it will not
-complete in time. The delivery manager wants to proceed with desk research only.
+researcher has scoped a proper round of contextual interviews but they will not
+be completed in time. The delivery manager wants to proceed with desk research only.
 
 PATH 1
   TOKEN COST: 2 Research
@@ -72,16 +71,16 @@ PATH 1
   slips by two weeks, but the team has genuine user insight to build on.
 
 PATH 2
-  TOKEN COST: 1 Research + 1 Design
-  DP: +1
-  SQ: +2
-  DESCRIPTION: User Researcher proposes a lightweight pop-up research sprint.
-  Product Manager reallocates a token to create space. Quick but valuable.
+  TOKEN COST: 1 Research + 1 Delivery
+  DP: +2
+  SQ: 0
+  DESCRIPTION: The delivery manager makes a strong argument which the User Researcher 
+  accepts and proceeds with desk research only. 
 
 PATH 3
   TOKEN COST: None
   DP: +1
-  SQ: -1
+  SQ: -2
   DESCRIPTION: Research skipped entirely. Unknown gaps are baked into the
   service from day one.
 
@@ -126,10 +125,10 @@ TITLE: A new minister has different priorities
 
 SCENARIO:
 The Secretary of State has been reshuffled. The new minister has a different
-emphasis and has publicly questioned the value of the programme. The team must
-spend time presenting the case for continuing.
+emphasis and has publicly questioned the value of the programme you are developing. 
+The team must spend time presenting the case for continuing.
 
-Effect: +2 DP, -1 SQ. Applies immediately.
+Effect: -1 DP. Applies immediately.
 
 --------------------------------------------------------------------------------
 ID: G1
@@ -163,7 +162,7 @@ needs a fundamental rethink. The delivery manager says there is not time for a
 full redesign before the next show-and-tell with stakeholders.
 
 PATH 1
-  TOKEN COST: 1 Research + 2 Design
+  TOKEN COST: 2 Design
   DP: +1
   SQ: +2
   DESCRIPTION: Interaction Designer and Content Designer spend tokens to
@@ -178,8 +177,8 @@ PATH 2
 
 PATH 3
   TOKEN COST: None
-  DP: +1
-  SQ: -1
+  DP: 0
+  SQ: 0
   DESCRIPTION: Stakeholders are shown the broken prototype. Team loses
   credibility.
 
@@ -197,7 +196,7 @@ them without consulting the design team. The service designer has now mapped out
 how much extra work this creates and it is significant.
 
 PATH 1
-  TOKEN COST: 1 Research + 1 Delivery
+  TOKEN COST: 1 Research + 2 Delivery
   DP: +1
   SQ: +2
   DESCRIPTION: Business Analyst documents the impact on requirements and
@@ -249,7 +248,7 @@ PATH 2
 PATH 3
   TOKEN COST: None
   DP: +1
-  SQ: -1
+  SQ: -2
   DESCRIPTION: Placeholder text is replaced with copy that is too long.
   Prototype is misleading in testing.
 
@@ -261,9 +260,9 @@ TITLE: Your user researcher is pulled onto another programme
 
 SCENARIO:
 The user researcher is seconded to a higher-priority crisis project for the
-remainder of this phase. Research tokens are halved for this phase.
+remainder of this phase. 
 
-Effect: Remove 1 Research token for the rest of this phase.
+Effect: Remove all Research tokens from the User Researcher for the rest of this phase.
 
 --------------------------------------------------------------------------------
 ID: G2
@@ -289,7 +288,7 @@ ID: B1
 STEP: 11
 TYPE: Scenario
 TITLE: "The accessibility audit came back"
-TRIGGERED ROLES: Interaction Designer, Delivery Manager, Product Manager
+TRIGGERED ROLES: Interaction Designer, Delivery Manager, Service Designer
 
 SCENARIO:
 An independent accessibility audit has flagged four critical issues: missing alt
@@ -302,11 +301,11 @@ PATH 1
   TOKEN COST: 2 Design
   DP: -1
   SQ: +3
-  DESCRIPTION: Interaction Designer uses their ability to resolve all four
-  issues without token cost. Release delayed by three days to fix properly.
+  DESCRIPTION: Interaction Designer works late to resolve all four
+  issues. The fix caused the release to be delayed by three days.
 
 PATH 2
-  TOKEN COST: 1 Design
+  TOKEN COST: 1 Design + 1 Delivery
   DP: +1
   SQ: +1
   DESCRIPTION: Two critical issues fixed now. Two deferred with an agreed
@@ -324,21 +323,21 @@ ID: B2
 STEP: 13
 TYPE: Scenario
 TITLE: "The data is telling a different story"
-TRIGGERED ROLES: User Researcher, Content Designer, Interaction Designer, Product Manager
+TRIGGERED ROLES: User Researcher, Service Designer, Content Designer, Product Manager
 
 SCENARIO:
 Beta analytics show that 40% of users are abandoning the service at step three
 of the application journey. The user researcher has a hypothesis but needs time
 to run follow-up interviews. The product manager wants to ship a fix based on
-the data alone. The content designer thinks it is a comprehension issue. The
-interaction designer thinks it is a flow issue.
+the data alone. The service designer thinks it is a comprehension issue. The
+content designer thinks the guidance language is the problem.
 
 PATH 1
   TOKEN COST: 1 Research + 2 Design
   DP: +1
   SQ: +2
-  DESCRIPTION: User Researcher runs five quick interviews. Content Designer and
-  Interaction Designer each contribute a fix. Drop-off addressed at root cause.
+  DESCRIPTION: User Researcher runs five quick interviews. Service Designer and
+  Content Designer each contribute a fix. Drop-off addressed at root cause.
 
 PATH 2
   TOKEN COST: 1 Delivery
@@ -378,13 +377,13 @@ PATH 2
   TOKEN COST: 1 Delivery
   DP: +1
   SQ: 0
-  DESCRIPTION: An informal conversation happens. Some context is shared. Some
-  tensions remain.
+  DESCRIPTION: An informal conversation happens. Some context is shared. Tensions 
+  are reduced but not entirely resolved.
 
 PATH 3
   TOKEN COST: None
-  DP: 0
-  SQ: -1
+  DP: -1
+  SQ: -2
   DESCRIPTION: Nobody has the time. Contractor continues undoing work.
 
 --------------------------------------------------------------------------------
@@ -398,8 +397,7 @@ A comparable government service has been publicly criticised for poor
 accessibility and confusing guidance. The team's work is mentioned in passing.
 Stakeholder scrutiny has increased significantly.
 
-Effect: No score change, but the next scenario card must be resolved at the
-highest quality option. The lower quality options are not available this round.
+Effect: Service Quality must be prioritised this phase.
 
 --------------------------------------------------------------------------------
 ID: G3
@@ -411,9 +409,10 @@ SCENARIO:
 Gate question: Is the service ready for more users?
 
 The SQ score must be at least half of the DP score. If not, the team may choose
-to delay (replay one scenario card) or push to Live at the cost of 2 SQ.
+to push to Live at the cost of 2 SQ points, or remediate during Live which costs 
+them 1 Research and 1 Design token for the Live phase.
 
-If the gate is passed, advance to Live and reset tokens.
+Advance to Live and reset tokens appropriately.
 
 ================================================================================
 LIVE PHASE
@@ -434,7 +433,7 @@ be built quickly but it will not be accessible and has not been tested. The
 delivery manager thinks it can be done.
 
 PATH 1
-  TOKEN COST: 1 Research + 1 Delivery
+  TOKEN COST: 2 Research + 1 Delivery
   DP: -1
   SQ: +2
   DESCRIPTION: Business Analyst runs an impact assessment. Product Manager
@@ -442,7 +441,7 @@ PATH 1
   post-launch roadmap item. Request deferred, but launch delayed.
 
 PATH 2
-  TOKEN COST: 2 Delivery
+  TOKEN COST: 3 Delivery
   DP: +2
   SQ: -1
   DESCRIPTION: A minimal dashboard is built and shipped. Not tested, not
@@ -451,9 +450,9 @@ PATH 2
 PATH 3
   TOKEN COST: None
   DP: 0
-  SQ: -2
-  DESCRIPTION: PM agrees to everything. Team works through the weekend. Quality
-  failures on day one.
+  SQ: -3
+  DESCRIPTION: PM agrees to everything. Team works through the weekend, however the 
+  quality of the shipped product is low with errors experienced by users.
 
 --------------------------------------------------------------------------------
 ID: L2
@@ -470,7 +469,7 @@ decisions look questionable in retrospect. The user researcher is confident the
 findings were sound but the documentation is incomplete.
 
 PATH 1
-  TOKEN COST: 1 Research + 1 Design
+  TOKEN COST: 2 Research + 1 Design
   DP: +1
   SQ: +2
   DESCRIPTION: Business Analyst works with User Researcher to compile decision
@@ -488,8 +487,8 @@ PATH 3
   TOKEN COST: None
   DP: 0
   SQ: -2
-  DESCRIPTION: Legal are brought in and the response is heavily redacted.
-  Public trust damaged.
+  DESCRIPTION: Legal are brought in and the response is slow to come and heavily 
+  redacted. Public trust damaged.
 
 --------------------------------------------------------------------------------
 ID: E4
@@ -501,9 +500,10 @@ SCENARIO:
 One team member (drawn randomly, or chosen by the facilitator) flags that they
 are close to burnout. The team must decide how to respond.
 
-If the team responds with support (spend a Delivery token to redistribute work):
-no penalty.
-If ignored: that player's tokens are halved next phase and the team loses 1 SQ.
+The team can either respond with support by redistributing their work which costs 
+1 Delivery token + 1 token each from two team members who agree to support.
+Alternatively, the team can continue on without redistributing the work but losses 
+2 SQ points.
 
 --------------------------------------------------------------------------------
 ID: G4

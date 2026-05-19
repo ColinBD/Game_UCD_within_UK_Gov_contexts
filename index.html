@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The UCD Challenge — v0.2</title>
+<title>The UCD Challenge — v0.4</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1a;min-height:100vh;}
@@ -790,17 +790,17 @@ var CARDS={
     scenario:'A senior stakeholder has shared a brief that assumes the user need is already understood from previous policy work. The user researcher has flagged that the assumed need does not match what they have seen in analogous services. The product manager is inclined to accept the brief and move on.',
     triggeredRoles:['User Researcher','Product Manager','Service Designer','Business Analyst'],
     paths:[
-      {type:'full',tokenCost:'1 Research + 1 Design',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'User Researcher presents conflicting evidence. Business Analyst structures the alternative problem statements and runs an options session. Team agrees to redefine the scope before proceeding.'},
-      {type:'partial',tokenCost:'1 Delivery',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'Team notes the concern but accepts the brief as given. Delivery Manager records a risk.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Brief accepted without challenge. The wrong problem is being solved.'}
+      {type:'full',tokenCost:'2 Research + 1 Delivery',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'User Researcher presents conflicting evidence. Business Analyst structures the alternative problem statements and runs an options session. Team agrees to redefine the scope before proceeding.'},
+      {type:'partial',tokenCost:'1 Delivery',label:'Partial resolution',dpDelta:2,sqDelta:-1,desc:'Team notes the concern but accepts the brief as given. Delivery Manager records a risk.'},
+      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:3,sqDelta:-2,desc:'Brief accepted without challenge. The team may be trying to solve the wrong problem!'}
     ]},
   D2:{tag:'Scenario',tagCss:'tag-scenario',title:'"The research will take too long"',
-    scenario:'The discovery phase has a fixed end date set by the programme board. The user researcher has scoped a proper round of contextual interviews but it will not complete in time. The delivery manager wants to proceed with desk research only.',
-    triggeredRoles:['User Researcher','Delivery Manager','Product Manager'],
+    scenario:'The discovery phase has a fixed end date set by the programme board. The user researcher has scoped a proper round of contextual interviews but they will not be completed in time. The delivery manager wants to proceed with desk research only.',
+    triggeredRoles:['User Researcher','Delivery Manager','Content Designer'],
     paths:[
       {type:'full',tokenCost:'2 Research',label:'Full resolution',dpDelta:-1,sqDelta:3,desc:'User Researcher insists on proper contextual interviews. Project slips by two weeks, but the team has genuine user insight to build on.'},
-      {type:'partial',tokenCost:'1 Research + 1 Design',label:'Partial resolution',dpDelta:1,sqDelta:2,desc:'User Researcher proposes a lightweight pop-up research sprint. Product Manager reallocates a token to create space. Quick but valuable.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Research skipped entirely. Unknown gaps are baked into the service from day one.'}
+      {type:'partial',tokenCost:'1 Research + 1 Delivery',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'The delivery manager makes a strong argument which the User Researcher accepts and proceeds with desk research only.'},
+      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:1,sqDelta:-2,desc:'Research skipped entirely. Unknown gaps are baked into the service from day one.'}
     ]},
   D3:{tag:'Scenario',tagCss:'tag-scenario',title:'"Nobody agreed who owns this"',
     scenario:'Halfway through discovery, it becomes clear that another team in the department is doing adjacent work on the same user journey. There is no agreement on who leads, who supports, and how findings will be shared. Tension is building between the two product managers.',
@@ -811,7 +811,7 @@ var CARDS={
       {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:0,sqDelta:-1,desc:'Neither team blinks. Both proceed separately.'}
     ]},
   E1:{tag:'Event',tagCss:'tag-event',title:'A new minister has different priorities',
-    scenario:'The Secretary of State has been reshuffled. The new minister has a different emphasis and has publicly questioned the value of the programme. The team must spend time presenting the case for continuing.\n\nEffect: +2 DP, −1 SQ. Applies immediately.',
+    scenario:'The Secretary of State has been reshuffled. The new minister has a different emphasis and has publicly questioned the value of the programme you are developing. The team must spend time presenting the case for continuing.\n\nEffect: -1 DP. Applies immediately.',
     triggeredRoles:[],paths:[]},
   G1:{tag:'Phase gate',tagCss:'tag-gate',title:'Discovery to Alpha',
     scenario:'Gate question: Are we solving the right problem?\n\nRequires at least 2 Service Quality points accumulated. If not met, replay one scenario card from this phase before advancing.\n\nIf the gate is passed, advance to Alpha and reset tokens.',
@@ -820,15 +820,15 @@ var CARDS={
     scenario:'First round of usability testing on the Alpha prototype returns poor results. Users are confused by the main flow. The interaction designer says the journey needs a fundamental rethink. The delivery manager says there is not time for a full redesign before the next show-and-tell with stakeholders.',
     triggeredRoles:['Interaction Designer','Delivery Manager','Content Designer'],
     paths:[
-      {type:'full',tokenCost:'1 Research + 2 Design',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Interaction Designer and Content Designer spend tokens to redesign two key screens. Show-and-tell is reframed as a problem-sharing session.'},
+      {type:'full',tokenCost:'2 Design',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Interaction Designer and Content Designer spend tokens to redesign two key screens. Show-and-tell is reframed as a problem-sharing session.'},
       {type:'partial',tokenCost:'1 Design',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'Surface changes only. Flow issues remain but are documented.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Stakeholders are shown the broken prototype. Team loses credibility.'}
+      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:0,sqDelta:0,desc:'Stakeholders are shown the broken prototype. Team loses credibility.'}
     ]},
   A2:{tag:'Scenario',tagCss:'tag-scenario',title:'"Scope has quietly expanded"',
     scenario:'Since the start of Alpha, three additional features have been added to the backlog by stakeholders without any formal process. The product manager added them without consulting the design team. The service designer has now mapped out how much extra work this creates and it is significant.',
     triggeredRoles:['Service Designer','Product Manager','User Researcher','Business Analyst'],
     paths:[
-      {type:'full',tokenCost:'1 Research + 1 Delivery',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Business Analyst documents the impact on requirements and validates with User Researcher. Product Manager runs a prioritisation session. Two features deferred.'},
+      {type:'full',tokenCost:'1 Research + 2 Delivery',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Business Analyst documents the impact on requirements and validates with User Researcher. Product Manager runs a prioritisation session. Two features deferred.'},
       {type:'partial',tokenCost:'1 Delivery',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'Features retained but timeline extended. Team is under increased pressure.'},
       {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Scope remains unchanged. Team absorbs the extra work silently.'}
     ]},
@@ -838,27 +838,27 @@ var CARDS={
     paths:[
       {type:'full',tokenCost:'2 Design',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Content Designer and Interaction Designer rework three key screens together. Product Manager creates a standing invite for Content Designer in design reviews.'},
       {type:'partial',tokenCost:'1 Design',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'Content Designer retrofits copy into the existing design. Some structural issues remain.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Placeholder text is replaced with copy that is too long. Prototype is misleading in testing.'}
+      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:1,sqDelta:-2,desc:'Placeholder text is replaced with copy that is too long. Prototype is misleading in testing.'}
     ]},
   E2:{tag:'Event',tagCss:'tag-event',title:'Your user researcher is pulled onto another programme',
-    scenario:'The user researcher is seconded to a higher-priority crisis project for the remainder of this phase. Research tokens are halved for this phase.\n\nEffect: Remove 1 Research token for the rest of this phase.',
+    scenario:'The user researcher is seconded to a higher-priority crisis project for the remainder of this phase.\n\nEffect: Remove all Research tokens from the User Researcher for the rest of this phase.',
     triggeredRoles:[],paths:[]},
   G2:{tag:'Phase gate',tagCss:'tag-gate',title:'Alpha to Beta',
     scenario:'Gate question: Is this approach viable?\n\nRequires the team to have spent at least one Research token and one Design token in this phase. If not, the product manager may spend a resource token to override, but loses 1 SQ.\n\nIf the gate is passed, advance to Beta and reset tokens.',
     triggeredRoles:[],paths:[]},
   B1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The accessibility audit came back"',
     scenario:'An independent accessibility audit has flagged four critical issues: missing alt text, a colour contrast failure, a keyboard trap in the main form, and a document download that is not screen-reader compatible. The interaction designer estimates three days of work. The delivery manager says the release schedule does not have three days in it.',
-    triggeredRoles:['Interaction Designer','Delivery Manager','Product Manager'],
+    triggeredRoles:['Interaction Designer','Delivery Manager','Service Designer'],
     paths:[
-      {type:'full',tokenCost:'2 Design',label:'Full resolution',dpDelta:-1,sqDelta:3,desc:'Interaction Designer uses their ability to resolve all four issues without token cost. Release delayed by three days to fix properly.'},
-      {type:'partial',tokenCost:'1 Design',label:'Partial resolution',dpDelta:1,sqDelta:1,desc:'Two critical issues fixed now. Two deferred with an agreed remediation date post-launch.'},
+      {type:'full',tokenCost:'2 Design',label:'Full resolution',dpDelta:-1,sqDelta:3,desc:'Interaction Designer works late to resolve all four issues. The fix caused the release to be delayed by three days.'},
+      {type:'partial',tokenCost:'1 Design + 1 Delivery',label:'Partial resolution',dpDelta:1,sqDelta:1,desc:'Two critical issues fixed now. Two deferred with an agreed remediation date post-launch.'},
       {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:2,sqDelta:-2,desc:'Issues are logged but not fixed. Service goes live with known accessibility failures.'}
     ]},
   B2:{tag:'Scenario',tagCss:'tag-scenario',title:'"The data is telling a different story"',
-    scenario:'Beta analytics show that 40% of users are abandoning the service at step three of the application journey. The user researcher has a hypothesis but needs time to run follow-up interviews. The product manager wants to ship a fix based on the data alone. The content designer thinks it is a comprehension issue. The interaction designer thinks it is a flow issue.',
-    triggeredRoles:['User Researcher','Content Designer','Interaction Designer','Product Manager'],
+    scenario:'Beta analytics show that 40% of users are abandoning the service at step three of the application journey. The user researcher has a hypothesis but needs time to run follow-up interviews. The product manager wants to ship a fix based on the data alone. The service designer thinks it is a comprehension issue. The content designer thinks the guidance language is the problem.',
+    triggeredRoles:['User Researcher','Service Designer','Content Designer','Product Manager'],
     paths:[
-      {type:'full',tokenCost:'1 Research + 2 Design',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'User Researcher runs five quick interviews. Content Designer and Interaction Designer each contribute a fix. Drop-off addressed at root cause.'},
+      {type:'full',tokenCost:'1 Research + 2 Design',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'User Researcher runs five quick interviews. Service Designer and Content Designer each contribute a fix. Drop-off addressed at root cause.'},
       {type:'partial',tokenCost:'1 Delivery',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'PM pushes an untested fix based on a data assumption. Drop-off reduced but not resolved.'},
       {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Issue deprioritised until Live. Users continue dropping off.'}
     ]},
@@ -867,33 +867,33 @@ var CARDS={
     triggeredRoles:['Interaction Designer','Content Designer','Delivery Manager'],
     paths:[
       {type:'full',tokenCost:'1 Design + 1 Delivery',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Delivery Manager creates a structured onboarding session. Content Designer runs a decision log walkthrough. Contractor aligned.'},
-      {type:'partial',tokenCost:'1 Delivery',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'An informal conversation happens. Some context is shared. Some tensions remain.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:0,sqDelta:-1,desc:'Nobody has the time. Contractor continues undoing work.'}
+      {type:'partial',tokenCost:'1 Delivery',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'An informal conversation happens. Some context is shared. Tensions are reduced but not entirely resolved.'},
+      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:-1,sqDelta:-2,desc:'Nobody has the time. Contractor continues undoing work.'}
     ]},
   E3:{tag:'Event',tagCss:'tag-event',title:'A critical press story about a similar service',
-    scenario:'A comparable government service has been publicly criticised for poor accessibility and confusing guidance. The team\'s work is mentioned in passing. Stakeholder scrutiny has increased significantly.\n\nEffect: No score change, but the next scenario card must be resolved at full resolution. Partial or escalation is not available this round.',
+    scenario:'A comparable government service has been publicly criticised for poor accessibility and confusing guidance. The team\'s work is mentioned in passing. Stakeholder scrutiny has increased significantly.\n\nEffect: Service Quality must be prioritised this phase.',
     triggeredRoles:[],paths:[]},
   G3:{tag:'Phase gate',tagCss:'tag-gate',title:'Beta to Live',
-    scenario:'Gate question: Is the service ready for more users?\n\nThe SQ score must be at least half of the DP score. If not, the team may choose to delay (replay one scenario card) or push to Live at the cost of 2 SQ.\n\nIf the gate is passed, advance to Live and reset tokens.',
+    scenario:'Gate question: Is the service ready for more users?\n\nThe SQ score must be at least half of the DP score. If not, the team may choose to push to Live at the cost of 2 SQ points, or remediate during Live which costs them 1 Research and 1 Design token for the Live phase.\n\nAdvance to Live and reset tokens appropriately.',
     triggeredRoles:[],paths:[]},
   L1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The minister wants a feature that wasn\'t planned"',
     scenario:'Three days before go-live, the minister\'s office has requested a dashboard showing real-time service usage statistics. It was not in scope. The product manager is being pressured to agree to it. The service designer thinks it could be built quickly but it will not be accessible and has not been tested. The delivery manager thinks it can be done.',
     triggeredRoles:['Product Manager','Service Designer','Interaction Designer','Delivery Manager','Business Analyst'],
     paths:[
-      {type:'full',tokenCost:'1 Research + 1 Delivery',label:'Full resolution',dpDelta:-1,sqDelta:2,desc:'Business Analyst runs an impact assessment. Product Manager pushes back diplomatically with evidence. Service Designer proposes a post-launch roadmap item. Request deferred, but launch delayed.'},
-      {type:'partial',tokenCost:'2 Delivery',label:'Partial resolution',dpDelta:2,sqDelta:-1,desc:'A minimal dashboard is built and shipped. Not tested, not accessible, but politically resolved. Launch on time.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:0,sqDelta:-2,desc:'PM agrees to everything. Team works through the weekend. Quality failures on day one.'}
+      {type:'full',tokenCost:'2 Research + 1 Delivery',label:'Full resolution',dpDelta:-1,sqDelta:2,desc:'Business Analyst runs an impact assessment. Product Manager pushes back diplomatically with evidence. Service Designer proposes a post-launch roadmap item. Request deferred, but launch delayed.'},
+      {type:'partial',tokenCost:'3 Delivery',label:'Partial resolution',dpDelta:2,sqDelta:-1,desc:'A minimal dashboard is built and shipped. Not tested, not accessible, but politically resolved. Launch on time.'},
+      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:0,sqDelta:-3,desc:'PM agrees to everything. Team works through the weekend, however the quality of the shipped product is low with errors experienced by users.'}
     ]},
   L2:{tag:'Scenario',tagCss:'tag-scenario',title:'"A journalist has submitted an FOI request"',
     scenario:'A journalist has submitted a Freedom of Information request asking for all user research and usability test findings related to the service. The product manager is anxious. Some of the earlier research was documented loosely and some decisions look questionable in retrospect. The user researcher is confident the findings were sound but the documentation is incomplete.',
     triggeredRoles:['User Researcher','Product Manager','Content Designer','Business Analyst'],
     paths:[
-      {type:'full',tokenCost:'1 Research + 1 Design',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Business Analyst works with User Researcher to compile decision traceability documentation. Content Designer shapes the response. Submission is clear, honest and complete.'},
+      {type:'full',tokenCost:'2 Research + 1 Design',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Business Analyst works with User Researcher to compile decision traceability documentation. Content Designer shapes the response. Submission is clear, honest and complete.'},
       {type:'partial',tokenCost:'1 Delivery',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'Response submitted but incomplete. Some decisions left unexplained.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:0,sqDelta:-2,desc:'Legal are brought in and the response is heavily redacted. Public trust damaged.'}
+      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:0,sqDelta:-2,desc:'Legal are brought in and the response is slow to come and heavily redacted. Public trust damaged.'}
     ]},
   E4:{tag:'Event',tagCss:'tag-event',title:'A team member raises a wellbeing concern',
-    scenario:'One team member (drawn randomly, or chosen by the facilitator) flags that they are close to burnout. The team must decide how to respond.\n\nIf the team responds with support (spend a Delivery token to redistribute work): no penalty.\nIf ignored: that player\'s tokens are halved next phase and the team loses 1 SQ.',
+    scenario:'One team member (drawn randomly, or chosen by the facilitator) flags that they are close to burnout. The team must decide how to respond.\n\nThe team can either respond with support by redistributing their work which costs 1 Delivery token + 1 token each from two team members who agree to support.\nAlternatively, the team can continue on without redistributing the work but loses 2 SQ points.',
     triggeredRoles:[],paths:[]},
   G4:{tag:'Phase gate',tagCss:'tag-gate',title:'Live to Review',
     scenario:'Gate question: Is quality high enough to launch?\n\nThere is no gate here. The team always enters Review. This is intentional. The question is answered by the final scores themselves.\n\nAdvance to Review.',
