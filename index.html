@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The UCD Challenge — v0.4</title>
+<title>The UCD Challenge — v0.5</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1a;min-height:100vh;}
@@ -541,7 +541,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <div class="gate-card">
         <div class="gate-label">Discovery to Alpha</div>
         <div class="gate-q">Are we solving the right problem?</div>
-        <div class="gate-req">Requires at least 2 Service Quality points accumulated. If not met, replay one scenario card from this phase before advancing.</div>
+        <div class="gate-req">Requires at least 2 Service Quality points accumulated. If not met, the team have failed their service assessment and must remediate during the next phase. 1 Research and 1 Design token must be removed from the team's Alpha phase starting allocation.</div>
       </div>
       <div class="gate-card">
         <div class="gate-label">Alpha to Beta</div>
@@ -551,7 +551,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <div class="gate-card">
         <div class="gate-label">Beta to Live</div>
         <div class="gate-q">Is the service ready for more users?</div>
-        <div class="gate-req">SQ score must be at least half of DP score. If not, the team may choose to delay (replay one scenario) or push to Live at the cost of 2 SQ.</div>
+        <div class="gate-req">SQ score must be at least half of DP score. If not, the team may choose to push to Live at the cost of 2 SQ points, or remediate during Live which costs them 1 Research and 1 Design token for the Live phase.</div>
       </div>
       <div class="gate-card">
         <div class="gate-label">Live to Review</div>
@@ -814,7 +814,7 @@ var CARDS={
     scenario:'The Secretary of State has been reshuffled. The new minister has a different emphasis and has publicly questioned the value of the programme you are developing. The team must spend time presenting the case for continuing.\n\nEffect: -1 DP. Applies immediately.',
     triggeredRoles:[],paths:[]},
   G1:{tag:'Phase gate',tagCss:'tag-gate',title:'Discovery to Alpha',
-    scenario:'Gate question: Are we solving the right problem?\n\nRequires at least 2 Service Quality points accumulated. If not met, replay one scenario card from this phase before advancing.\n\nIf the gate is passed, advance to Alpha and reset tokens.',
+    scenario:'Gate question: Are we solving the right problem?\n\nRequires at least 2 Service Quality points accumulated. If not met, the team have failed their service assessment and must remediate during the next phase. 1 Research and 1 Design token must be removed from the team\'s Alpha phase starting allocation.\n\nIf the gate is passed, advance to Alpha and reset tokens.',
     triggeredRoles:[],paths:[]},
   A1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The prototype doesn\'t test well"',
     scenario:'First round of usability testing on the Alpha prototype returns poor results. Users are confused by the main flow. The interaction designer says the journey needs a fundamental rethink. The delivery manager says there is not time for a full redesign before the next show-and-tell with stakeholders.',
@@ -844,7 +844,7 @@ var CARDS={
     scenario:'The user researcher is seconded to a higher-priority crisis project for the remainder of this phase.\n\nEffect: Remove all Research tokens from the User Researcher for the rest of this phase.',
     triggeredRoles:[],paths:[]},
   G2:{tag:'Phase gate',tagCss:'tag-gate',title:'Alpha to Beta',
-    scenario:'Gate question: Is this approach viable?\n\nRequires the team to have spent at least one Research token and one Design token in this phase. If not, the product manager may spend a resource token to override, but loses 1 SQ.\n\nIf the gate is passed, advance to Beta and reset tokens.',
+    scenario:'Gate question: Is this approach viable?\n\nRequires the team to have spent at least one Research token and one Design token in this phase. If not, the product manager may spend a Delivery token to override (take this from the PM\'s token allocation after the forthcoming reset), but loses 1 SQ.\n\nIf the gate is passed, advance to Beta and reset tokens.',
     triggeredRoles:[],paths:[]},
   B1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The accessibility audit came back"',
     scenario:'An independent accessibility audit has flagged four critical issues: missing alt text, a colour contrast failure, a keyboard trap in the main form, and a document download that is not screen-reader compatible. The interaction designer estimates three days of work. The delivery manager says the release schedule does not have three days in it.',
