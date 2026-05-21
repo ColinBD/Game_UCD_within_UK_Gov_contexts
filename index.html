@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The UCD Challenge — v0.5</title>
+<title>The UCD Challenge — v0.7</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1a;min-height:100vh;}
@@ -382,7 +382,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
               <div class="roster-inline">
                 <input class="roster-input" id="name-sd" type="text" placeholder="Name" oninput="updateRoster()">
                 <div class="roster-token-row">
-                  <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
                   <div class="tok-sm tok-sm-d" onclick="this.classList.toggle('spent')">D</div>
                 </div>
               </div>
@@ -394,7 +393,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
                 <input class="roster-input" id="name-pm" type="text" placeholder="Name" oninput="updateRoster()">
                 <div class="roster-token-row">
                   <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
-                  <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
                 </div>
               </div>
             </div>
@@ -404,7 +402,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
               <div class="roster-inline">
                 <input class="roster-input" id="name-dm" type="text" placeholder="Name" oninput="updateRoster()">
                 <div class="roster-token-row">
-                  <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
                   <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
                 </div>
               </div>
@@ -426,11 +423,11 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         <!-- SCENARIO TIMER -->
         <div class="timer-panel">
           <div class="timer-title">Scenario timer</div>
-          <div class="timer-display idle" id="timer-display">5:00</div>
+          <div class="timer-display idle" id="timer-display">2:00</div>
           <div class="timer-presets">
-            <button class="timer-preset-btn selected" onclick="setTimer(5,this)">5 min</button>
-            <button class="timer-preset-btn" onclick="setTimer(6,this)">6 min</button>
-            <button class="timer-preset-btn" onclick="setTimer(7,this)">7 min</button>
+            <button class="timer-preset-btn selected" onclick="setTimer(2,this)">2 min</button>
+            <button class="timer-preset-btn" onclick="setTimer(3,this)">3 min</button>
+            <button class="timer-preset-btn" onclick="setTimer(4,this)">4 min</button>
           </div>
           <div class="timer-controls">
             <button class="timer-btn timer-btn-start" id="timer-start-btn" onclick="toggleTimer()">Start</button>
@@ -475,13 +472,13 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
             <button onclick="toggleRolesRef()" style="font-size:10px;padding:4px 8px;background:#3C3489;color:#EEEDFE;border:1px solid #7F77DD;border-radius:4px;cursor:pointer;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:700;white-space:nowrap;">Roles reference</button>
           </div>
           <div id="roles-ref-panel" style="display:none;background:#2a2520;border:1px solid #534AB7;border-radius:6px;padding:10px;margin-bottom:10px;font-size:11px;color:#ede8df;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;line-height:1.6;">
-            <div style="margin-bottom:7px;"><span class="badge badge-teal" style="font-size:9px;margin-bottom:0;margin-right:4px;">User Researcher</span> <strong>Ability:</strong> Once per phase, you can insist on an extra research round which adds +1 SQ but costs −1 DP.</div>
-            <div style="margin-bottom:7px;"><span class="badge badge-purple" style="font-size:9px;margin-bottom:0;margin-right:4px;">Content Designer</span> <strong>Ability:</strong> May simplify or reframe any communication or information challenge. Removes a 1 SQ penalty on one scenario per phase.</div>
-            <div style="margin-bottom:7px;"><span class="badge badge-blue" style="font-size:9px;margin-bottom:0;margin-right:4px;">Interaction Designer</span> <strong>Ability:</strong> May resolve any usability or accessibility blocker without token cost. Once per phase.</div>
-            <div style="margin-bottom:7px;"><span style="background:#c8e8dc;color:#04342C;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;margin-right:4px;">Service Designer</span> <strong>Ability:</strong> May reframe any scenario as a system-level problem, unlocking a cross-role resolution that adds +1 SQ if three roles contribute.</div>
-            <div style="margin-bottom:7px;"><span class="badge badge-amber" style="font-size:9px;margin-bottom:0;margin-right:4px;">Product Manager</span> <strong>Ability:</strong> Can reallocate up to two tokens between players per phase. Can unblock a gate by spending a resource token, at the cost of 1 SQ.</div>
-            <div style="margin-bottom:7px;"><span class="badge badge-coral" style="font-size:9px;margin-bottom:0;margin-right:4px;">Delivery Manager</span> <strong>Ability:</strong> Can spend from the next phase's token allocation to accelerate (+2 DP), but this reduces next phase's starting tokens by 2.</div>
-            <div><span style="background:#dde3ed;color:#4a5a78;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;margin-right:4px;">Business Analyst</span> <strong>Ability:</strong> Once per phase, may reframe a scenario as a problem statement with two or more options. If the team adopts the recommended option, the chosen resolution gains an additional +1 SQ. Cannot be used in combination with the Service Designer’s system reframing ability on the same card.</div>
+            <div style="margin-bottom:7px;"><span class="badge badge-teal" style="font-size:9px;margin-bottom:0;margin-right:4px;">User Researcher</span> <strong>Ability:</strong> When triggered: insist on an extra research round before the team chooses their approach. +1 SQ, -1 DP. Once per game.</div>
+            <div style="margin-bottom:7px;"><span class="badge badge-purple" style="font-size:9px;margin-bottom:0;margin-right:4px;">Content Designer</span> <strong>Ability:</strong> When triggered: reframe the communication or information challenge in the scenario. If used, remove 1 SQ penalty point from any SQ penalty incurred this scenario. Once per game.</div>
+            <div style="margin-bottom:7px;"><span class="badge badge-blue" style="font-size:9px;margin-bottom:0;margin-right:4px;">Interaction Designer</span> <strong>Ability:</strong> When triggered: walk through what the user experience of the current situation looks like step by step. The team must identify one concrete user harm before proceeding. If the team addresses the root cause, the chosen approach gains +1 SQ. If not, they must name the user harm they are accepting and the facilitator records it. Once per game.</div>
+            <div style="margin-bottom:7px;"><span style="background:#c8e8dc;color:#04342C;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;margin-right:4px;">Service Designer</span> <strong>Ability:</strong> When triggered: identify one handoff point where this scenario's outcome will affect another team, phase, or user group, and name the risk. If the team addresses the root cause, the chosen approach gains +1 SQ. If not, they must spend a token to document the handoff risk before moving on. Once per game.</div>
+            <div style="margin-bottom:7px;"><span class="badge badge-amber" style="font-size:9px;margin-bottom:0;margin-right:4px;">Product Manager</span> <strong>Ability:</strong> When triggered: call a silent vote before any discussion. Ask each triggered player to send D (delivery-focused) or Q (quality-focused) privately via back channel. Read votes aloud simultaneously. The result does not determine the path but makes hidden preferences visible. Once per game.</div>
+            <div style="margin-bottom:7px;"><span class="badge badge-coral" style="font-size:9px;margin-bottom:0;margin-right:4px;">Delivery Manager</span> <strong>Ability:</strong> When triggered: borrow from the next phase's token allocation to push progress. +2 DP, but next phase starts with 2 fewer tokens. Cannot be used in the Live phase. Once per game.</div>
+            <div><span style="background:#dde3ed;color:#4a5a78;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;margin-right:4px;">Business Analyst</span> <strong>Ability:</strong> When triggered: ask one clarifying question about scope, evidence, or impact that must be answered before the team proceeds. If the answer changes anyone's stated preference, the chosen approach gains +1 SQ. Once per game.</div>
           </div>
           <div class="board-grid" id="board-grid"></div>
         </div>
@@ -513,7 +510,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <ol>
         <li>Reveal the scenario card for the current step on the game board</li>
         <li>The facilitator reads it aloud</li>
-        <li>Each player whose role is triggered states their perspective and plays any relevant ability</li>
+        <li>Each player whose role is triggered states their perspective. If the Product Manager chooses to use their ability, they call a silent vote now — each triggered player sends D (delivery-focused) or Q (quality-focused) privately via back channel, and all votes are read aloud simultaneously. Any other triggered player wishing to use their ability also declares it now. Abilities may only be used once per game.</li>
         <li>The team discusses and agrees a response (2 to 3 minutes)</li>
         <li>The facilitator reveals the resolution paths. Click the chosen path to apply its score effects and log the decision.</li>
         <li>After completing all scenarios in a phase, click the Event card, resolve it, then click the Phase gate</li>
@@ -565,14 +562,16 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
     <div class="section-panel">
       <h2>Player roles</h2>
       <p>Each player holds one role card. The ability is shared knowledge — read it now so everyone understands what each role can contribute. Each role also has a private pressure: a default instinct that is realistic rather than a flaw. Pressures are not listed here; they are given to each player individually before the session begins (facilitators can access these near the bottom of the brief). The tension between ability and pressure is the game.</p>
-      <div class="role-grid">
-        <div class="role-card"><div class="badge badge-teal">User Researcher</div><div class="role-ability"><strong>Ability:</strong> Once per phase, you can insist on an extra research round which adds +1 SQ but costs −1 DP.</div></div>
-        <div class="role-card"><div class="badge badge-purple">Content Designer</div><div class="role-ability"><strong>Ability:</strong> May simplify or reframe any communication or information challenge. Removes a 1 SQ penalty on one scenario per phase.</div></div>
-        <div class="role-card"><div class="badge badge-blue">Interaction Designer</div><div class="role-ability"><strong>Ability:</strong> May resolve any usability or accessibility blocker without token cost. Once per phase.</div></div>
-        <div class="role-card"><div class="badge badge-teal" style="background:#c8e8dc;color:#04342C;">Service Designer</div><div class="role-ability"><strong>Ability:</strong> May reframe any scenario as a system-level problem, unlocking a cross-role resolution that adds +1 SQ if three roles contribute.</div></div>
-        <div class="role-card"><div class="badge badge-amber">Product Manager</div><div class="role-ability"><strong>Ability:</strong> Can reallocate up to two tokens between players per phase. Can unblock a gate by spending a resource token, at the cost of 1 SQ.</div></div>
-        <div class="role-card"><div class="badge badge-coral">Delivery Manager</div><div class="role-ability"><strong>Ability:</strong> Can spend from the next phase's token allocation to accelerate (+2 DP), but this reduces next phase's starting tokens by 2.</div></div>
-        <div class="role-card"><div class="badge" style="background:#dde3ed;color:#4a5a78;">Business Analyst</div><div class="role-ability"><strong>Ability:</strong> Once per phase, may reframe a scenario as a problem statement with two or more options. If the team adopts the recommended option, the chosen resolution gains an additional +1 SQ. Cannot be used in combination with the Service Designer's system reframing ability on the same card.</div></div>
+      <p><strong>When abilities can be used:</strong> Each player may use their ability once per game, and only during a scenario card on which their role is listed as triggered. The ability must be declared before the team chooses their approach. If your role is not triggered on a card, you contribute to the discussion but your ability is not available. Choose your moment carefully.</p>
+      <p><strong>When abilities can be used:</strong> You may only use your ability during a scenario card on which your role is listed as triggered. Declare it before the team chooses a resolution path. If your role is not triggered on a card, you contribute to the discussion but your ability is not available.</p>
+        <div class="role-card"><div class="badge badge-teal">User Researcher</div><div class="role-ability"><strong>Ability:</strong> When triggered: insist on an extra research round before the team chooses their approach. This adds +1 SQ but costs -1 DP. Once per game.</div></div>
+        <div class="role-card"><div class="badge badge-purple">Content Designer</div><div class="role-ability"><strong>Ability:</strong> When triggered: reframe the communication or information challenge in the scenario. If used, remove 1 SQ penalty point from any SQ penalty incurred this scenario. Once per game.</div></div>
+        <div class="role-card"><div class="badge badge-blue">Interaction Designer</div><div class="role-ability"><strong>Ability:</strong> When triggered: walk through what the user experience of the current situation looks like step by step. The team must identify one concrete user harm before proceeding. If the team addresses the root cause, the chosen approach gains +1 SQ. If not, they must name the user harm they are accepting and the facilitator records it. Once per game.</div></div>
+        <div class="role-card"><div class="badge badge-teal" style="background:#c8e8dc;color:#04342C;">Service Designer</div><div class="role-ability"><strong>Ability:</strong> When triggered: identify one handoff point where this scenario's outcome will affect another team, another phase, or another user group, and name the risk to that handoff. If the team addresses the root cause, the chosen approach gains +1 SQ. If not, they must spend a token to document the handoff risk before moving on. Once per game.</div></div>
+        <div class="role-card"><div class="badge badge-amber">Product Manager</div><div class="role-ability"><strong>Ability:</strong> When triggered: call a silent vote before any discussion begins. Ask each triggered player to send their vote privately via back channel — D for delivery-focused, Q for quality-focused. Read all votes aloud simultaneously. The result does not determine the resolution path but makes hidden preferences visible before discussion starts. Once per game.</div></div>
+        <div class="role-card"><div class="badge badge-coral">Delivery Manager</div><div class="role-ability"><strong>Ability:</strong> When triggered: borrow from the next phase's token allocation to push progress. This adds +2 DP but reduces next phase's starting tokens by 2. Cannot be used in the Live phase. Once per game.</div></div>
+        <div class="role-card"><div class="badge" style="background:#dde3ed;color:#4a5a78;">Business Analyst</div><div class="role-ability"><strong>Ability:</strong> When triggered: ask one clarifying question about scope, evidence, or impact that must be answered before the team proceeds. If the answer changes anyone's stated preference, the chosen approach gains +1 SQ. Once per game.</div></div>
+        <div class="role-card"><div class="badge" style="background:#dde3ed;color:#4a5a78;">Business Analyst</div><div class="role-ability"><strong>Ability:</strong> When triggered, you may reframe the scenario as a structured problem statement with two or more options before the team decides. If the team adopts your recommended option, the chosen resolution gains +1 SQ. Cannot be combined with the Service Designer's ability on the same card. Once per phase.</div></div>
       </div>
       <div class="note-box">The game works best with all seven roles represented. Do not run with fewer than 4 players as the multi-role resolution mechanic breaks below that.</div>
     </div>
@@ -581,21 +580,19 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
   <!-- MECHANICS -->
   <div id="tab-mechanics" class="tab-content">
     <div class="section-panel">
-      <h2>Tokens</h2>
-      <p>Each player starts each phase with a token allocation. Tokens represent bandwidth and are spent to resolve scenarios or activate abilities.</p>
+      <p>Each player starts each phase with a token allocation. Tokens represent bandwidth and are spent to resolve scenarios or activate abilities. Each ability can only be used once per game, and only during a scenario on which your role is triggered. Abilities must be declared before the team chooses their approach.</p>
       <table class="outcome-table">
         <thead><tr><th>Token type</th><th>Held by</th><th>Spend effect</th></tr></thead>
         <tbody>
-          <tr><td><span class="badge badge-teal" style="margin:0;">Research</span></td><td>User Researcher (2), Service Designer (1), Business Analyst (1)</td><td>Required for any resolution that involves user evidence. Spent once per card.</td></tr>
+          <tr><td><span class="badge badge-teal" style="margin:0;">Research</span></td><td>User Researcher (2), Business Analyst (1)</td><td>Required for any resolution that involves user evidence. Spent once per card.</td></tr>
           <tr><td><span class="badge badge-purple" style="margin:0;">Design</span></td><td>Content Designer (1), Interaction Designer (1), Service Designer (1)</td><td>Required for usability, content, or design quality resolutions.</td></tr>
-          <tr><td><span class="badge badge-coral" style="margin:0;">Delivery</span></td><td>Product Manager (2), Delivery Manager (2)</td><td>Required for unblocking decisions, accelerating progress, or overriding gates.</td></tr>
+          <tr><td><span class="badge badge-coral" style="margin:0;">Delivery</span></td><td>Product Manager (1), Delivery Manager (1), Business Analyst (1)</td><td>Required for unblocking decisions, accelerating progress, or overriding gates.</td></tr>
         </tbody>
-      </table>
-      <div class="note-box">Tokens reset at the start of each phase. Unused tokens do not carry over. The Delivery Manager's borrowing ability pulls from next phase's allocation. Track this explicitly.</div>
+      <div class="note-box">Tokens reset at the start of each phase. Unused tokens do not carry over. The Delivery Manager's borrowing ability pulls from next phase's allocation — track this explicitly, and note it cannot be used in the Live phase.</div>
     </div>
     <div class="section-panel">
-      <h2>Resolution paths</h2>
-      <p>Each scenario card has two or three resolution paths. The team must agree which path to take before the facilitator reveals the resolution panel. Click the chosen path on the game board to apply its score effects and log the decision.</p>
+      <p>Each scenario card has two or three resolution paths. Before the team chooses their approach, triggered players state their perspective and may declare their ability. The Product Manager may call a silent vote at this point. Abilities are available once per game and must be used before the approach is chosen. Once all abilities have been used or waived, the team agrees an approach and the facilitator reveals the resolution panel. Click the chosen path on the game board to apply its score effects and log the decision.</p>
+      <p>Each scenario card has two or three resolution paths. Before the team chooses a path, triggered players state their perspective and may declare their ability. Once all abilities have been used or waived, the team agrees a path and the facilitator reveals the resolution panel. Click the chosen path on the game board to apply its score effects and log the decision.</p>
       <table class="outcome-table">
         <thead><tr><th>Path</th><th>Typical cost</th><th>Score effect</th><th>When to use</th></tr></thead>
         <tbody>
@@ -614,7 +611,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         <tbody>
           <tr><td>Both high (within 4 points)</td><td>Sustainable delivery</td><td>What made this possible? What nearly derailed it?</td></tr>
           <tr><td>DP high, SQ low (gap over 6)</td><td>Delivered, but at a cost</td><td>Who got hurt? What did we skip and why?</td></tr>
-          <tr><td>SQ high, DP low</td><td>Quality without momentum</td><td>What slowed us down? Was it worth it?</td></tr>
+          <tr><td>SQ high, DP low</td><td>High quality, real cost</td><td>The service quality is strong. The delivery pace reflects the choices you made. Which of those choices do you stand behind, and which would you revisit?</td></tr>
           <tr><td>Both low</td><td>Programme in trouble</td><td>Where did we lose control? What would we do again?</td></tr>
         </tbody>
       </table>
@@ -898,7 +895,7 @@ var CARDS={
     scenario:'Gate question: Is quality high enough to launch?\n\nThere is no gate here. The team always enters Review. This is intentional. The question is answered by the final scores themselves.\n\nAdvance to Review.',
     triggeredRoles:[],paths:[]},
   REV:{tag:'Review',tagCss:'tag-review',title:'Final review',
-    scenario:'The programme is complete. Reveal both scores and read the outcome below.\n\nBoth high (within 4 points): Sustainable delivery. What made this possible? What nearly derailed it?\n\nDP high, SQ low (gap over 6): Delivered, but at a cost. Who got hurt? What did we skip and why?\n\nSQ high, DP low: Quality without momentum. What slowed us down? Was it worth it?\n\nBoth low: Programme in trouble. Where did we lose control? What would we do again?\n\nProceed to the Debrief tab.',
+    scenario:'The programme is complete. Reveal both scores and read the outcome below.\n\nBoth high (within 4 points): Sustainable delivery. What made this possible? What nearly derailed it?\n\nDP high, SQ low (gap over 6): Delivered, but at a cost. Who got hurt? What did we skip and why?\n\nSQ high, DP low: High quality, real cost. The service quality is strong. The delivery pace reflects the choices you made. Which of those choices do you stand behind, and which would you revisit?\n\nBoth low: Programme in trouble. Where did we lose control? What would we do again?\n\nProceed to the Debrief tab.',
     triggeredRoles:[],paths:[]}
 };
 
@@ -1099,7 +1096,7 @@ function getOutcomeLabel(dpVal, sqVal){
   var gap = dpVal - sqVal;
   if(dpVal >= 6 && sqVal >= 6 && Math.abs(gap) <= 4) return 'Sustainable delivery';
   if(dpVal > sqVal && gap > 6) return 'Delivered, but at a cost';
-  if(sqVal > dpVal) return 'Quality without momentum';
+  if(sqVal > dpVal) return 'High quality, real cost';
   return 'Programme in trouble';
 }
 
@@ -1141,7 +1138,7 @@ function updateDebriefSummary(){
 // ============================================================
 // SCENARIO TIMER
 // ============================================================
-var timerDuration = 5 * 60; // seconds
+var timerDuration = 2 * 60; // seconds
 var timerRemaining = timerDuration;
 var timerInterval = null;
 var timerRunning = false;
