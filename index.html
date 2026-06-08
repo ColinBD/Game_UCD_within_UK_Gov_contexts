@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The UCD Challenge — v0.7</title>
+<title>The UCD Challenge — v3.0</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1a;min-height:100vh;}
@@ -44,7 +44,14 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .adj-row{display:flex;justify-content:center;gap:6px;margin-top:6px;}
 .adj-btn{width:24px;height:24px;border:1px solid #534AB7;border-radius:4px;background:#3C3489;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;color:#EEEDFE;font-family:inherit;line-height:1;}
 .adj-btn:hover{background:#534AB7;}
-.token-panel-title{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9994bb;margin-bottom:8px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-bottom:1px solid #3C3489;padding-bottom:6px;margin-top:12px;}
+.score-hidden-block{text-align:center;padding:14px 8px;background:#2a2520;border-radius:6px;margin-bottom:12px;}
+.score-hidden-lbl{font-size:10px;color:#6b6560;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;}
+.score-hidden-dash{font-size:28px;font-weight:700;color:#3a3530;letter-spacing:0.2em;line-height:1;margin-bottom:10px;}
+.score-reveal-btn{font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:6px 12px;border-radius:4px;cursor:pointer;background:#3C3489;color:#EEEDFE;border:1px solid #534AB7;letter-spacing:0.04em;font-weight:700;transition:all 0.15s;}
+.score-reveal-btn:hover{background:#534AB7;}
+.token-reset-panel{background:#1e1a14;border:2px solid #3C3489;border-radius:10px;padding:10px 12px;margin-bottom:14px;}
+.token-reset-title{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9994bb;margin-bottom:8px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-bottom:1px solid #3C3489;padding-bottom:6px;}
+
 .token-section{margin-bottom:8px;}
 .token-lbl{font-size:9px;color:#9994bb;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:4px;letter-spacing:0.05em;text-transform:uppercase;}
 .token-row{display:flex;gap:5px;flex-wrap:wrap;}
@@ -52,7 +59,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .tok.spent{opacity:0.18;}
 .tok-r{background:#085041;color:#9FE1CB;border-color:#1D9E75;}
 .tok-d{background:#26215C;color:#CECBF6;border-color:#7F77DD;}
-.tok-l{background:#4A1B0C;color:#F5C4B3;border-color:#D85A30;}
+.tok-p{background:#4A1B0C;color:#F5C4B3;border-color:#D85A30;}
 .reset-btn{font-size:10px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:5px 8px;border-radius:5px;cursor:pointer;width:100%;margin-top:8px;letter-spacing:0.04em;background:#2a2520;color:#9994bb;border:1px solid #534AB7;}
 .reset-btn:hover{background:#3C3489;color:#EEEDFE;}
 
@@ -64,7 +71,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 /* BOARD GRID */
 .board-grid{display:flex;flex-direction:column;align-items:center;gap:0;}
 .board-row{display:flex;align-items:center;justify-content:center;width:100%;}
-.cell{position:relative;width:88px;flex-shrink:0;}
+.cell{position:relative;width:110px;flex-shrink:0;}
 .cell-inner{margin:3px;border:2px solid #a09080;border-radius:8px;padding:6px 3px;text-align:center;cursor:pointer;transition:all 0.18s;background:#fffef9;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .cell-inner:hover{border-color:#534AB7;background:#f0edf8;}
 .cell-num{font-size:11px;color:#9a9080;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:2px;}
@@ -130,12 +137,17 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .res-path.chosen{border-color:#1D9E75;background:#eaf7f2;cursor:default;}
 .res-path.chosen::after{content:'✓ Chosen';position:absolute;top:8px;right:10px;font-size:12px;font-weight:700;color:#085041;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
 .res-path strong{color:#1a1a1a;font-weight:700;}
-.res-path-score{display:inline-block;font-size:12px;font-weight:700;padding:1px 6px;border-radius:3px;margin-left:6px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;vertical-align:middle;}
-.rps-full{background:#d4ede4;color:#085041;}
-.rps-partial{background:#f5e8cc;color:#633806;}
-.rps-esc{background:#f5ddd4;color:#712B13;}
 .res-path-hint{font-size:12px;color:#7a7060;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-top:4px;font-style:italic;}
 .res-path-cost{font-size:12px;color:#9a9080;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:4px;}
+/* Unchosen paths after a decision — collapsed/dimmed */
+.res-path.unchosen{background:#f0ede8;border-color:#d8d0c4;cursor:default;opacity:0.5;}
+.res-path.unchosen:hover{border-color:#d8d0c4;background:#f0ede8;}
+.res-path.unchosen .res-path-hint{display:none;}
+.res-path.unchosen .res-path-cost{display:none;}
+/* Outcome reveal block — shown on chosen path after selection */
+.outcome-reveal{margin-top:10px;padding:10px 12px;background:#1e1a14;border:1.5px solid #1D9E75;border-radius:6px;}
+.outcome-reveal-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5DCAA5;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:6px;}
+.outcome-reveal-text{font-size:13px;color:#ede8df;line-height:1.7;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
 
 /* OTHER TABS */
 .phase-track{display:flex;align-items:stretch;border:1.5px solid #c5bfb0;border-radius:8px;overflow:hidden;margin-bottom:1.2rem;}
@@ -181,9 +193,9 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .log-entry:last-child{border-bottom:none;}
 .log-step{font-weight:700;color:#6b6560;min-width:56px;flex-shrink:0;}
 .log-path{font-weight:700;}
-.log-path-full{color:#085041;}
-.log-path-partial{color:#633806;}
-.log-path-esc{color:#712B13;}
+.log-path-a{color:#085041;}
+.log-path-b{color:#633806;}
+.log-path-c{color:#712B13;}
 .log-score{margin-left:auto;font-size:11px;color:#9994bb;white-space:nowrap;}
 .score-summary{display:flex;gap:16px;padding:12px;background:#2a2520;border-radius:8px;margin-bottom:12px;}
 .ss-cell{text-align:center;flex:1;}
@@ -226,7 +238,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .tok-sm.spent{opacity:0.18;}
 .tok-sm-r{background:#085041;color:#9FE1CB;border-color:#1D9E75;}
 .tok-sm-d{background:#26215C;color:#CECBF6;border-color:#7F77DD;}
-.tok-sm-l{background:#4A1B0C;color:#F5C4B3;border-color:#D85A30;}
+.tok-sm-p{background:#4A1B0C;color:#F5C4B3;border-color:#D85A30;}
 
 /* PLAYER ROSTER */
 .roster-panel{background:#1e1a14;border:2px solid #3C3489;border-radius:10px;padding:12px;margin-bottom:14px;}
@@ -250,10 +262,10 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .timer-display.paused{color:#F0997B;}
 .timer-display.warning{color:#F0997B;}
 .timer-display.idle{color:#6b6560;}
-.timer-presets{display:flex;gap:5px;margin-bottom:8px;}
-.timer-preset-btn{flex:1;padding:5px 2px;font-size:11px;font-weight:700;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-radius:4px;border:1px solid #534AB7;background:#2a2520;color:#9994bb;cursor:pointer;letter-spacing:0.03em;transition:all 0.15s;}
-.timer-preset-btn:hover{background:#3C3489;color:#EEEDFE;}
-.timer-preset-btn.selected{background:#3C3489;color:#EEEDFE;border-color:#7F77DD;}
+.timer-display.expired{color:#D85A30;animation:timerFlash 1s ease-in-out infinite;}
+@keyframes timerFlash{0%,100%{opacity:1;}50%{opacity:0.35;}}
+.timer-expired-msg{display:none;margin-top:8px;padding:8px 10px;background:#4A1B0C;border:1px solid #D85A30;border-radius:6px;font-size:11px;color:#F5C4B3;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;line-height:1.55;text-align:center;}
+.timer-expired-msg strong{display:block;font-size:12px;margin-bottom:3px;}
 .timer-controls{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
 .timer-btn{padding:6px 4px;font-size:11px;font-weight:700;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-radius:4px;cursor:pointer;letter-spacing:0.04em;transition:all 0.15s;border:1px solid;}
 .timer-btn-start{background:#085041;color:#9FE1CB;border-color:#1D9E75;}
@@ -294,8 +306,8 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       </div>
       <div class="modal-section">
         <div class="modal-section-label">Session timing</div>
-        <p>Allow <strong>90 minutes to 2 hours</strong> for a full session. This breaks down as approximately 60–90 minutes for gameplay and 20–30 minutes for debrief. A first run with an unfamiliar facilitator will sit closer to 2 hours; an experienced group can complete gameplay in under an hour.</p>
-        <p>If time is short, stop at the end of Beta rather than running all four phases; you will still have enough scenario data for a meaningful debrief.</p>
+        <p>The session runs against a <strong>60-minute countdown timer</strong> on the game board. Start it once roles are assigned and play begins. If the team does not reach the Review step within 60 minutes, a penalty of −3 DP per incomplete phase is applied automatically and the team proceeds straight to the debrief.</p>
+        <p>Allow an additional <strong>20–30 minutes for debrief</strong> after gameplay concludes.</p>
       </div>
       <div class="modal-section">
         <div class="modal-section-label">Before you start</div>
@@ -392,7 +404,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
               <div class="roster-inline">
                 <input class="roster-input" id="name-pm" type="text" placeholder="Name" oninput="updateRoster()">
                 <div class="roster-token-row">
-                  <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
+                  <div class="tok-sm tok-sm-p" onclick="this.classList.toggle('spent')">P</div>
                 </div>
               </div>
             </div>
@@ -402,7 +414,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
               <div class="roster-inline">
                 <input class="roster-input" id="name-dm" type="text" placeholder="Name" oninput="updateRoster()">
                 <div class="roster-token-row">
-                  <div class="tok-sm tok-sm-l" onclick="this.classList.toggle('spent')">L</div>
+                  <div class="tok-sm tok-sm-p" onclick="this.classList.toggle('spent')">P</div>
                 </div>
               </div>
             </div>
@@ -420,14 +432,13 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
           </div>
         </div>
 
-        <!-- SCENARIO TIMER -->
+        <!-- SESSION TIMER -->
         <div class="timer-panel">
-          <div class="timer-title">Scenario timer</div>
-          <div class="timer-display idle" id="timer-display">2:00</div>
-          <div class="timer-presets">
-            <button class="timer-preset-btn selected" onclick="setTimer(2,this)">2 min</button>
-            <button class="timer-preset-btn" onclick="setTimer(3,this)">3 min</button>
-            <button class="timer-preset-btn" onclick="setTimer(4,this)">4 min</button>
+          <div class="timer-title">Session timer</div>
+          <div class="timer-display idle" id="timer-display">60:00</div>
+          <div class="timer-expired-msg" id="timer-expired-msg">
+            <strong>Time's up!</strong>
+            Proceed to the Debrief tab. A penalty of −3 DP has been applied for each phase not completed.
           </div>
           <div class="timer-controls">
             <button class="timer-btn timer-btn-start" id="timer-start-btn" onclick="toggleTimer()">Start</button>
@@ -436,38 +447,48 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         </div>
 
         <div class="tracker-panel">
-          <div class="tracker-title">Session tracker</div>
-          <div class="score-grid">
-            <div class="score-cell">
-              <div class="score-lbl">Delivery Progress</div>
-              <div class="score-val score-dp" id="dp-val">0</div>
-              <div class="adj-row">
-                <div class="adj-btn" onclick="adj('dp',-1)">−</div>
-                <div class="adj-btn" onclick="adj('dp',1)">+</div>
+          <div class="tracker-title" id="tracker-title">Scores — hidden until gate</div>
+          <!-- Hidden state -->
+          <div id="score-hidden" class="score-hidden-block">
+            <div class="score-hidden-lbl">Scores hidden during play</div>
+            <div class="score-hidden-dash">— —</div>
+            <button class="score-reveal-btn" onclick="revealScores()">Reveal scores</button>
+          </div>
+          <!-- Revealed state -->
+          <div id="score-revealed" style="display:none;">
+            <div class="score-grid">
+              <div class="score-cell">
+                <div class="score-lbl">Delivery Progress</div>
+                <div class="score-val score-dp" id="dp-val">0</div>
+                <div class="adj-row">
+                  <div class="adj-btn" onclick="adj('dp',-1)">−</div>
+                  <div class="adj-btn" onclick="adj('dp',1)">+</div>
+                </div>
+              </div>
+              <div class="score-cell">
+                <div class="score-lbl">Service Quality</div>
+                <div class="score-val score-sq" id="sq-val">0</div>
+                <div class="adj-row">
+                  <div class="adj-btn" onclick="adj('sq',-1)">−</div>
+                  <div class="adj-btn" onclick="adj('sq',1)">+</div>
+                </div>
               </div>
             </div>
-            <div class="score-cell">
-              <div class="score-lbl">Service Quality</div>
-              <div class="score-val score-sq" id="sq-val">0</div>
-              <div class="adj-row">
-                <div class="adj-btn" onclick="adj('sq',-1)">−</div>
-                <div class="adj-btn" onclick="adj('sq',1)">+</div>
-              </div>
-            </div>
+            <button class="score-reveal-btn" onclick="hideScores()" style="width:100%;margin-top:8px;background:#2a2520;border-color:#534AB7;">Hide scores</button>
           </div>
-          <div style="margin-top:10px;padding:6px;background:#2a2520;border-radius:6px;">
-            <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer;">
-              <input type="checkbox" id="score-toggle" onclick="toggleScoreEffects(this.checked)" style="cursor:pointer;">
-              <span>Show score effects on paths</span>
-            </label>
-          </div>
-          <button class="reset-btn" onclick="resetTokens()" style="margin-top:8px;">Reset all tokens (new phase)</button>
         </div>
-      </div>
+
+        <!-- TOKEN RESET -->
+        <div class="token-reset-panel">
+          <div class="token-reset-title">Tokens</div>
+          <button class="reset-btn" onclick="resetTokens()">Reset all tokens (new phase)</button>
+        </div>
+
+      </div><!-- end left column -->
 
       <div class="board-right">
         <div class="board-section">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px;flex-wrap:wrap;">
             <div class="board-section-label" style="margin-bottom:0;">Game path — follow the sequence, clicking each step to reveal its card</div>
             <button onclick="toggleRolesRef()" style="font-size:10px;padding:4px 8px;background:#3C3489;color:#EEEDFE;border:1px solid #7F77DD;border-radius:4px;cursor:pointer;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:700;white-space:nowrap;">Roles reference</button>
           </div>
@@ -494,10 +515,10 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
     <div class="section-panel">
       <h2>Board structure</h2>
       <div class="phase-track">
-        <div class="phase-block phase-d"><div class="pname">Discovery</div><div class="psub">3 scenarios</div></div>
-        <div class="phase-block phase-a"><div class="pname">Alpha</div><div class="psub">3 scenarios</div></div>
-        <div class="phase-block phase-b"><div class="pname">Beta</div><div class="psub">3 scenarios</div></div>
-        <div class="phase-block phase-l"><div class="pname">Live</div><div class="psub">2 scenarios</div></div>
+        <div class="phase-block phase-d"><div class="pname">Discovery</div><div class="psub">2 scenarios + event + gate</div></div>
+        <div class="phase-block phase-a"><div class="pname">Alpha</div><div class="psub">2 scenarios + event + gate</div></div>
+        <div class="phase-block phase-b"><div class="pname">Beta</div><div class="psub">2 scenarios + event + gate</div></div>
+        <div class="phase-block phase-l"><div class="pname">Live</div><div class="psub">2 scenarios + event + gate</div></div>
         <div class="phase-block phase-r"><div class="pname">Review</div><div class="psub">Scores revealed</div></div>
       </div>
       <h2>Game objective</h2>
@@ -512,47 +533,47 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         <li>The facilitator reads it aloud</li>
         <li>Each player whose role is triggered states their perspective. If the Product Manager chooses to use their ability, they call a silent vote now — each triggered player sends D (delivery-focused) or Q (quality-focused) privately via back channel, and all votes are read aloud simultaneously. Any other triggered player wishing to use their ability also declares it now. Abilities may only be used once per game.</li>
         <li>The team discusses and agrees a response (2 to 3 minutes)</li>
-        <li>The facilitator reveals the resolution paths. Click the chosen path to apply its score effects and log the decision.</li>
-        <li>After completing all scenarios in a phase, click the Event card, resolve it, then click the Phase gate</li>
+        <li>The facilitator reveals the resolution paths. Click the chosen path to apply its scores and log the decision.</li>
+        <li>Each phase contains 2 scenarios, 1 event, and 1 gate. After the first scenario, click the Event card and resolve it, then complete the second scenario, then click the Phase gate.</li>
         <li>If the gate is passed, advance to the next phase on the board</li>
       </ol>
     </div>
     <div class="section-panel">
       <h2>Session timing</h2>
-      <p>Plan for <strong>90 minutes to 2 hours</strong> for a complete session including debrief.</p>
+      <p>The session runs against a <strong>60-minute countdown timer</strong> on the game board. The facilitator starts it once the brief has been read and roles assigned. If the team does not reach the Review step within 60 minutes, a penalty of <strong>−3 DP per incomplete phase</strong> is applied automatically when time expires.</p>
       <table class="outcome-table">
         <thead><tr><th>Part</th><th>Expected time</th><th>Notes</th></tr></thead>
         <tbody>
-          <tr><td><strong>Setup &amp; brief</strong></td><td>5–10 min</td><td>Facilitator reads brief, assigns roles, sends pressures privately</td></tr>
-          <tr><td><strong>Scenario cards</strong> (×11)</td><td>5–7 min each<br><em>55–77 min total</em></td><td>Read aloud, triggered roles respond, team discusses, path chosen</td></tr>
+          <tr><td><strong>Setup &amp; brief</strong></td><td>5–10 min</td><td>Facilitator reads brief, assigns roles, sends pressures privately — start the timer once play begins</td></tr>
+          <tr><td><strong>Scenario cards</strong> (×8)</td><td>5–7 min each<br><em>40–56 min total</em></td><td>Read aloud, triggered roles respond, team discusses, path chosen</td></tr>
           <tr><td><strong>Event cards &amp; gates</strong> (×8)</td><td>~1 min each<br><em>~8 min total</em></td><td>No team discussion required; facilitator resolves and advances</td></tr>
-          <tr><td><strong>Debrief</strong></td><td>20–30 min</td><td>See Debrief tab for guide and questions</td></tr>
+          <tr><td><strong>Debrief</strong></td><td>20–30 min</td><td>See Debrief tab for guide and questions — run after gameplay regardless of whether Review was reached</td></tr>
         </tbody>
       </table>
-      <div class="note-box">Aim for 5–7 minutes per scenario. The on-screen timer on the game board can help keep discussions on pace. If a group consistently runs slow, name the time constraint — the pressure to decide is part of the game.</div>
-      <div class="warn-box">If time is short, stopping at the end of Beta is a clean cut. You will still have 9 scenario decisions for a meaningful debrief.</div>
+      <div class="note-box">Aim for 5–7 minutes per scenario. The 60-minute session timer creates the pressure — name it if discussions are running long. If the group stalls, remind them that unfinished phases carry a penalty.</div>
+      <div class="warn-box">If time expires before Review, go straight to the Debrief tab. The penalty is applied automatically. The incomplete run still produces enough scenario decisions for a meaningful debrief.</div>
     </div>
     <div class="section-panel">
       <h2>Phase gates</h2>
       <div class="gate-card">
         <div class="gate-label">Discovery to Alpha</div>
-        <div class="gate-q">Are we solving the right problem?</div>
-        <div class="gate-req">Requires at least 2 Service Quality points accumulated. If not met, the team have failed their service assessment and must remediate during the next phase. 1 Research and 1 Design token must be removed from the team's Alpha phase starting allocation.</div>
+        <div class="gate-q">Have we found out enough to build something?</div>
+        <div class="gate-req">Check the current SQ score. If SQ is below 1, the discovery evidence base is too thin: remove 1 Research token and 1 Design token from the Alpha starting allocation. If SQ is 1 or above, advance to Alpha with full token allocation.</div>
       </div>
       <div class="gate-card">
         <div class="gate-label">Alpha to Beta</div>
-        <div class="gate-q">Is this approach viable?</div>
-        <div class="gate-req">Requires the team to have spent at least one Research token and one Design token in this phase. If not, the product manager may spend a Delivery token to override (the PM starts the next phase with 1 less Delivery token), but loses 1 SQ.</div>
+        <div class="gate-q">Is there enough to build on?</div>
+        <div class="gate-req">Check whether the team has spent at least 1 Research token during this phase. If fewer than 1 Research token was spent, the evidence base is too thin: remove 1 Research token and 1 Design token from the Beta starting allocation. If the threshold is met, advance to Beta with full token allocation.</div>
       </div>
       <div class="gate-card">
         <div class="gate-label">Beta to Live</div>
-        <div class="gate-q">Is the service ready for more users?</div>
-        <div class="gate-req">SQ score must be at least half of DP score. If not, the team may choose to push to Live at the cost of 2 SQ points, or remediate during Live which costs them 1 Research and 1 Design token for the Live phase.</div>
+        <div class="gate-q">Is the service ready for wider use?</div>
+        <div class="gate-req">SQ must be at least half of DP (SQ ≥ DP ÷ 2). If the threshold is met, advance to Live with full token allocation. If not, remove 1 Design token and 1 Research token from the Live starting allocation before proceeding.</div>
       </div>
       <div class="gate-card">
         <div class="gate-label">Live to Review</div>
         <div class="gate-q">Is quality high enough to launch?</div>
-        <div class="gate-req">No gate. The team always enters Review. This is intentional. The question is answered by the scores themselves.</div>
+        <div class="gate-req">No gate. The team always enters Review. This is intentional — the question is answered by the scores themselves.</div>
       </div>
     </div>
   </div>
@@ -563,7 +584,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <h2>Player roles</h2>
       <p>Each player holds one role card. The ability is shared knowledge — read it now so everyone understands what each role can contribute. Each role also has a private pressure: a default instinct that is realistic rather than a flaw. Pressures are not listed here; they are given to each player individually before the session begins (facilitators can access these near the bottom of the brief). The tension between ability and pressure is the game.</p>
       <p><strong>When abilities can be used:</strong> Each player may use their ability once per game, and only during a scenario card on which their role is listed as triggered. The ability must be declared before the team chooses their approach. If your role is not triggered on a card, you contribute to the discussion but your ability is not available. Choose your moment carefully.</p>
-      <p><strong>When abilities can be used:</strong> You may only use your ability during a scenario card on which your role is listed as triggered. Declare it before the team chooses a resolution path. If your role is not triggered on a card, you contribute to the discussion but your ability is not available.</p>
         <div class="role-card"><div class="badge badge-teal">User Researcher</div><div class="role-ability"><strong>Ability:</strong> When triggered: insist on an extra research round before the team chooses their approach. This adds +1 SQ but costs -1 DP. Once per game.</div></div>
         <div class="role-card"><div class="badge badge-purple">Content Designer</div><div class="role-ability"><strong>Ability:</strong> When triggered: reframe the communication or information challenge in the scenario. If used, remove 1 SQ penalty point from any SQ penalty incurred this scenario. Once per game.</div></div>
         <div class="role-card"><div class="badge badge-blue">Interaction Designer</div><div class="role-ability"><strong>Ability:</strong> When triggered: walk through what the user experience of the current situation looks like step by step. The team must identify one concrete user harm before proceeding. If the team addresses the root cause, the chosen approach gains +1 SQ. If not, they must name the user harm they are accepting and the facilitator records it. Once per game.</div></div>
@@ -571,8 +591,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         <div class="role-card"><div class="badge badge-amber">Product Manager</div><div class="role-ability"><strong>Ability:</strong> When triggered: call a silent vote before any discussion begins. Ask each triggered player to send their vote privately via back channel — D for delivery-focused, Q for quality-focused. Read all votes aloud simultaneously. The result does not determine the resolution path but makes hidden preferences visible before discussion starts. Once per game.</div></div>
         <div class="role-card"><div class="badge badge-coral">Delivery Manager</div><div class="role-ability"><strong>Ability:</strong> When triggered: borrow from the next phase's token allocation to push progress. This adds +2 DP but reduces next phase's starting tokens by 2. Cannot be used in the Live phase. Once per game.</div></div>
         <div class="role-card"><div class="badge" style="background:#dde3ed;color:#4a5a78;">Business Analyst</div><div class="role-ability"><strong>Ability:</strong> When triggered: ask one clarifying question about scope, evidence, or impact that must be answered before the team proceeds. If the answer changes anyone's stated preference, the chosen approach gains +1 SQ. Once per game.</div></div>
-        <div class="role-card"><div class="badge" style="background:#dde3ed;color:#4a5a78;">Business Analyst</div><div class="role-ability"><strong>Ability:</strong> When triggered, you may reframe the scenario as a structured problem statement with two or more options before the team decides. If the team adopts your recommended option, the chosen resolution gains +1 SQ. Cannot be combined with the Service Designer's ability on the same card. Once per phase.</div></div>
-      </div>
       <div class="note-box">The game works best with all seven roles represented. Do not run with fewer than 4 players as the multi-role resolution mechanic breaks below that.</div>
     </div>
   </div>
@@ -584,24 +602,24 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <table class="outcome-table">
         <thead><tr><th>Token type</th><th>Held by</th><th>Spend effect</th></tr></thead>
         <tbody>
-          <tr><td><span class="badge badge-teal" style="margin:0;">Research</span></td><td>User Researcher (2), Business Analyst (1)</td><td>Required for any resolution that involves user evidence. Spent once per card.</td></tr>
-          <tr><td><span class="badge badge-purple" style="margin:0;">Design</span></td><td>Content Designer (1), Interaction Designer (1), Service Designer (1)</td><td>Required for usability, content, or design quality resolutions.</td></tr>
-          <tr><td><span class="badge badge-coral" style="margin:0;">Delivery</span></td><td>Product Manager (1), Delivery Manager (1), Business Analyst (1)</td><td>Required for unblocking decisions, accelerating progress, or overriding gates.</td></tr>
+          <tr><td><span class="badge badge-teal" style="margin:0;">Research (R)</span></td><td>User Researcher (2), Business Analyst (1)</td><td>Required for any resolution that involves user evidence. Spent once per card.</td></tr>
+          <tr><td><span class="badge badge-purple" style="margin:0;">Design (D)</span></td><td>Content Designer (1), Interaction Designer (1), Service Designer (1)</td><td>Required for usability, content, or design quality resolutions.</td></tr>
+          <tr><td><span class="badge badge-coral" style="margin:0;">Progress (P)</span></td><td>Product Manager (1), Delivery Manager (1), Business Analyst (1)</td><td>Required for unblocking decisions, accelerating progress, or overriding gates.</td></tr>
         </tbody>
+      </table>
       <div class="note-box">Tokens reset at the start of each phase. Unused tokens do not carry over. The Delivery Manager's borrowing ability pulls from next phase's allocation — track this explicitly, and note it cannot be used in the Live phase.</div>
     </div>
     <div class="section-panel">
-      <p>Each scenario card has two or three resolution paths. Before the team chooses their approach, triggered players state their perspective and may declare their ability. The Product Manager may call a silent vote at this point. Abilities are available once per game and must be used before the approach is chosen. Once all abilities have been used or waived, the team agrees an approach and the facilitator reveals the resolution panel. Click the chosen path on the game board to apply its score effects and log the decision.</p>
-      <p>Each scenario card has two or three resolution paths. Before the team chooses a path, triggered players state their perspective and may declare their ability. Once all abilities have been used or waived, the team agrees a path and the facilitator reveals the resolution panel. Click the chosen path on the game board to apply its score effects and log the decision.</p>
+      <p>Each scenario card has two or three resolution paths. Before the team chooses a path, triggered players state their perspective and may declare their ability. The Product Manager may call a silent vote at this point. Once all abilities have been used or waived, the team agrees a path and the facilitator reveals the resolution panel. Click the chosen path on the game board to apply its scores and log the decision.</p>
       <table class="outcome-table">
-        <thead><tr><th>Path</th><th>Typical cost</th><th>Score effect</th><th>When to use</th></tr></thead>
+        <thead><tr><th>Path</th><th>Typical tendency</th><th>Score effect</th><th>When to use</th></tr></thead>
         <tbody>
-          <tr><td><strong>Full resolution</strong></td><td>1 Research + 1 Design token</td><td>+2 SQ, +1 DP</td><td>Team takes time to address root cause collaboratively</td></tr>
-          <tr><td><strong>Partial resolution</strong></td><td>1 Delivery token</td><td>+0 SQ, +2 DP</td><td>Team deprioritises quality to hit the milestone</td></tr>
-          <tr><td><strong>Escalation</strong></td><td>No token cost</td><td>−1 SQ, +1 DP</td><td>Team defers the problem and it gets worse</td></tr>
+          <tr><td><strong>Path A</strong></td><td>Higher token cost</td><td>Typically +SQ, sometimes −DP</td><td>Team takes time to address the root cause</td></tr>
+          <tr><td><strong>Path B</strong></td><td>Moderate token cost</td><td>Typically balanced or +DP</td><td>Team finds a workable middle ground</td></tr>
+          <tr><td><strong>Path C</strong></td><td>Lower or no token cost</td><td>Typically +DP, risk of −SQ</td><td>Team deprioritises quality to hit the milestone</td></tr>
         </tbody>
       </table>
-      <div class="note-box">Most scenarios must involve two or three roles to reach full resolution. If only one player speaks, that counts as partial resolution at best. The facilitator can enforce this.</div>
+      <div class="note-box">Exact token costs vary by card and are shown on each resolution path. Path A is not always the "right" answer — it depends on the scenario and the team's situation.</div>
     </div>
     <div class="section-panel">
       <h2>Scoring</h2>
@@ -654,10 +672,11 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <h2>Facilitator notes</h2>
       <ul>
         <li>Do not allow a single player to dominate scenario resolution. Name the rule: two or three roles must contribute.</li>
-        <li>The delivery manager and product manager will often default to partial resolution. Let them, then debrief it.</li>
+        <li>The delivery manager and product manager will often favour Path B or Path C. Let them, then debrief it.</li>
         <li>The Business Analyst will often want more time to clarify requirements. Watch for whether the team uses this productively or as avoidance.</li>
         <li>Keep the resolution paths hidden until the team has agreed their approach. Use the toggle on the game board.</li>
-        <li>Aim for 5–7 minutes per scenario. Use the on-screen scenario timer on the game board to keep discussions on pace. If the group stalls, name the time — the pressure to decide is part of the game.</li>
+        <li>Some scenario cards include a "Note for facilitator" that references a decision made in an earlier card. Because scenarios are randomly selected, the referenced card may not have appeared this session — use your judgement about whether the note is relevant, and skip it if not.</li>
+        <li>Aim for 5–7 minutes per scenario. The 60-minute session timer creates collective pressure — name it if discussions are running long. Remind players that incomplete phases carry a −3 DP penalty.</li>
         <li>Do not intervene in decisions, even clearly bad ones. The discomfort is the learning.</li>
         <li>After a full run, ask players which scenario they want to replay differently.</li>
         <li>The session summary above records which resolution path was chosen for each scenario — use it as your debrief data.</li>
@@ -674,7 +693,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 // ============================================================
 var dp = 0, sq = 0;
 var activeCell = null;
-var showScoreEffects = false; // Toggle for showing/hiding score effects during play
 var sessionLog = []; // {step, cardId, title, path, dpDelta, sqDelta}
 var chosenPaths = {}; // cardId -> path key
 
@@ -723,13 +741,25 @@ function resetTokens(){
   document.querySelectorAll('.tok,.tok-sm').forEach(function(t){t.classList.remove('spent');});
 }
 
-function toggleScoreEffects(checked){
-  showScoreEffects = checked;
-  // Refresh the current card display to show/hide score effects
-  if(activeCell !== null){
-    selectStep(activeCell, true); // true = silent refresh, don't change state
+function revealScores(){
+  document.getElementById('score-hidden').style.display = 'none';
+  document.getElementById('score-revealed').style.display = 'block';
+  document.getElementById('tracker-title').textContent = 'Scores';
+}
+function hideScores(){
+  document.getElementById('score-hidden').style.display = 'block';
+  document.getElementById('score-revealed').style.display = 'none';
+  document.getElementById('tracker-title').textContent = 'Scores — hidden until gate';
+}
+function syncScoreVisibility(stepN){
+  var step = STEPS[stepN-1];
+  if(step && (step.type === 'gate' || step.type === 'review')){
+    revealScores();
+  } else {
+    hideScores();
   }
 }
+
 
 function showTab(name,el){
   document.querySelectorAll('.tab-content').forEach(function(s){s.classList.remove('visible');});
@@ -740,30 +770,99 @@ function showTab(name,el){
 }
 
 // ============================================================
-// BOARD DATA
+// SESSION GENERATION — v2.2
 // ============================================================
-var STEPS=[
-  {n:1,type:'scenario',phase:'discovery',label:'Scenario',card:'D1'},
-  {n:2,type:'event',phase:'discovery',label:'Event',card:'E1'},
-  {n:3,type:'scenario',phase:'discovery',label:'Scenario',card:'D2'},
-  {n:4,type:'scenario',phase:'discovery',label:'Scenario',card:'D3'},
-  {n:5,type:'gate',phase:'discovery',label:'Phase gate',card:'G1'},
-  {n:6,type:'scenario',phase:'alpha',label:'Scenario',card:'A1'},
-  {n:7,type:'event',phase:'alpha',label:'Event',card:'E2'},
-  {n:8,type:'scenario',phase:'alpha',label:'Scenario',card:'A2'},
-  {n:9,type:'scenario',phase:'alpha',label:'Scenario',card:'A3'},
-  {n:10,type:'gate',phase:'alpha',label:'Phase gate',card:'G2'},
-  {n:11,type:'scenario',phase:'beta',label:'Scenario',card:'B1'},
-  {n:12,type:'event',phase:'beta',label:'Event',card:'E3'},
-  {n:13,type:'scenario',phase:'beta',label:'Scenario',card:'B2'},
-  {n:14,type:'scenario',phase:'beta',label:'Scenario',card:'B3'},
-  {n:15,type:'gate',phase:'beta',label:'Phase gate',card:'G3'},
-  {n:16,type:'scenario',phase:'live',label:'Scenario',card:'L1'},
-  {n:17,type:'event',phase:'live',label:'Event',card:'E4'},
-  {n:18,type:'scenario',phase:'live',label:'Scenario',card:'L2'},
-  {n:19,type:'gate',phase:'live',label:'Phase gate',card:'G4'},
-  {n:20,type:'review',phase:'review',label:'Review',card:'REV'}
-];
+var sessionScenarios = {
+  disc1: null, disc2: null,
+  alpha1: null, alpha2: null,
+  beta1: null,  beta2: null,
+  live1: null,  live2: null
+};
+
+function pickRandom(arr, n){
+  var pool = arr.slice();
+  var picks = [];
+  for(var i=0;i<n&&pool.length>0;i++){
+    var idx = Math.floor(Math.random()*pool.length);
+    picks.push(pool.splice(idx,1)[0]);
+  }
+  return picks;
+}
+
+function generateSession(){
+  // Discovery: pick 2 from [D1,D2,D3,D4,D5]
+  var discPicks = pickRandom(['D1','D2','D3','D4','D5'], 2);
+  sessionScenarios.disc1  = discPicks[0];
+  sessionScenarios.disc2  = discPicks[1];
+  // Alpha first: pick 1 from [A1,A2,A3,A4]
+  sessionScenarios.alpha1 = pickRandom(['A1','A2','A3','A4'], 1)[0];
+  // Beta first: pick 1 from [B1,B2,B3,B4]
+  sessionScenarios.beta1  = pickRandom(['B1','B2','B3','B4'], 1)[0];
+  // Live first: pick 1 from [L1,L2,L3,L4]
+  sessionScenarios.live1  = pickRandom(['L1','L2','L3','L4'], 1)[0];
+  // Conditional second slots — placeholder until resolveConditional() fires at step 7/11/15
+  sessionScenarios.alpha2 = 'A5_standard';
+  sessionScenarios.beta2  = 'B5_standard';
+  sessionScenarios.live2  = 'L5_standard';
+}
+
+function buildSteps(){
+  STEPS = [
+    {n:1,  type:'scenario', phase:'discovery', label:'Scenario',   card: sessionScenarios.disc1},
+    {n:2,  type:'event',    phase:'discovery', label:'Event',      card:'E1'},
+    {n:3,  type:'scenario', phase:'discovery', label:'Scenario',   card: sessionScenarios.disc2},
+    {n:4,  type:'gate',     phase:'discovery', label:'Phase gate', card:'G1'},
+    {n:5,  type:'scenario', phase:'alpha',     label:'Scenario',   card: sessionScenarios.alpha1},
+    {n:6,  type:'event',    phase:'alpha',     label:'Event',      card:'E2'},
+    {n:7,  type:'scenario', phase:'alpha',     label:'Scenario',   card: sessionScenarios.alpha2},
+    {n:8,  type:'gate',     phase:'alpha',     label:'Phase gate', card:'G2'},
+    {n:9,  type:'scenario', phase:'beta',      label:'Scenario',   card: sessionScenarios.beta1},
+    {n:10, type:'event',    phase:'beta',      label:'Event',      card:'E3'},
+    {n:11, type:'scenario', phase:'beta',      label:'Scenario',   card: sessionScenarios.beta2},
+    {n:12, type:'gate',     phase:'beta',      label:'Phase gate', card:'G3'},
+    {n:13, type:'scenario', phase:'live',      label:'Scenario',   card: sessionScenarios.live1},
+    {n:14, type:'event',    phase:'live',      label:'Event',      card:'E4'},
+    {n:15, type:'scenario', phase:'live',      label:'Scenario',   card: sessionScenarios.live2},
+    {n:16, type:'gate',     phase:'live',      label:'Phase gate', card:'G4'},
+    {n:17, type:'review',   phase:'review',    label:'Review',     card:'REV'}
+  ];
+}
+
+// Mutable STEPS array — rebuilt each session
+var STEPS = [];
+
+// ============================================================
+// CONDITIONAL SCENARIO SELECTION — v2.3
+// ============================================================
+// Called when the player advances to the second scenario step of a phase.
+// phase: 'alpha' | 'beta' | 'live'
+// Steps: alpha2=7, beta2=11, live2=15
+function resolveConditional(phase){
+  var variant;
+  if(phase === 'alpha'){
+    // Threshold: 2+ point gap
+    if(sq <= dp - 2)       variant = 'A5_lowSQ';
+    else if(dp <= sq - 2)  variant = 'A5_lowDP';
+    else                   variant = 'A5_standard';
+    sessionScenarios.alpha2 = variant;
+    STEPS[6].card = variant; // step 7, index 6
+  } else if(phase === 'beta'){
+    // Threshold: 2+ point gap
+    if(sq <= dp - 2)       variant = 'B5_lowSQ';
+    else if(dp <= sq - 2)  variant = 'B5_lowDP';
+    else                   variant = 'B5_standard';
+    sessionScenarios.beta2 = variant;
+    STEPS[10].card = variant; // step 11, index 10
+  } else if(phase === 'live'){
+    // Threshold: 3+ point gap
+    if(sq <= dp - 3)       variant = 'L5_lowSQ';
+    else if(dp <= sq - 3)  variant = 'L5_lowDP';
+    else                   variant = 'L5_standard';
+    sessionScenarios.live2 = variant;
+    STEPS[14].card = variant; // step 15, index 14
+  }
+  return variant;
+}
 
 var PHASE_CSS={discovery:'ph-disc',alpha:'ph-alpha',beta:'ph-beta',live:'ph-live',review:'ph-rev'};
 var PHASE_NAMES={discovery:'Discovery',alpha:'Alpha',beta:'Beta',live:'Live',review:'Review'};
@@ -780,123 +879,465 @@ var ROLE_MAP = {
 };
 
 // Resolution path definitions
-// type: 'full'|'partial'|'escalation'|'none'
+// type: 'a'|'b'|'c' (Path A / Path B / Path C)
 var CARDS={
+
+  // ── DISCOVERY ──────────────────────────────────────────────
   D1:{tag:'Scenario',tagCss:'tag-scenario',title:'"We already know what users need"',
-    scenario:'A senior stakeholder has shared a brief that assumes the user need is already understood from previous policy work. The user researcher has flagged that the assumed need does not match what they have seen in analogous services. The product manager is inclined to accept the brief and move on.',
-    triggeredRoles:['User Researcher','Product Manager','Service Designer','Business Analyst'],
+    followsOn:null,
+    triggeredRoles:['User Researcher','Product Manager','Business Analyst'],
+    scenario:'A senior stakeholder has shared a brief that assumes the user need is already understood from previous policy work. The user researcher has flagged that the assumed need may not fully match what she has seen in analogous services. The programme board meets in two weeks and expects a confirmed scope.',
     paths:[
-      {type:'full',tokenCost:'2 Research + 1 Delivery',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'User Researcher presents conflicting evidence. Business Analyst structures the alternative problem statements and runs an options session. Team agrees to redefine the scope before proceeding.'},
-      {type:'partial',tokenCost:'1 Delivery',label:'Partial resolution',dpDelta:2,sqDelta:-1,desc:'Team notes the concern but accepts the brief as given. Delivery Manager records a risk.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:3,sqDelta:-2,desc:'Brief accepted without challenge. The team may be trying to solve the wrong problem!'}
+      {type:'a',label:'Path A',tokenCost:'2 Research',dpDelta:0,sqDelta:2,
+       intent:'Pause to review the evidence.',
+       outcome:'The team pauses to review the evidence. User Researcher presents three case studies from comparable services. The scope is partially reframed. The programme board meeting is postponed by a week. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'},
+      {type:'b',label:'Path B',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+       intent:"Accept the brief's framing but append a set of assumptions to be tested in Discovery.",
+       outcome:"The team accepts the brief's framing but appends a set of assumptions to be tested in Discovery. Business Analyst documents the risk. Progress continues, but on a foundation that has not been fully validated."},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:0,
+       intent:'Accept the brief.',
+       outcome:"The brief is accepted. The user researcher's concerns are noted in a risk log. The team moves forward. The concern may resurface, or it may turn out the policy work was right."}
     ]},
+
   D2:{tag:'Scenario',tagCss:'tag-scenario',title:'"The research will take too long"',
-    scenario:'The discovery phase has a fixed end date set by the programme board. The user researcher has scoped a proper round of contextual interviews but they will not be completed in time. The delivery manager wants to proceed with desk research only.',
+    followsOn:'D1',
     triggeredRoles:['User Researcher','Delivery Manager','Content Designer'],
+    scenario:'The discovery phase has a fixed end date. The user researcher has scoped a proper round of contextual interviews, but the delivery manager calculates they will not complete in time. The content designer points out that without real user language, the content strategy will be built on assumptions.',
     paths:[
-      {type:'full',tokenCost:'2 Research',label:'Full resolution',dpDelta:-1,sqDelta:3,desc:'User Researcher insists on proper contextual interviews. Project slips by two weeks, but the team has genuine user insight to build on.'},
-      {type:'partial',tokenCost:'1 Research + 1 Delivery',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'The delivery manager makes a strong argument which the User Researcher accepts and proceeds with desk research only.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:1,sqDelta:-2,desc:'Research skipped entirely. Unknown gaps are baked into the service from day one.'}
+      {type:'a',label:'Path A',tokenCost:'2 Research',dpDelta:-1,sqDelta:2,
+       intent:'Run a condensed but genuine research sprint — five contextual interviews over four days.',
+       outcome:'The team runs a condensed but genuine research sprint — five contextual interviews over four days. The end date slips by a week. The findings reshape two assumptions in the brief.'},
+      {type:'b',label:'Path B',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Use a hybrid approach: desk research plus two pop-up interviews at a relevant service location.',
+       outcome:'A hybrid approach: desk research plus two pop-up interviews at a relevant service location. Not everything is answered, but key risks are identified. The delivery manager accepts the slight extension.'},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Rely on desk research only.',
+       outcome:'Desk research only. The user researcher documents what is unknown for Alpha. Progress is maintained but assumptions remain untested. This may be fine. It may not.'}
     ]},
+
   D3:{tag:'Scenario',tagCss:'tag-scenario',title:'"Nobody agreed who owns this"',
-    scenario:'Halfway through discovery, it becomes clear that another team in the department is doing adjacent work on the same user journey. There is no agreement on who leads, who supports, and how findings will be shared. Tension is building between the two product managers.',
+    followsOn:null,
     triggeredRoles:['Product Manager','Service Designer','Delivery Manager','Business Analyst'],
+    scenario:'Halfway through discovery, the service designer has mapped the user journey and found that a neighbouring team is working on an adjacent piece of the same journey. Neither team was aware of the other. The programme board expects one coherent service. The two product managers have not yet spoken.',
     paths:[
-      {type:'full',tokenCost:'1 Research + 1 Delivery',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Business Analyst maps the overlap and scope boundaries. Product Manager initiates a joint session. Clear ownership and handoffs agreed.'},
-      {type:'partial',tokenCost:'1 Delivery',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'Teams continue in parallel and agree to share outputs at the end. Risk of duplication.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:0,sqDelta:-1,desc:'Neither team blinks. Both proceed separately.'}
+      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:0,sqDelta:2,
+       intent:'Service Designer facilitates a joint mapping session with both teams.',
+       outcome:'Service Designer facilitates a joint mapping session with both teams. Business Analyst documents the handoff points. It takes two days but the overlap is resolved and findings will be shared. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'},
+      {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Agree a division of scope through a short conversation.',
+       outcome:'The two product managers agree to a division of scope based on a short conversation. It is not fully mapped but it is workable. Both teams continue. There is some residual ambiguity at the boundaries.'},
+      {type:'c',label:'Path C',tokenCost:'None',dpDelta:2,sqDelta:-1,
+       intent:'Let both teams continue independently.',
+       outcome:'Both teams continue independently. The product manager flags it as a risk for the programme board. The overlap may cause duplication or conflict later, or the natural division of the journey may mean it never becomes a problem.'}
     ]},
-  E1:{tag:'Event',tagCss:'tag-event',title:'A new minister has different priorities',
-    scenario:'The Secretary of State has been reshuffled. The new minister has a different emphasis and has publicly questioned the value of the programme you are developing. The team must spend time presenting the case for continuing.\n\nEffect: -1 DP. Applies immediately.',
-    triggeredRoles:[],paths:[]},
+
+  D4:{tag:'Scenario',tagCss:'tag-scenario',title:'"A stakeholder wants a say in the design"',
+    followsOn:null,
+    triggeredRoles:['User Researcher','Service Designer','Product Manager'],
+    scenario:'A senior policy official has asked to be involved in design decisions throughout discovery. She has strong views about how the service should work and has already shared a rough wireframe. The product manager is uncertain how to handle this. The user researcher is concerned about the team\'s independence.',
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Product Manager sets up a structured engagement process: the official joins show-and-tells but design decisions rest with the team.',
+       outcome:'Product Manager sets up a structured engagement process: the official joins show-and-tells but design decisions rest with the team. User Researcher agrees to involve her in one research session. The boundary holds for now, though she remains influential.'},
+      {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:2,sqDelta:0,
+       intent:"Give the official a regular update meeting and use her wireframe as a reference point, not a specification.",
+       outcome:"The official is given a regular update meeting and her wireframe is used as a reference point but not a specification. The team retains autonomy in practice, though there is an unspoken expectation to consider her preferences. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward."},
+      {type:'c',label:'Path C',tokenCost:'1 Research',dpDelta:0,sqDelta:2,
+       intent:'Service Designer invites the official into a co-design workshop.',
+       outcome:"Service Designer invites the official into a co-design workshop. Her knowledge of the policy context is genuinely useful and surfaces three constraints the team had not considered. The relationship is now collaborative, though her expectations of influence have grown. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward."}
+    ]},
+
+  D5:{tag:'Scenario',tagCss:'tag-scenario',title:'"The team doesn\'t agree on what discovery is for"',
+    followsOn:null,
+    triggeredRoles:['User Researcher','Delivery Manager','Service Designer','Product Manager'],
+    scenario:"Midway through discovery, a tension has emerged. The delivery manager believes discovery is about confirming the approach and building a backlog. The user researcher believes it is about genuinely understanding whether the problem is the right one to solve. The product manager has been non-committal. A sprint review is tomorrow.",
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Product Manager facilitates a short team alignment session before the sprint review.',
+       outcome:"Product Manager facilitates a short team alignment session before the sprint review. The team agrees a shared definition of what they are trying to learn and what decision it will inform. Tension reduced; some underlying disagreement remains about pace."},
+      {type:'b',label:'Path B',tokenCost:'2 Research',dpDelta:-1,sqDelta:2,
+       intent:'Service Designer proposes the team pauses and explicitly revisits the discovery brief.',
+       outcome:'Service Designer proposes the team pauses and explicitly revisits the discovery brief. It takes half a day. The resulting clarity reshapes the research plan and produces a sharper problem statement.'},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Proceed with the sprint review without resolving the underlying disagreement.',
+       outcome:'The sprint review happens without resolving the underlying disagreement. Each team member is working towards a slightly different goal. Progress is being made, but it may need to be unwound later.'}
+    ]},
+
+  E1:{tag:'Event',tagCss:'tag-event',title:'A minister has publicly questioned the programme',
+    followsOn:null,triggeredRoles:[],paths:[],
+    scenario:'The Secretary of State has commented in a select committee session that digital health programmes "often cost more than they deliver." The team\'s programme is not named but colleagues in the department are nervous.\n\nEffect: \u22121 DP. The team spends time reassuring stakeholders rather than progressing discovery.'},
+
   G1:{tag:'Phase gate',tagCss:'tag-gate',title:'Discovery to Alpha',
-    scenario:'Gate question: Are we solving the right problem?\n\nRequires at least 2 Service Quality points accumulated. If not met, the team have failed their service assessment and must remediate during the next phase. 1 Research and 1 Design token must be removed from the team\'s Alpha phase starting allocation.\n\nAdvance to Alpha and reset tokens appropriately.',
-    triggeredRoles:[],paths:[]},
+    followsOn:null,triggeredRoles:[],paths:[],
+    scenario:'Gate question: Have we found out enough to build something?\n\nCheck the current SQ score.\n\nIf SQ is below 1: the discovery evidence base is too thin to build on confidently. Remove 1 Research token and 1 Design token from the team\'s Alpha starting allocation. The team enters Alpha carrying a knowledge debt.\n\nIf SQ is 1 or above: advance to Alpha with full token allocation.'},
+
+  // ── ALPHA ──────────────────────────────────────────────────
   A1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The prototype doesn\'t test well"',
-    scenario:'First round of usability testing on the Alpha prototype returns poor results. Users are confused by the main flow. The interaction designer says the journey needs a fundamental rethink. The delivery manager says there is not time for a full redesign before the next show-and-tell with stakeholders.',
-    triggeredRoles:['Interaction Designer','Delivery Manager','Content Designer'],
+    followsOn:null,
+    triggeredRoles:['Interaction Designer','User Researcher','Content Designer'],
+    scenario:'The first round of usability testing on the Alpha prototype returns poor results. Users are confused by the main flow. The interaction designer says the core journey needs rethinking. The delivery manager notes the next stakeholder show-and-tell is in ten days.',
     paths:[
-      {type:'full',tokenCost:'2 Design',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Interaction Designer and Content Designer spend tokens to redesign two key screens. Show-and-tell is reframed as a problem-sharing session.'},
-      {type:'partial',tokenCost:'1 Design',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'Surface changes only. Flow issues remain but are documented.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:0,sqDelta:0,desc:'Stakeholders are shown the broken prototype. Team loses credibility.'}
+      {type:'a',label:'Path A',tokenCost:'2 Design',dpDelta:-1,sqDelta:2,
+       intent:'Interaction Designer and Content Designer spend three days redesigning the core flow.',
+       outcome:'Interaction Designer and Content Designer spend three days redesigning the core flow. The show-and-tell is delayed by a week. The revised prototype is significantly clearer in the next round of testing.'},
+      {type:'b',label:'Path B',tokenCost:'1 Design + 1 Research',dpDelta:1,sqDelta:1,
+       intent:'Make targeted changes to the two most problematic screens and run a lightweight second round of testing.',
+       outcome:'The team makes targeted changes to the two most problematic screens and runs a lightweight second round of testing. The show-and-tell proceeds. The prototype is better, though some issues remain.'},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Proceed with the show-and-tell using the current prototype.',
+       outcome:'The show-and-tell proceeds with the current prototype. The delivery manager frames it as "work in progress." Stakeholders are not impressed but the milestone is met. The usability issues remain in the backlog.'}
     ]},
+
   A2:{tag:'Scenario',tagCss:'tag-scenario',title:'"Scope has quietly expanded"',
-    scenario:'Since the start of Alpha, three additional features have been added to the backlog by stakeholders without any formal process. The product manager added them without consulting the design team. The service designer has now mapped out how much extra work this creates and it is significant.',
-    triggeredRoles:['Service Designer','Product Manager','User Researcher','Business Analyst'],
+    followsOn:null,
+    triggeredRoles:['Service Designer','Product Manager','Business Analyst'],
+    scenario:'Since the start of Alpha, three features have been added to the backlog by stakeholders. The product manager accepted them without a formal impact assessment. The service designer has mapped the knock-on effects: it is significant. The delivery manager has not yet been told.',
     paths:[
-      {type:'full',tokenCost:'1 Research + 2 Delivery',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Business Analyst documents the impact on requirements and validates with User Researcher. Product Manager runs a prioritisation session. Two features deferred.'},
-      {type:'partial',tokenCost:'1 Delivery',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'Features retained but timeline extended. Team is under increased pressure.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Scope remains unchanged. Team absorbs the extra work silently.'}
+      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Business Analyst produces a rapid impact assessment.',
+       outcome:'Business Analyst produces a rapid impact assessment. Product Manager presents it to stakeholders and negotiates: two features are deferred to Beta. The backlog returns to a manageable size.'},
+      {type:'b',label:'Path B',tokenCost:'2 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Absorb the additional features.',
+       outcome:'The team absorbs the additional features. The delivery manager extends the Alpha timeline by two weeks. Some design work will be rushed. The features are retained but may not be well-integrated.'},
+      {type:'c',label:'Path C',tokenCost:'1 Research',dpDelta:0,sqDelta:2,
+       intent:'Service Designer maps the full service against the expanded scope and identifies that two of the three features are actually in tension with the core user journey.',
+       outcome:'Service Designer maps the full service against the expanded scope and identifies that two of the three features are actually in tension with the core user journey. Product Manager uses this evidence to remove them from scope entirely. Alpha is cleaner but the stakeholder relationship is strained.'}
     ]},
-  A3:{tag:'Scenario',tagCss:'tag-scenario',title:'"The content hasn\'t been touched"',
-    scenario:'The interaction designer has been building the prototype using placeholder text. The content designer was not involved in wireframing. Now that content is being written, it is clear the page structure does not work for plain English. Key guidance requires more space than the design allows and some journeys do not make sense without explanatory copy.',
+
+  A3:{tag:'Scenario',tagCss:'tag-scenario',title:'"The content designer hasn\'t been involved"',
+    followsOn:null,
     triggeredRoles:['Content Designer','Interaction Designer','Product Manager'],
+    scenario:'The Alpha prototype has been built using placeholder text. The content designer was not involved in wireframing and has only just been shown the designs. She identifies that several page structures will not work for plain English guidance. Two weeks of design work may need to be revisited.',
     paths:[
-      {type:'full',tokenCost:'2 Design',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Content Designer and Interaction Designer rework three key screens together. Product Manager creates a standing invite for Content Designer in design reviews.'},
-      {type:'partial',tokenCost:'1 Design',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'Content Designer retrofits copy into the existing design. Some structural issues remain.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:1,sqDelta:-2,desc:'Placeholder text is replaced with copy that is too long. Prototype is misleading in testing.'}
+      {type:'a',label:'Path A',tokenCost:'2 Design',dpDelta:-1,sqDelta:2,
+       intent:'Content Designer and Interaction Designer spend two days restructuring the most problematic screens together.',
+       outcome:'Content Designer and Interaction Designer spend two days restructuring the most problematic screens together. A new working agreement is made: content designer joins wireframe reviews from now on.'},
+      {type:'b',label:'Path B',tokenCost:'1 Design',dpDelta:1,sqDelta:1,
+       intent:'Content Designer retrofits content into the existing structure where possible.',
+       outcome:'Content Designer retrofits content into the existing structure where possible. Some pages require compromise. A note is added to the backlog to revisit three journeys in Beta.'},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Ask the Content Designer to work within the existing structures.',
+       outcome:'The product manager asks the content designer to work within the existing structures. Content is fitted in. The guidance is functional but not clear. Users may struggle with it but it is not obviously broken.'}
     ]},
-  E2:{tag:'Event',tagCss:'tag-event',title:'Your user researcher is pulled onto another programme',
-    scenario:'The user researcher is seconded to a higher-priority crisis project for the remainder of this phase.\n\nEffect: Remove all Research tokens from the User Researcher for the rest of this phase.',
-    triggeredRoles:[],paths:[]},
+
+  A4:{tag:'Scenario',tagCss:'tag-scenario',title:'"A technical constraint changes what\'s possible"',
+    followsOn:null,
+    triggeredRoles:['Interaction Designer','Delivery Manager','Service Designer','Business Analyst'],
+    scenario:'The development team has raised a constraint with the integration layer: one of the core user journeys as designed requires a data handoff that the existing infrastructure cannot support without significant additional work. The business analyst thinks there may be a workaround. The delivery manager wants a decision this week.',
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:0,sqDelta:2,
+       intent:'Business Analyst investigates the workaround in depth.',
+       outcome:'Business Analyst investigates the workaround in depth. It is viable but adds complexity. Service Designer maps the impact on the user journey. The team redesigns around the constraint. The journey is slightly longer but coherent. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'},
+      {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:2,sqDelta:0,
+       intent:'Accept the workaround at face value and build it into the plan.',
+       outcome:'The delivery manager accepts the workaround at face value and builds it into the plan. It works in testing but introduces a dependency that has not been fully stress-tested. It may be fine. It may cause an issue later. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
+      {type:'c',label:'Path C',tokenCost:'2 Design + 1 Research',dpDelta:-1,sqDelta:1,
+       intent:'Interaction Designer proposes redesigning the journey to avoid the constraint entirely.',
+       outcome:'Interaction Designer proposes redesigning the journey to avoid the constraint entirely. It takes longer but produces a cleaner, simpler solution. The development team is relieved. The user journey is arguably better than the original.'}
+    ]},
+
+  A5_lowSQ:{tag:'Scenario',tagCss:'tag-scenario',title:'"The service assessment pre-review feedback is bad"',
+    followsOn:null,
+    triggeredRoles:['User Researcher','Service Designer','Product Manager','Content Designer'],
+    scenario:'The team has shared their Alpha work with the service assessment panel for an informal pre-review. The feedback is blunt: the team has not provided sufficient evidence of understanding user needs, and the accessibility approach is not convincing. An official assessment is in four weeks.',
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'2 Research + 1 Design',dpDelta:-1,sqDelta:2,
+       intent:'User Researcher runs a rapid evidence-gathering sprint.',
+       outcome:'User Researcher runs a rapid evidence-gathering sprint. Content Designer and Service Designer restructure the evidence pack. The pre-review panel is re-engaged informally. The feedback improves but significant work remains. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
+      {type:'b',label:'Path B',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Address the two most critical gaps and resubmit the evidence pack.',
+       outcome:'The team addresses the two most critical gaps and resubmits the evidence pack. The panel acknowledges the effort. The assessment is unlikely to be failed but confidence is not high.'},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Product Manager decides to proceed to assessment without significant changes and manage the outcome.',
+       outcome:'Product Manager decides to proceed to assessment without significant changes and manage the outcome. The team may pass by the skin of their teeth or may be asked to remediate. It is a gamble.'}
+    ]},
+
+  A5_lowDP:{tag:'Scenario',tagCss:'tag-scenario',title:'"The programme board is questioning the pace"',
+    followsOn:null,
+    triggeredRoles:['Delivery Manager','Product Manager','Business Analyst'],
+    scenario:'The programme board has requested an urgent update. They are concerned that Alpha is running significantly behind comparable programmes and have asked whether the team is "doing too much research and not enough building." The delivery manager is under pressure to show momentum.',
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'2 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Delivery Manager presents an accelerated plan.',
+       outcome:'Delivery Manager presents an accelerated plan. Two Alpha scenarios are descoped to Beta. The board is reassured. The team moves faster but some design decisions are made without sufficient evidence.'},
+      {type:'b',label:'Path B',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Business Analyst produces a clear narrative of what has been learned and why it matters for quality.',
+       outcome:'Business Analyst produces a clear narrative of what has been learned and why it matters for quality. Delivery Manager shows a revised timeline that is tighter but realistic. The board is partially reassured.'},
+      {type:'c',label:'Path C',tokenCost:'1 Research',dpDelta:0,sqDelta:2,
+       intent:"Product Manager pushes back on the board directly, with evidence that the team's pace reflects necessary rigour.",
+       outcome:"Product Manager pushes back on the board directly, with evidence that the team's pace reflects necessary rigour. The board is not fully convinced but agrees to a four-week review. The team continues at its own pace. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage."}
+    ]},
+
+  A5_standard:{tag:'Scenario',tagCss:'tag-scenario',title:'"A researcher has left the team"',
+    followsOn:null,
+    triggeredRoles:['User Researcher','Product Manager','Delivery Manager'],
+    scenario:'The user researcher has been offered a role elsewhere and is leaving in two weeks. A replacement has not been identified. Three Alpha research activities are planned for the next month. The product manager needs to decide how to proceed.',
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'2 Research',dpDelta:-1,sqDelta:1,
+       intent:'Pause the research activities until an interim researcher is contracted.',
+       outcome:'The team pauses the research activities until an interim researcher is contracted. It takes two weeks. The research is done properly when it resumes, though the delay has knock-on effects on the Alpha timeline. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
+      {type:'b',label:'Path B',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Service Designer takes on a light research facilitation role for two sessions.',
+       outcome:'Service Designer takes on a light research facilitation role for two sessions. The product manager contracts a junior researcher for the third. The coverage is adequate if not ideal.'},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Product Manager decides the Alpha evidence base is sufficient and descopes the remaining research activities.',
+       outcome:'The product manager decides the Alpha evidence base is sufficient and descopes the remaining research activities. The team moves forward without them. It may turn out to be fine, or it may leave gaps that appear in Beta.'}
+    ]},
+
+  E2:{tag:'Event',tagCss:'tag-event',title:'A key team member is seconded to another programme',
+    followsOn:null,triggeredRoles:[],paths:[],
+    scenario:'The user researcher has been asked to support a higher-priority crisis response programme for three weeks. It is not optional. Research capacity is reduced for the remainder of this phase.\n\nEffect: Remove 1 Research token from the current phase\'s remaining allocation.'},
+
   G2:{tag:'Phase gate',tagCss:'tag-gate',title:'Alpha to Beta',
-    scenario:'Gate question: Is this approach viable?\n\nRequires the team to have spent at least one Research token and one Design token in this phase. If not, the product manager may spend a Delivery token to override (the PM starts the next phase with 1 less Delivery token), but loses 1 SQ.\n\nAdvance to Beta and reset tokens appropriately.',
-    triggeredRoles:[],paths:[]},
+    followsOn:null,triggeredRoles:[],paths:[],
+    scenario:'Gate question: Is there enough to build on?\n\nCheck whether the team has spent at least 1 Research token during this phase.\n\nIf fewer than 1 Research token was spent: the evidence base is too thin. Remove 1 Research token and 1 Design token from the team\'s Beta starting allocation.\n\nIf the research threshold is met: advance to Beta with full token allocation.'},
+
+  // ── BETA ───────────────────────────────────────────────────
   B1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The accessibility audit came back"',
-    scenario:'An independent accessibility audit has flagged four critical issues: missing alt text, a colour contrast failure, a keyboard trap in the main form, and a document download that is not screen-reader compatible. The interaction designer estimates three days of work. The delivery manager says the release schedule does not have three days in it.',
-    triggeredRoles:['Interaction Designer','Delivery Manager','Service Designer'],
-    paths:[
-      {type:'full',tokenCost:'2 Design',label:'Full resolution',dpDelta:-1,sqDelta:3,desc:'Interaction Designer works late to resolve all four issues. The fix caused the release to be delayed by three days.'},
-      {type:'partial',tokenCost:'1 Design + 1 Delivery',label:'Partial resolution',dpDelta:1,sqDelta:1,desc:'Two critical issues fixed now. Two deferred with an agreed remediation date post-launch.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:2,sqDelta:-2,desc:'Issues are logged but not fixed. Service goes live with known accessibility failures.'}
-    ]},
-  B2:{tag:'Scenario',tagCss:'tag-scenario',title:'"The data is telling a different story"',
-    scenario:'Beta analytics show that 40% of users are abandoning the service at step three of the application journey. The user researcher has a hypothesis but needs time to run follow-up interviews. The product manager wants to ship a fix based on the data alone. The service designer thinks it is a comprehension issue. The content designer thinks the guidance language is the problem.',
-    triggeredRoles:['User Researcher','Service Designer','Content Designer','Product Manager'],
-    paths:[
-      {type:'full',tokenCost:'1 Research + 2 Design',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'User Researcher runs five quick interviews. Service Designer and Content Designer each contribute a fix. Drop-off addressed at root cause.'},
-      {type:'partial',tokenCost:'1 Delivery',label:'Partial resolution',dpDelta:2,sqDelta:0,desc:'PM pushes an untested fix based on a data assumption. Drop-off reduced but not resolved.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:1,sqDelta:-1,desc:'Issue deprioritised until Live. Users continue dropping off.'}
-    ]},
-  B3:{tag:'Scenario',tagCss:'tag-scenario',title:'"A new team member doesn\'t know the rules"',
-    scenario:'A contractor interaction designer has joined for Beta. They have strong skills but are unfamiliar with government service standards, the team\'s ways of working, and why certain decisions were made in Alpha. They have started reworking components that were deliberately designed in a particular way, and tensions are building with the content designer who was involved from the start.',
+    followsOn:null,
     triggeredRoles:['Interaction Designer','Content Designer','Delivery Manager'],
+    scenario:'An independent accessibility audit has returned four critical failures: missing alternative text, a colour contrast failure on the primary action, a keyboard trap in the main form, and a PDF download that is not screen-reader compatible. The interaction designer estimates three to four days to fix all four. The release schedule does not have four days in it.',
     paths:[
-      {type:'full',tokenCost:'1 Design + 1 Delivery',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Delivery Manager creates a structured onboarding session. Content Designer runs a decision log walkthrough. Contractor aligned.'},
-      {type:'partial',tokenCost:'1 Delivery',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'An informal conversation happens. Some context is shared. Tensions are reduced but not entirely resolved.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:-1,sqDelta:-2,desc:'Nobody has the time. Contractor continues undoing work.'}
+      {type:'a',label:'Path A',tokenCost:'2 Design',dpDelta:-1,sqDelta:2,
+       intent:'Interaction Designer and Content Designer fix all four issues.',
+       outcome:'Interaction Designer and Content Designer fix all four issues. The release date moves. The service is fully accessible at launch. No further remediation will be needed.'},
+      {type:'b',label:'Path B',tokenCost:'1 Design',dpDelta:1,sqDelta:1,
+       intent:'Fix the two most critical issues now.',
+       outcome:'The two most critical issues are fixed now. Two are deferred with a documented remediation plan. The service is partially accessible at launch. The deferred issues carry a reputational risk if surfaced publicly.'},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Log the audit findings.',
+       outcome:'The audit findings are logged. A remediation plan is written for post-launch. The service goes live with four known accessibility failures. This may go unnoticed. It may not.'}
     ]},
-  E3:{tag:'Event',tagCss:'tag-event',title:'A critical press story about a similar service',
-    scenario:'A comparable government service has been publicly criticised for poor accessibility and confusing guidance. The team\'s work is mentioned in passing. Stakeholder scrutiny has increased significantly.\n\nEffect: Service Quality must be prioritised this phase.',
-    triggeredRoles:[],paths:[]},
+
+  B2:{tag:'Scenario',tagCss:'tag-scenario',title:'"The data is telling a different story"',
+    followsOn:'A1',
+    triggeredRoles:['User Researcher','Content Designer','Service Designer','Product Manager'],
+    scenario:'Beta analytics show 38% of users abandoning at step three of the main journey. The product manager wants to ship a fix based on the data pattern alone. The user researcher believes the data indicates a comprehension problem that needs investigation before any change is made. The content designer and service designer have different hypotheses.\n\nNote for facilitator: If the team took Path C in A1 (proceeded with broken prototype), this data is likely a direct consequence.',
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Design',dpDelta:0,sqDelta:2,
+       intent:'User Researcher runs six interviews focused on step three.',
+       outcome:'User Researcher runs six interviews focused on step three. Content Designer and Service Designer each propose a change based on the findings. Both changes are made. The abandonment rate falls significantly in the next analysis cycle. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'},
+      {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:2,sqDelta:0,
+       intent:'Product Manager ships the most plausible fix based on the data pattern without user research.',
+       outcome:'Product Manager ships the most plausible fix based on the data pattern without user research. The abandonment rate improves slightly. The underlying reason is not confirmed. The improvement may be real or it may be noise. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
+      {type:'c',label:'Path C',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Run a rapid A/B test with two proposed changes.',
+       outcome:'A rapid A/B test is run with two proposed changes. Results are inconclusive after a week. The team picks the marginally better performing option and ships it. It is not a definitive answer but it is evidence-adjacent.'}
+    ]},
+
+  B3:{tag:'Scenario',tagCss:'tag-scenario',title:'"A contractor doesn\'t know the standards"',
+    followsOn:null,
+    triggeredRoles:['Interaction Designer','Content Designer','Delivery Manager'],
+    scenario:"A senior interaction designer contractor has joined for Beta. They are skilled and experienced, but not in UK government service standards. They have begun reworking several components, some of which were deliberately designed to meet specific standard requirements. The content designer is concerned. The delivery manager values the contractor's output speed.",
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'1 Design + 1 Progress',dpDelta:0,sqDelta:1,
+       intent:'Delivery Manager creates a structured handover session.',
+       outcome:'Delivery Manager creates a structured handover session. Content Designer walks through the design decisions and their rationale. The contractor realigns. Two components are revised back. Pace slows for a week then recovers.'},
+      {type:'b',label:'Path B',tokenCost:'1 Design',dpDelta:2,sqDelta:-1,
+       intent:"Content Designer reviews the contractor's output and flags the specific changes that conflict with standards.",
+       outcome:"The content designer reviews the contractor's output and flags the specific changes that conflict with standards. The contractor addresses those. Other changes stand. Some of the contractor's work represents a genuine improvement; some is standard-non-compliant and will require attention later. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage."},
+      {type:'c',label:'Path C',tokenCost:'2 Progress',dpDelta:-1,sqDelta:2,
+       intent:"Interaction Designer pauses the contractor's work and conducts a full review of everything produced in the first two weeks.",
+       outcome:"Interaction Designer pauses the contractor's work and conducts a full review of everything produced in the first two weeks. Standards compliance is confirmed throughout. The contractor is given a detailed briefing. Two weeks of work is partially redone. Quality is high but time has been spent."}
+    ]},
+
+  B4:{tag:'Scenario',tagCss:'tag-scenario',title:'"The service is being compared to a competitor"',
+    followsOn:null,
+    triggeredRoles:['Service Designer','User Researcher','Product Manager','Content Designer'],
+    scenario:"A charity has launched a comparable service for the same user group, built more quickly and with a more modern interface. Users in research sessions have begun comparing the two. Some team members think this is a useful benchmark. Others are concerned it is setting an inappropriate standard for a government service with different obligations.",
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'1 Research',dpDelta:1,sqDelta:1,
+       intent:'User Researcher runs a structured comparative session.',
+       outcome:'User Researcher runs a structured comparative session. Several features of the charity service are genuinely better for users. The team adopts two of them. The service improves. The comparison has been useful without driving the team to over-engineer.'},
+      {type:'b',label:'Path B',tokenCost:'1 Design + 1 Research',dpDelta:-1,sqDelta:2,
+       intent:'Service Designer and Content Designer conduct a thorough comparative analysis.',
+       outcome:'Service Designer and Content Designer conduct a thorough comparative analysis. Several significant improvements are identified and implemented. The service is meaningfully better. The timeline has extended by two weeks. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
+       intent:"Product Manager decides the comparison is not relevant to the team's obligations and communicates this to stakeholders.",
+       outcome:"Product Manager decides the comparison is not relevant to the team's obligations and communicates this to stakeholders. The team focuses on delivery. The feedback from research sessions continues but is not actioned."}
+    ]},
+
+  B5_lowSQ:{tag:'Scenario',tagCss:'tag-scenario',title:'"Frontline staff are flagging problems with the service"',
+    followsOn:null,
+    triggeredRoles:['User Researcher','Service Designer','Content Designer'],
+    scenario:'A network of frontline staff who help users access the service have been sharing concerns informally for several weeks. Three staff members have now formally written to the programme team: users are struggling with the service in ways that the analytics are not capturing. The product manager has not yet responded.',
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'2 Research',dpDelta:-1,sqDelta:2,
+       intent:'User Researcher visits two frontline offices and spends a day observing users with the service.',
+       outcome:'User Researcher visits two frontline offices and spends a day observing users with the service. The findings are significant. Service Designer maps the failure points. Four changes are prioritised for the current phase. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
+      {type:'b',label:'Path B',tokenCost:'1 Research + 1 Design',dpDelta:1,sqDelta:1,
+       intent:'Content Designer and Service Designer meet with two of the frontline staff remotely.',
+       outcome:'Content Designer and Service Designer meet with two of the frontline staff remotely. Three specific issues are identified and addressed. Other concerns are documented for the next phase. The staff feel heard.'},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Product Manager responds to the letter and thanks the staff for their feedback.',
+       outcome:'Product Manager responds to the letter and thanks the staff for their feedback. A process for ongoing feedback is established. The specific issues raised are added to the backlog but not prioritised for this phase. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'}
+    ]},
+
+  B5_lowDP:{tag:'Scenario',tagCss:'tag-scenario',title:'"The funder wants to see the service in use"',
+    followsOn:null,
+    triggeredRoles:['Delivery Manager','Product Manager','Business Analyst'],
+    scenario:"The programme's primary funder has requested a live demonstration of the Beta service for a board meeting in three weeks. The delivery manager believes the service is not ready. The product manager thinks the demonstration could be managed with careful framing. The business analyst is concerned about what happens if the funder asks questions that reveal the gaps.",
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Business Analyst prepares a clear and honest narrative of progress and what remains.',
+       outcome:'Business Analyst prepares a clear and honest narrative of progress and what remains. Product Manager frames the demonstration around what works well and is transparent about what is in progress. The funder is satisfied with the honesty and agrees a revised milestone plan.'},
+      {type:'b',label:'Path B',tokenCost:'2 Progress',dpDelta:2,sqDelta:0,
+       intent:'Rush to produce a scripted demonstration that showcases the strongest parts of the service.',
+       outcome:"The team rushes to produce a scripted demonstration that showcases the strongest parts of the service. It goes well. The funder is impressed. The parts of the service that are not working are not shown. The funder's expectations are now higher than the service can currently meet. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward."},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:1,sqDelta:2,
+       intent:'Delivery Manager pushes back on the demonstration request and proposes a written progress report instead.',
+       outcome:'Delivery Manager pushes back on the demonstration request and proposes a written progress report instead. The funder accepts this reluctantly. The team avoids the pressure of a demonstration and can continue at their pace. The relationship with the funder is slightly cooler. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'}
+    ]},
+
+  B5_standard:{tag:'Scenario',tagCss:'tag-scenario',title:'"A team process isn\'t working"',
+    followsOn:null,
+    triggeredRoles:['Delivery Manager','Product Manager','User Researcher','Content Designer'],
+    scenario:'The retrospective has surfaced a persistent problem: design decisions are being made in sessions that key team members are not invited to, and are then difficult to revisit. This has happened three times in Beta. The delivery manager thinks it is a process issue. The user researcher thinks it is a culture issue.',
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Delivery Manager implements a simple decision log and a mandatory two-day review window before design decisions are finalised.',
+       outcome:'Delivery Manager implements a simple decision log and a mandatory two-day review window before design decisions are finalised. It adds a small overhead but decisions are now visible and revisitable.'},
+      {type:'b',label:'Path B',tokenCost:'None',dpDelta:2,sqDelta:-1,
+       intent:'Product Manager acknowledges the issue and commits to improving communication.',
+       outcome:'Product Manager acknowledges the issue and commits to improving communication. No structural change is made. The problem persists at a lower level. Progress continues at pace.'},
+      {type:'c',label:'Path C',tokenCost:'1 Research + 1 Progress',dpDelta:0,sqDelta:2,
+       intent:'User Researcher facilitates a team working-agreement session.',
+       outcome:'User Researcher facilitates a team working-agreement session. The root cause is identified as an informal hierarchy in the team rather than a process failure. Structural changes are made. The team is more collaborative from this point. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'}
+    ]},
+
+  E3:{tag:'Event',tagCss:'tag-event',title:'A comparable service has been criticised in the press',
+    followsOn:null,triggeredRoles:[],paths:[],
+    scenario:'A government digital service in a related area has received significant negative press coverage for accessibility failures and confusing guidance. The team\'s work is mentioned in passing. Stakeholder scrutiny increases.\n\nEffect: One Research token must be spent before the end of this phase on an accessibility or content quality check. If no Research token is available, \u22121 SQ applies.'},
+
   G3:{tag:'Phase gate',tagCss:'tag-gate',title:'Beta to Live',
-    scenario:'Gate question: Is the service ready for more users?\n\nThe SQ score must be at least half of the DP score. If not, the team may choose to push to Live at the cost of 2 SQ points, or remediate during Live which costs them 1 Research and 1 Design token for the Live phase.\n\nAdvance to Live and reset tokens appropriately.',
-    triggeredRoles:[],paths:[]},
+    followsOn:null,triggeredRoles:[],paths:[],
+    scenario:'Gate question: Is the service ready for wider use?\n\nCheck whether SQ is at least half of DP (i.e. SQ ≥ DP ÷ 2).\n\nIf the threshold is met: advance to Live with full token allocation.\n\nIf the threshold is not met: the service quality is too low to go wider. Remove 1 Design token and 1 Research token from the team\'s Live starting allocation before proceeding.'},
+
+  // ── LIVE ───────────────────────────────────────────────────
   L1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The minister wants a feature that wasn\'t planned"',
-    scenario:'Three days before go-live, the minister\'s office has requested a dashboard showing real-time service usage statistics. It was not in scope. The product manager is being pressured to agree to it. The service designer thinks it could be built quickly but it will not be accessible and has not been tested. The delivery manager thinks it can be done.',
-    triggeredRoles:['Product Manager','Service Designer','Interaction Designer','Delivery Manager','Business Analyst'],
+    followsOn:'D3',
+    triggeredRoles:['Product Manager','Delivery Manager','Business Analyst','Service Designer'],
+    scenario:'Three days before go-live, the minister\'s office has requested a real-time usage dashboard. It was not in scope. The product manager is under pressure to agree. The business analyst believes an impact assessment would take two days. The delivery manager thinks a minimal version can be built without one.\n\nNote for facilitator: If the team did not resolve the ownership question in D3, the minister may not have a clear point of contact for this request.',
     paths:[
-      {type:'full',tokenCost:'2 Research + 1 Delivery',label:'Full resolution',dpDelta:-1,sqDelta:2,desc:'Business Analyst runs an impact assessment. Product Manager pushes back diplomatically with evidence. Service Designer proposes a post-launch roadmap item. Request deferred, but launch delayed.'},
-      {type:'partial',tokenCost:'3 Delivery',label:'Partial resolution',dpDelta:2,sqDelta:-1,desc:'A minimal dashboard is built and shipped. Not tested, not accessible, but politically resolved. Launch on time.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:0,sqDelta:-3,desc:'PM agrees to everything. Team works through the weekend, however the quality of the shipped product is low with errors experienced by users.'}
+      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:0,sqDelta:2,
+       intent:'Business Analyst produces a rapid impact assessment.',
+       outcome:"Business Analyst produces a rapid impact assessment. Product Manager uses it to propose a post-launch roadmap item with a clear timeline. The minister's office accepts this. Launch is not delayed. The dashboard will be built properly. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward."},
+      {type:'b',label:'Path B',tokenCost:'2 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Build a minimal dashboard over two days without assessment or testing.',
+       outcome:'A minimal dashboard is built over two days without assessment or testing. It is functional but not accessible and has not been through any quality checks. It is politically useful but may become a liability.'},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Product Manager negotiates a middle ground: a simple static summary page showing key metrics, built from existing data.',
+       outcome:'Product Manager negotiates a middle ground: a simple static summary page showing key metrics, built from existing data. It is not what was asked for but it is deliverable, accurate, and accessible.'}
     ]},
-  L2:{tag:'Scenario',tagCss:'tag-scenario',title:'"A journalist has submitted an FOI request"',
-    scenario:'A journalist has submitted a Freedom of Information request asking for all user research and usability test findings related to the service. The product manager is anxious. Some of the earlier research was documented loosely and some decisions look questionable in retrospect. The user researcher is confident the findings were sound but the documentation is incomplete.',
-    triggeredRoles:['User Researcher','Product Manager','Content Designer','Business Analyst'],
+
+  L2:{tag:'Scenario',tagCss:'tag-scenario',title:'"Early user feedback after launch is mixed"',
+    followsOn:'B2',
+    triggeredRoles:['User Researcher','Content Designer','Service Designer'],
+    scenario:'The service has been live for three weeks. Formal feedback channels show moderate satisfaction scores. But the user researcher has been reviewing free-text feedback and has identified a pattern: users are completing the service but reporting confusion about what happens next and whether their submission has been received. The content designer has a hypothesis.\n\nNote for facilitator: If the team took Path B in B2 (shipped an unvalidated fix), this confusion may be partly a consequence of that decision.',
     paths:[
-      {type:'full',tokenCost:'2 Research + 1 Design',label:'Full resolution',dpDelta:1,sqDelta:2,desc:'Business Analyst works with User Researcher to compile decision traceability documentation. Content Designer shapes the response. Submission is clear, honest and complete.'},
-      {type:'partial',tokenCost:'1 Delivery',label:'Partial resolution',dpDelta:1,sqDelta:0,desc:'Response submitted but incomplete. Some decisions left unexplained.'},
-      {type:'escalation',tokenCost:'None',label:'Escalation',dpDelta:0,sqDelta:-2,desc:'Legal are brought in and the response is slow to come and heavily redacted. Public trust damaged.'}
+      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Design',dpDelta:0,sqDelta:2,
+       intent:'User Researcher and Content Designer investigate and find the confirmation journey is genuinely unclear.',
+       outcome:'User Researcher and Content Designer investigate and find the confirmation journey is genuinely unclear. A content redesign of three screens is shipped within a week. Feedback improves notably.'},
+      {type:'b',label:'Path B',tokenCost:'1 Design',dpDelta:1,sqDelta:1,
+       intent:'Content Designer updates the confirmation messaging based on her hypothesis without further research.',
+       outcome:'Content Designer updates the confirmation messaging based on her hypothesis without further research. The change is an improvement. It may have solved the problem entirely, or it may have addressed only part of it. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Product Manager decides the satisfaction scores are within acceptable range and no changes are prioritised this sprint.',
+       outcome:'Product Manager decides the satisfaction scores are within acceptable range and no changes are prioritised this sprint. The free-text feedback is logged for the next iteration. The confusion continues.'}
     ]},
-  E4:{tag:'Event',tagCss:'tag-event',title:'A team member raises a wellbeing concern',
-    scenario:'One team member (drawn randomly, or chosen by the facilitator) flags that they are close to burnout. The team must decide how to respond.\n\nThe team can either respond with support by redistributing their work which costs 1 Delivery token + 1 token each from two team members who agree to support.\nAlternatively, the team can continue on without redistributing the work but loses 2 SQ points.',
-    triggeredRoles:[],paths:[]},
+
+  L3:{tag:'Scenario',tagCss:'tag-scenario',title:'"A journalist has submitted an FOI request"',
+    followsOn:'D2',
+    triggeredRoles:['User Researcher','Content Designer','Business Analyst','Product Manager'],
+    scenario:'A journalist has submitted a Freedom of Information request for all user research and usability test findings. The product manager is concerned. Documentation from Discovery was produced under time pressure and some decisions are not clearly evidenced.\n\nNote for facilitator: If the team took Path C in D2 (skipped research), the documentation gap is significant. If they took Path A, the research record is strong. Acknowledge this.',
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Design',dpDelta:1,sqDelta:1,
+       intent:'Business Analyst and User Researcher compile a clear, honest account of what was researched, what decisions it informed, and what was not researched and why.',
+       outcome:'Business Analyst and User Researcher compile a clear, honest account of what was researched, what decisions it informed, and what was not researched and why. Content Designer shapes the submission. It is transparent and complete.'},
+      {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Ask Legal to lead the response.',
+       outcome:'The UCD squad contacts the Legal department and their team leads the response. Much is redacted or withheld under exemptions. The response is technically compliant but tells little. The journalist publishes a story about lack of transparency.'},
+      {type:'c',label:'Path C',tokenCost:'2 Research',dpDelta:-1,sqDelta:2,
+       intent:'User Researcher and Business Analyst spend a week producing a comprehensive evidence trail that goes beyond what was requested.',
+       outcome:'User Researcher and Business Analyst spend a week producing a comprehensive evidence trail that goes beyond what was requested. The response is exemplary. It costs time but significantly enhances public trust and becomes a model for other programmes.'}
+    ]},
+
+  L4:{tag:'Scenario',tagCss:'tag-scenario',title:'"A third-party integration is failing for some users"',
+    followsOn:null,
+    triggeredRoles:['Interaction Designer','Delivery Manager','Business Analyst','Product Manager'],
+    scenario:'A post-launch monitoring report shows that 12% of users are encountering an error at the point where the service connects to a third-party data verification system. Some complete the journey and experience the error silently. Others are blocked. The third party acknowledges a compatibility issue but their fix timeline is unknown.',
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:0,sqDelta:2,
+       intent:'Business Analyst maps the failure modes with the development team.',
+       outcome:'Business Analyst maps the failure modes with the development team. Interaction Designer designs a clear error state and a manual fallback journey for affected users. The fix is shipped within a week. No user is left stuck. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
+      {type:'b',label:'Path B',tokenCost:'2 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Delivery Manager escalates to the third party and sets a deadline.',
+       outcome:'Delivery Manager escalates to the third party and sets a deadline. In the interim, affected users receive an automated email telling them to try again later. The error is not resolved but is mitigated. Some users drop out. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Implement a simple warning message at the integration point explaining the issue and offering an alternative contact route.',
+       outcome:'The team implements a simple warning message at the integration point explaining the issue and offering an alternative contact route. The third-party fix arrives ten days later. Users who saw the warning mostly completed via the alternative. Some did not.'}
+    ]},
+
+  L5_lowSQ:{tag:'Scenario',tagCss:'tag-scenario',title:'"A disability advocacy group has gone public with concerns"',
+    followsOn:null,
+    triggeredRoles:['Interaction Designer','Content Designer','User Researcher','Product Manager'],
+    scenario:'A disability rights organisation has published a detailed blog post identifying six specific barriers in the live service. The post is being shared widely. The product manager is fielding calls from the communications team.',
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'2 Design + 1 Research',dpDelta:-1,sqDelta:2,
+       intent:'Publicly acknowledge the issues, commit to a fix timeline, and invite the organisation to review the changes before they are shipped.',
+       outcome:'The team publicly acknowledges the issues, commits to a fix timeline, and invites the organisation to review the changes before they are shipped. User Researcher conducts a session with affected users. All six issues are addressed.'},
+      {type:'b',label:'Path B',tokenCost:'1 Design + 1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Fix the most visible issues quickly.',
+       outcome:'The most visible issues are fixed quickly. The organisation is contacted privately and given an update. A public statement is made. Four of the six issues are resolved. Two remain in the backlog.'},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-2,
+       intent:'Communications team leads the response with a holding statement.',
+       outcome:'Communications team leads the response with a holding statement. The product manager commits to reviewing the issues "as part of ongoing development." No immediate action is taken. The organisation publishes a follow-up. Trust is significantly damaged.'}
+    ]},
+
+  L5_lowDP:{tag:'Scenario',tagCss:'tag-scenario',title:'"The programme board wants to know about the next phase"',
+    followsOn:null,
+    triggeredRoles:['Delivery Manager','Product Manager','Service Designer','Business Analyst'],
+    scenario:"The programme board has raised concerns about the pace of delivery during the Live phase and is asking for a plan for what comes after. The delivery manager has not yet started this planning. The business analyst believes the current data could support a strong case for continuation if framed correctly.",
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:2,sqDelta:0,
+       intent:'Business Analyst and Delivery Manager produce a clear case for continuation, drawing on the service data.',
+       outcome:'Business Analyst and Delivery Manager produce a clear case for continuation, drawing on the service data. It is presented to the board. The next phase is approved with a tighter milestone structure. Progress is visible. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'},
+      {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Service Designer contributes a user outcomes narrative alongside the delivery metrics.',
+       outcome:'Service Designer contributes a user outcomes narrative alongside the delivery metrics. The presentation balances pace evidence with quality evidence. The board approves the next phase with no conditions attached.'},
+      {type:'c',label:'Path C',tokenCost:'2 Research',dpDelta:-1,sqDelta:2,
+       intent:'User Researcher presents a detailed picture of user outcomes and remaining unmet need.',
+       outcome:'User Researcher presents a detailed picture of user outcomes and remaining unmet need. The case for continuation is compelling on quality grounds even if the delivery pace has been slow. The board approves but asks for a delivery recovery plan.'}
+    ]},
+
+  L5_standard:{tag:'Scenario',tagCss:'tag-scenario',title:'"The service owner wants to hand over to business as usual"',
+    followsOn:null,
+    triggeredRoles:['Delivery Manager','Product Manager','Business Analyst','Service Designer'],
+    scenario:"The programme team's contract ends in six weeks. The service owner has asked for a handover plan. The business-as-usual team who will run the service has limited digital capability and is already stretched. The delivery manager is concerned the handover will not stick.",
+    paths:[
+      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+       intent:'Business Analyst documents the service architecture, known issues, and outstanding work clearly.',
+       outcome:'Business Analyst documents the service architecture, known issues, and outstanding work clearly. Delivery Manager builds in two structured handover sessions. The BAU team feels equipped. Some things will still be lost in the transition.'},
+      {type:'b',label:'Path B',tokenCost:'2 Progress',dpDelta:2,sqDelta:-1,
+       intent:'Do the handover quickly.',
+       outcome:'The handover is done quickly. Documentation is functional but thin. The BAU team raises concerns but is told the timeline is fixed. The service will likely need further intervention in six months.'},
+      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:0,sqDelta:2,
+       intent:'Service Designer advocates for a longer transition period and the service owner agrees to a six-week extension.',
+       outcome:"Service Designer advocates for a longer transition period and the service owner agrees to a six-week extension. The handover is thorough. The BAU team is confident. The programme team's contract extension costs the programme budget but protects the service. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward."}
+    ]},
+
+  E4:{tag:'Event',tagCss:'tag-event',title:'A team member is close to burnout',
+    followsOn:null,triggeredRoles:[],paths:[],
+    scenario:'A team member (chosen by the facilitator, or drawn randomly) has flagged that they are struggling. The workload since launch has been significant. Other team members have noticed but have not said anything.\n\nEffect: The team must respond. If two other players agree to redistribute work by each spending 1 token of any type: no penalty. If the team does not respond: \u22121 SQ and that player\'s tokens are halved for the remainder of the phase.'},
+
   G4:{tag:'Phase gate',tagCss:'tag-gate',title:'Live to Review',
-    scenario:'Gate question: Is quality high enough to launch?\n\nThere is no gate here. The team always enters Review. This is intentional. The question is answered by the final scores themselves.\n\nAdvance to Review.',
-    triggeredRoles:[],paths:[]},
+    followsOn:null,triggeredRoles:[],paths:[],
+    scenario:'There is no gate at Live to Review. The service is running. The team always advances to Review.\n\nThe gate question — is quality high enough? — is answered by the scores themselves.\n\nProceed to the Review step.'},
+
+  // ── REVIEW ─────────────────────────────────────────────────
   REV:{tag:'Review',tagCss:'tag-review',title:'Final review',
-    scenario:'The programme is complete. Reveal both scores and read the outcome below.\n\nBoth high (within 4 points): Sustainable delivery. What made this possible? What nearly derailed it?\n\nDP high, SQ low (gap over 6): Delivered, but at a cost. Who got hurt? What did we skip and why?\n\nSQ high, DP low: High quality, real cost. The service quality is strong. The delivery pace reflects the choices you made. Which of those choices do you stand behind, and which would you revisit?\n\nBoth low: Programme in trouble. Where did we lose control? What would we do again?\n\nProceed to the Debrief tab.',
-    triggeredRoles:[],paths:[]}
+    followsOn:null,triggeredRoles:[],paths:[],
+    scenario:'The programme is complete. Both scores are revealed.\n\nBoth high (within 4 points): The team found a sustainable balance. Neither speed nor quality was sacrificed to the other. What made that possible?\n\nDP high, SQ low (gap over 6): The programme delivered to time. But the service that was built — how well does it actually serve users? What was traded away, and was it the right call?\n\nSQ high, DP low: The service is well-designed and users are well-served. But the pace cost something. Stakeholder confidence, team energy, political support. Was it worth it?\n\nBoth low: Something went wrong, and not just once. What was the first moment the team lost control? Could it have been recovered?\n\nProceed to the Debrief tab.'}
 };
 
 // ============================================================
@@ -904,8 +1345,15 @@ var CARDS={
 // ============================================================
 function buildBoard(){
   var grid = document.getElementById('board-grid');
-  var rows = [[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15],[16,17,18,19,20]];
-  rows.forEach(function(row,ri){
+  // New layout: 4 phases × 4 steps each, then 1 review step
+  // Row 0: steps 1-4  (Discovery, L→R)
+  // Row 1: steps 5-8  (Alpha,     R→L)
+  // Row 2: steps 9-12 (Beta,      L→R)
+  // Row 3: steps 13-16(Live,      R→L)
+  // Row 4: step 17    (Review,    centred)
+  var phaseRows = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]];
+
+  phaseRows.forEach(function(row,ri){
     var isReverse = (ri%2===1);
     var rowEl = document.createElement('div');
     rowEl.className = 'board-row';
@@ -914,7 +1362,6 @@ function buildBoard(){
       var step = STEPS[stepNum-1];
       var cellEl = document.createElement('div');
       cellEl.className = 'cell cell-'+step.type;
-      if(step.type==='review') cellEl.className += ' cell-review-final';
       if(stepNum > 1) cellEl.classList.add('locked');
       cellEl.id = 'cell-'+stepNum;
       var inner = document.createElement('div');
@@ -936,20 +1383,44 @@ function buildBoard(){
       }
     });
     grid.appendChild(rowEl);
-    if(ri<rows.length-1){
-      var vrow = document.createElement('div');
-      vrow.className = 'arrow-v-row';
-      vrow.dataset.rowIndex = ri;
-      var va = document.createElement('div'); 
-      va.className='arrow-v'; 
-      va.textContent='\u2193';
-      va.dataset.arrowFor = rows[ri][rows[ri].length - 1]; // Store which step this arrow follows
-      vrow.appendChild(va); 
-      grid.appendChild(vrow);
-    }
+
+    // Vertical arrow between phase rows
+    // For L→R rows: arrow sits below the rightmost cell (last in row array)
+    // For R→L rows: arrow sits below the leftmost cell on screen (also last in row array, since flow exits left)
+    var vrow = document.createElement('div');
+    vrow.className = 'arrow-v-row';
+    vrow.dataset.rowIndex = ri;
+    var va = document.createElement('div');
+    va.className='arrow-v';
+    va.textContent='\u2193';
+    var lastDisplayed = row[row.length-1];
+    va.dataset.arrowFor = lastDisplayed;
+    vrow.appendChild(va);
+    grid.appendChild(vrow);
   });
-  
-  // Position vertical arrows after all rows are rendered
+
+  // Review row — aligned left to sit below cell-16
+  var revRow = document.createElement('div');
+  revRow.className = 'board-row';
+  revRow.style.justifyContent = 'flex-start';
+  var revStep = STEPS[16]; // step 17
+  var revCell = document.createElement('div');
+  revCell.className = 'cell cell-review-final';
+  revCell.id = 'cell-17';
+  revCell.classList.add('locked');
+  var revInner = document.createElement('div');
+  revInner.className = 'cell-inner';
+  var revNum = document.createElement('div'); revNum.className='cell-num'; revNum.textContent='17';
+  var revLbl = document.createElement('div'); revLbl.className='cell-type'; revLbl.textContent=revStep.label;
+  var revPhase = document.createElement('div');
+  revPhase.className = 'cell-phase '+PHASE_CSS[revStep.phase];
+  revPhase.textContent = PHASE_NAMES[revStep.phase];
+  revInner.appendChild(revNum); revInner.appendChild(revLbl); revInner.appendChild(revPhase);
+  revCell.appendChild(revInner);
+  revCell.addEventListener('click',function(){selectStep(17);});
+  revRow.appendChild(revCell);
+  grid.appendChild(revRow);
+
   positionVerticalArrows();
 }
 
@@ -971,8 +1442,6 @@ function positionVerticalArrows(){
 // SELECT STEP
 // ============================================================
 function selectStep(n, silent){
-  var step = STEPS[n-1];
-  var card = CARDS[step.card];
   if(!silent){
     // Block clicks on locked cells
     var cur = document.getElementById('cell-'+n);
@@ -983,12 +1452,21 @@ function selectStep(n, silent){
     }
     if(cur){cur.classList.remove('visited');cur.classList.add('active');}
     activeCell = n;
+    // Show scores at gates and review; hide during scenarios and events
+    syncScoreVisibility(n);
+    // Resolve conditional scenario when player reaches the second scenario of Alpha/Beta/Live
+    if(n === 7)  resolveConditional('alpha');
+    if(n === 11) resolveConditional('beta');
+    if(n === 15) resolveConditional('live');
     // Unlock the next step if it exists and is still locked
-    if(n < 20){
+    if(n < 17){
       var nextEl = document.getElementById('cell-'+(n+1));
       if(nextEl && nextEl.classList.contains('locked')) nextEl.classList.remove('locked');
     }
   }
+  // Look up step and card AFTER resolveConditional may have updated STEPS
+  var step = STEPS[n-1];
+  var card = CARDS[step.card];
   var disp = document.getElementById('card-display');
   if(!card){disp.innerHTML='<div class="card-empty">No content for this step.</div>';return;}
 
@@ -1022,23 +1500,33 @@ function selectStep(n, silent){
     html += '<button class="res-toggle-btn" onclick="toggleRes(this)">Show resolution paths</button>';
     html += '<div class="resolution-content" style="display:none;">';
     var alreadyChosen = chosenPaths[step.card];
+    var hasChosen = (alreadyChosen !== undefined);
     card.paths.forEach(function(path, pi){
-      var typeLabel = path.type;
-      var scoreCss = path.type==='full'?'rps-full':path.type==='partial'?'rps-partial':'rps-esc';
-      var dpStr = (path.dpDelta>=0?'+':'')+path.dpDelta+' DP';
-      var sqStr = (path.sqDelta>=0?'+':'')+path.sqDelta+' SQ';
-      var isChosen = alreadyChosen === pi;
-      var chosenClass = isChosen ? ' chosen' : '';
-      var clickAttr = isChosen ? '' : ' onclick="chooseResolution(\''+step.card+'\','+n+','+pi+')"';
-      html += '<div class="res-path'+chosenClass+'"'+clickAttr+'>';
-      // Only show score effects if toggle is enabled
-      if(showScoreEffects){
-        html += '<span class="res-path-score '+scoreCss+'">'+dpStr+', '+sqStr+'</span>';
+      var isChosen = hasChosen && (alreadyChosen === pi);
+      var isUnchosen = hasChosen && !isChosen;
+      var pathClass = 'res-path';
+      if(isChosen)   pathClass += ' chosen';
+      if(isUnchosen) pathClass += ' unchosen';
+      var clickAttr = (!hasChosen) ? ' onclick="chooseResolution(\''+step.card+'\','+n+','+pi+')"' : '';
+      html += '<div class="'+pathClass+'"'+clickAttr+'>';
+      // Path label header
+      html += '<strong>'+path.label+'</strong>';
+      if(!isUnchosen){
+        // Token cost
+        if(path.tokenCost){
+          html += '<div class="res-path-cost"><strong>Cost:</strong> '+path.tokenCost+'</div>';
+        }
+        if(isChosen){
+          // Outcome reveal — shown only after choosing
+          html += '<div class="outcome-reveal">';
+          html += '<div class="outcome-reveal-label">What happened</div>';
+          html += '<div class="outcome-reveal-text">'+path.outcome+'</div>';
+          html += '</div>';
+        } else {
+          // Intent — shown before choosing
+          html += '<div class="res-path-hint">'+path.intent+'</div>';
+        }
       }
-      if(path.tokenCost){
-        html += '<div class="res-path-cost"><strong>Cost:</strong> '+path.tokenCost+'</div>';
-      }
-      html += '<div class="res-path-hint">'+path.desc+'</div>';
       html += '</div>';
     });
     html += '</div></div>';
@@ -1122,41 +1610,36 @@ function updateDebriefSummary(){
   logEl.style.display = 'block';
   var logHtml = '';
   sessionLog.forEach(function(entry){
-    var pathClass = entry.pathType==='full'?'log-path-full':entry.pathType==='partial'?'log-path-partial':'log-path-esc';
     var dpStr = (entry.dpDelta>=0?'+':'')+entry.dpDelta;
     var sqStr = (entry.sqDelta>=0?'+':'')+entry.sqDelta;
-    logHtml += '<div class="log-entry">';
-    logHtml += '<div class="log-step">Step '+entry.step+'<br><span style="font-weight:400;color:#9a9080;">'+entry.phase+'</span></div>';
-    logHtml += '<div><div style="font-weight:700;font-size:12px;color:#1a1a1a;margin-bottom:2px;">'+entry.title+'</div>';
-    logHtml += '<div class="log-path '+pathClass+'">'+entry.pathLabel+'</div></div>';
-    logHtml += '<div class="log-score"><span style="color:#F0997B;">DP '+dpStr+'</span> &nbsp;<span style="color:#5DCAA5;">SQ '+sqStr+'</span></div>';
-    logHtml += '</div>';
+    if(entry.pathType === 'penalty'){
+      logHtml += '<div class="log-entry" style="background:#2a1208;border-bottom:1px solid #D85A30;">';
+      logHtml += '<div class="log-step" style="color:#F0997B;">Time<br><span style="font-weight:400;color:#9a9080;">Penalty</span></div>';
+      logHtml += '<div><div style="font-weight:700;font-size:12px;color:#F5C4B3;margin-bottom:2px;">'+entry.title+'</div>';
+      logHtml += '<div style="font-size:11px;color:#D85A30;">'+entry.pathLabel+'</div></div>';
+      logHtml += '<div class="log-score"><span style="color:#F0997B;">DP '+dpStr+'</span></div>';
+      logHtml += '</div>';
+    } else {
+      var pathClass = entry.pathType==='a'?'log-path-a':entry.pathType==='b'?'log-path-b':'log-path-c';
+      logHtml += '<div class="log-entry">';
+      logHtml += '<div class="log-step">Step '+entry.step+'<br><span style="font-weight:400;color:#9a9080;">'+entry.phase+'</span></div>';
+      logHtml += '<div><div style="font-weight:700;font-size:12px;color:#1a1a1a;margin-bottom:2px;">'+entry.title+'</div>';
+      logHtml += '<div class="log-path '+pathClass+'">'+entry.pathLabel+'</div></div>';
+      logHtml += '<div class="log-score"><span style="color:#F0997B;">DP '+dpStr+'</span> &nbsp;<span style="color:#5DCAA5;">SQ '+sqStr+'</span></div>';
+      logHtml += '</div>';
+    }
   });
   logEl.innerHTML = logHtml;
 }
 
 // ============================================================
-// SCENARIO TIMER
+// SESSION TIMER
 // ============================================================
-var timerDuration = 2 * 60; // seconds
+var timerDuration = 60 * 60; // 60 minutes in seconds
 var timerRemaining = timerDuration;
 var timerInterval = null;
 var timerRunning = false;
-
-function setTimer(mins, btn){
-  // Update selected preset button
-  document.querySelectorAll('.timer-preset-btn').forEach(function(b){b.classList.remove('selected');});
-  btn.classList.add('selected');
-  timerDuration = mins * 60;
-  timerRemaining = timerDuration;
-  if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
-  timerRunning = false;
-  var startBtn = document.getElementById('timer-start-btn');
-  startBtn.textContent = 'Start';
-  updateTimerDisplay();
-  var disp = document.getElementById('timer-display');
-  disp.className = 'timer-display idle';
-}
+var timerExpiredFired = false;
 
 function toggleTimer(){
   if(timerRunning){
@@ -1175,32 +1658,84 @@ function toggleTimer(){
     startBtn.textContent = 'Pause';
     var disp = document.getElementById('timer-display');
     disp.classList.remove('idle','paused');
-    disp.classList.add(timerRemaining <= 60 ? 'warning' : 'running');
+    disp.classList.add(timerRemaining <= 300 ? 'warning' : 'running');
     timerInterval = setInterval(function(){
       timerRemaining--;
       updateTimerDisplay();
       var d = document.getElementById('timer-display');
-      if(timerRemaining <= 60 && timerRemaining > 0){
+      if(timerRemaining <= 300 && timerRemaining > 0){
         d.classList.remove('running'); d.classList.add('warning');
       }
       if(timerRemaining <= 0){
         clearInterval(timerInterval); timerInterval = null; timerRunning = false;
-        d.className = 'timer-display warning';
+        d.className = 'timer-display expired';
         document.getElementById('timer-start-btn').textContent = 'Start';
+        if(!timerExpiredFired){ timerExpiredFired = true; onTimerExpired(); }
       }
     }, 1000);
   }
 }
 
+function onTimerExpired(){
+  // Calculate incomplete phases by checking which gate steps have been visited
+  // Gates: step 4 (Discovery), step 8 (Alpha), step 12 (Beta), step 16 (Live)
+  var gateCells = [4, 8, 12, 16];
+  var incompletePhasesCount = 0;
+  var incompleteNames = [];
+  var phaseLabels = {4:'Discovery', 8:'Alpha', 12:'Beta', 16:'Live'};
+  gateCells.forEach(function(gateStep){
+    var cell = document.getElementById('cell-'+gateStep);
+    // A gate is complete if its cell has been visited or is currently active
+    if(cell && !cell.classList.contains('locked') && !cell.classList.contains('active')){
+      // Cell was unlocked but check if it was actually visited (stepped past)
+    }
+    // Simpler: a phase is complete if the cell AFTER the gate has been unlocked
+    // Gate 4 → step 5 unlocked means Discovery done
+    // Gate 8 → step 9, Gate 12 → step 13, Gate 16 → step 17
+    var nextStep = gateStep + 1;
+    var nextCell = document.getElementById('cell-'+nextStep);
+    var gateCell = document.getElementById('cell-'+gateStep);
+    var gateVisited = gateCell && (gateCell.classList.contains('visited') || gateCell.classList.contains('active'));
+    if(!gateVisited){
+      incompletePhasesCount++;
+      incompleteNames.push(phaseLabels[gateStep]);
+    }
+  });
+
+  var penaltyDp = incompletePhasesCount * -3;
+
+  if(incompletePhasesCount > 0){
+    // Apply penalty
+    applyScore(penaltyDp, 0);
+    // Log it as a special entry
+    sessionLog.push({
+      step: null,
+      phase: 'Penalty',
+      cardId: null,
+      title: 'Session time expired',
+      pathLabel: incompletePhasesCount + ' phase' + (incompletePhasesCount > 1 ? 's' : '') + ' not completed (' + incompleteNames.join(', ') + ')',
+      pathType: 'penalty',
+      dpDelta: penaltyDp,
+      sqDelta: 0
+    });
+    updateDebriefSummary();
+  }
+
+  // Show the expired message
+  document.getElementById('timer-expired-msg').style.display = 'block';
+}
+
 function resetTimer(){
   if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
   timerRunning = false;
+  timerExpiredFired = false;
   timerRemaining = timerDuration;
   updateTimerDisplay();
   var disp = document.getElementById('timer-display');
   disp.className = 'timer-display idle';
   var startBtn = document.getElementById('timer-start-btn');
   startBtn.textContent = 'Start';
+  document.getElementById('timer-expired-msg').style.display = 'none';
 }
 
 function updateTimerDisplay(){
@@ -1234,6 +1769,8 @@ function togglePressures(btn){
 // ============================================================
 // INIT
 // ============================================================
+generateSession();
+buildSteps();
 buildBoard();
 
 // Reposition vertical arrows on window resize
