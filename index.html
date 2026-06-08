@@ -1922,6 +1922,7 @@ function revealAbility(roleKey, cardId, stepNum){
 }
 
 function getOutcomeLabel(dpVal, sqVal){
+  var gap = dpVal - sqVal;
   if(dpVal >= 6 && sqVal >= 6 && Math.abs(gap) <= 4) return 'Sustainable delivery';
   if(dpVal > sqVal && gap > 6) return 'Delivered, but at a cost';
   if(sqVal > dpVal) return 'High quality, real cost';
