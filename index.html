@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The UCD Challenge — v3.0</title>
+<title>The UCD Challenge — v3.1</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1a;min-height:100vh;}
@@ -158,6 +158,17 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .outcome-reveal{margin-top:10px;padding:10px 12px;background:#1e1a14;border:1.5px solid #1D9E75;border-radius:6px;}
 .outcome-reveal-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5DCAA5;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:6px;}
 .outcome-reveal-text{font-size:13px;color:#ede8df;line-height:1.7;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+
+/* ABILITY REVEAL BUTTONS & PANEL */
+.ability-reveal-btn{font-size:10px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:3px 8px;border-radius:4px;cursor:pointer;background:#26215C;color:#CECBF6;border:1px solid #534AB7;letter-spacing:0.04em;font-weight:700;transition:all 0.15s;margin-left:6px;white-space:nowrap;}
+.ability-reveal-btn:hover{background:#3C3489;color:#EEEDFE;}
+.ability-reveal-btn:disabled{background:#2a2520;color:#5a5450;border-color:#3a3530;cursor:default;opacity:0.6;}
+.ability-reveal-btn.spent{background:#2a2520;color:#5a5450;border-color:#3a3530;cursor:default;opacity:0.6;}
+.ability-reveal-panel{margin-top:6px;padding:9px 12px;background:#1e1a2e;border:1.5px solid #534AB7;border-radius:6px;}
+.ability-reveal-role-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9994bb;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:5px;}
+.ability-reveal-text{font-size:13px;color:#EEEDFE;line-height:1.65;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-style:italic;}
+.triggered-role-row{display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:4px;}
+.triggered-role-row:last-child{margin-bottom:0;}
 
 /* OTHER TABS */
 .phase-track{display:flex;align-items:stretch;border:1.5px solid #c5bfb0;border-radius:8px;overflow:hidden;margin-bottom:1.2rem;}
@@ -503,13 +514,13 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
             <button onclick="toggleRolesRef()" style="font-size:10px;padding:4px 8px;background:#3C3489;color:#EEEDFE;border:1px solid #7F77DD;border-radius:4px;cursor:pointer;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:700;white-space:nowrap;">Roles reference</button>
           </div>
           <div id="roles-ref-panel" style="display:none;background:#2a2520;border:1px solid #534AB7;border-radius:6px;padding:10px;margin-bottom:10px;font-size:11px;color:#ede8df;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;line-height:1.6;">
-            <div style="margin-bottom:7px;"><span class="badge badge-teal" style="font-size:9px;margin-bottom:0;margin-right:4px;">User Researcher</span> <strong>Ability:</strong> When triggered: insist on an extra research round before the team chooses their approach. +1 SQ, -1 DP. Once per game.</div>
-            <div style="margin-bottom:7px;"><span class="badge badge-purple" style="font-size:9px;margin-bottom:0;margin-right:4px;">Content Designer</span> <strong>Ability:</strong> When triggered: reframe the communication or information challenge in the scenario. If used, remove 1 SQ penalty point from any SQ penalty incurred this scenario. Once per game.</div>
-            <div style="margin-bottom:7px;"><span class="badge badge-blue" style="font-size:9px;margin-bottom:0;margin-right:4px;">Interaction Designer</span> <strong>Ability:</strong> When triggered: walk through what the user experience of the current situation looks like step by step. The team must identify one concrete user harm before proceeding. If the team addresses the root cause, the chosen approach gains +1 SQ. If not, they must name the user harm they are accepting and the facilitator records it. Once per game.</div>
-            <div style="margin-bottom:7px;"><span style="background:#c8e8dc;color:#04342C;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;margin-right:4px;">Service Designer</span> <strong>Ability:</strong> When triggered: identify one handoff point where this scenario's outcome will affect another team, phase, or user group, and name the risk. If the team addresses the root cause, the chosen approach gains +1 SQ. If not, they must spend a token to document the handoff risk before moving on. Once per game.</div>
-            <div style="margin-bottom:7px;"><span class="badge badge-amber" style="font-size:9px;margin-bottom:0;margin-right:4px;">Product Manager</span> <strong>Ability:</strong> When triggered: call a silent vote before any discussion. Ask each triggered player to send D (delivery-focused) or Q (quality-focused) privately via back channel. Read votes aloud simultaneously. The result does not determine the path but makes hidden preferences visible. Once per game.</div>
-            <div style="margin-bottom:7px;"><span class="badge badge-coral" style="font-size:9px;margin-bottom:0;margin-right:4px;">Delivery Manager</span> <strong>Ability:</strong> When triggered: borrow from the next phase's token allocation to push progress. +2 DP, but next phase starts with 2 fewer tokens. Cannot be used in the Live phase. Once per game.</div>
-            <div><span style="background:#dde3ed;color:#4a5a78;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;margin-right:4px;">Business Analyst</span> <strong>Ability:</strong> When triggered: ask one clarifying question about scope, evidence, or impact that must be answered before the team proceeds. If the answer changes anyone's stated preference, the chosen approach gains +1 SQ. Once per game.</div>
+            <div style="margin-bottom:7px;"><span class="badge badge-teal" style="font-size:9px;margin-bottom:0;margin-right:4px;">User Researcher</span> <strong>Ability:</strong> Reveal what you learned from your own research into this scenario. Read it aloud. Once per game — a Reveal insight button appears on triggered cards.</div>
+            <div style="margin-bottom:7px;"><span class="badge badge-purple" style="font-size:9px;margin-bottom:0;margin-right:4px;">Content Designer</span> <strong>Ability:</strong> Reveal what you learned from reviewing the content or service language. Read it aloud. Once per game — a Reveal insight button appears on triggered cards.</div>
+            <div style="margin-bottom:7px;"><span class="badge badge-blue" style="font-size:9px;margin-bottom:0;margin-right:4px;">Interaction Designer</span> <strong>Ability:</strong> Reveal what you learned from your review of the user experience or design patterns. Read it aloud. Once per game — a Reveal insight button appears on triggered cards.</div>
+            <div style="margin-bottom:7px;"><span style="background:#c8e8dc;color:#04342C;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;margin-right:4px;">Service Designer</span> <strong>Ability:</strong> Reveal what you learned from mapping the wider service or ecosystem. Read it aloud. Once per game — a Reveal insight button appears on triggered cards.</div>
+            <div style="margin-bottom:7px;"><span class="badge badge-amber" style="font-size:9px;margin-bottom:0;margin-right:4px;">Product Manager</span> <strong>Ability:</strong> When triggered: overrule all other team members and choose the resolution path yourself. Once per game.</div>
+            <div style="margin-bottom:7px;"><span class="badge badge-coral" style="font-size:9px;margin-bottom:0;margin-right:4px;">Delivery Manager</span> <strong>Ability:</strong> When triggered: stop any other player from using their ability during this scenario and force the team to decide on a resolution path within 1 minute. Once per game.</div>
+            <div><span style="background:#dde3ed;color:#4a5a78;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;margin-right:4px;">Business Analyst</span> <strong>Ability:</strong> Reveal what you learned from reviewing scope, dependencies, or risk. Read it aloud. Once per game — a Reveal insight button appears on triggered cards.</div>
           </div>
           <div class="board-grid" id="board-grid"></div>
         </div>
@@ -541,7 +552,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <ol>
         <li>Reveal the scenario card for the current step on the game board</li>
         <li>The facilitator reads it aloud</li>
-        <li>Each player whose role is triggered states their perspective. If the Product Manager chooses to use their ability, they call a silent vote now — each triggered player sends D (delivery-focused) or Q (quality-focused) privately via back channel, and all votes are read aloud simultaneously. Any other triggered player wishing to use their ability also declares it now. Abilities may only be used once per game.</li>
+        <li>Each player whose role is triggered states their perspective. Triggered players wishing to use their ability declare it now — abilities may only be used once per game. The Delivery Manager may stop other abilities and force a decision within 1 minute. The Product Manager may overrule the team and choose the path directly.</li>
         <li>The team discusses and agrees a response (2 to 3 minutes)</li>
         <li>The facilitator reveals the resolution paths. Click the chosen path to apply its scores and log the decision.</li>
         <li>Each phase contains 2 scenarios, 1 event, and 1 gate. After the first scenario, click the Event card and resolve it, then complete the second scenario, then click the Phase gate.</li>
@@ -594,13 +605,13 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <h2>Player roles</h2>
       <p>Each player holds one role card. The ability is shared knowledge — read it now so everyone understands what each role can contribute. Each role also has a private pressure: a default instinct that is realistic rather than a flaw. Pressures are not listed here; they are given to each player individually before the session begins (facilitators can access these near the bottom of the brief). The tension between ability and pressure is the game.</p>
       <p><strong>When abilities can be used:</strong> Each player may use their ability once per game, and only during a scenario card on which their role is listed as triggered. The ability must be declared before the team chooses their approach. If your role is not triggered on a card, you contribute to the discussion but your ability is not available. Choose your moment carefully.</p>
-        <div class="role-card"><div class="badge badge-teal">User Researcher</div><div class="role-ability"><strong>Ability:</strong> When triggered: insist on an extra research round before the team chooses their approach. This adds +1 SQ but costs -1 DP. Once per game.</div></div>
-        <div class="role-card"><div class="badge badge-purple">Content Designer</div><div class="role-ability"><strong>Ability:</strong> When triggered: reframe the communication or information challenge in the scenario. If used, remove 1 SQ penalty point from any SQ penalty incurred this scenario. Once per game.</div></div>
-        <div class="role-card"><div class="badge badge-blue">Interaction Designer</div><div class="role-ability"><strong>Ability:</strong> When triggered: walk through what the user experience of the current situation looks like step by step. The team must identify one concrete user harm before proceeding. If the team addresses the root cause, the chosen approach gains +1 SQ. If not, they must name the user harm they are accepting and the facilitator records it. Once per game.</div></div>
-        <div class="role-card"><div class="badge badge-teal" style="background:#c8e8dc;color:#04342C;">Service Designer</div><div class="role-ability"><strong>Ability:</strong> When triggered: identify one handoff point where this scenario's outcome will affect another team, another phase, or another user group, and name the risk to that handoff. If the team addresses the root cause, the chosen approach gains +1 SQ. If not, they must spend a token to document the handoff risk before moving on. Once per game.</div></div>
-        <div class="role-card"><div class="badge badge-amber">Product Manager</div><div class="role-ability"><strong>Ability:</strong> When triggered: call a silent vote before any discussion begins. Ask each triggered player to send their vote privately via back channel — D for delivery-focused, Q for quality-focused. Read all votes aloud simultaneously. The result does not determine the resolution path but makes hidden preferences visible before discussion starts. Once per game.</div></div>
-        <div class="role-card"><div class="badge badge-coral">Delivery Manager</div><div class="role-ability"><strong>Ability:</strong> When triggered: borrow from the next phase's token allocation to push progress. This adds +2 DP but reduces next phase's starting tokens by 2. Cannot be used in the Live phase. Once per game.</div></div>
-        <div class="role-card"><div class="badge" style="background:#dde3ed;color:#4a5a78;">Business Analyst</div><div class="role-ability"><strong>Ability:</strong> When triggered: ask one clarifying question about scope, evidence, or impact that must be answered before the team proceeds. If the answer changes anyone's stated preference, the chosen approach gains +1 SQ. Once per game.</div></div>
+        <div class="role-card"><div class="badge badge-teal">User Researcher</div><div class="role-ability"><strong>Ability:</strong> When triggered: reveal what you learned from your own research into this scenario. Read the reveal aloud to the team. Once per game — use it on the card where your insight matters most.</div></div>
+        <div class="role-card"><div class="badge badge-purple">Content Designer</div><div class="role-ability"><strong>Ability:</strong> When triggered: reveal what you learned from your review of the content or service language in this scenario. Read the reveal aloud to the team. Once per game — use it on the card where your insight matters most.</div></div>
+        <div class="role-card"><div class="badge badge-blue">Interaction Designer</div><div class="role-ability"><strong>Ability:</strong> When triggered: reveal what you learned from your review of the user experience or design patterns in this scenario. Read the reveal aloud to the team. Once per game — use it on the card where your insight matters most.</div></div>
+        <div class="role-card"><div class="badge badge-teal" style="background:#c8e8dc;color:#04342C;">Service Designer</div><div class="role-ability"><strong>Ability:</strong> When triggered: reveal what you learned from mapping the wider service, handoffs, or ecosystem in this scenario. Read the reveal aloud to the team. Once per game — use it on the card where your insight matters most.</div></div>
+        <div class="role-card"><div class="badge badge-amber">Product Manager</div><div class="role-ability"><strong>Ability:</strong> When triggered: as the bridge between user needs, design, technology, and business goals, you may overrule all other team members and choose the resolution path yourself. Once per game.</div></div>
+        <div class="role-card"><div class="badge badge-coral">Delivery Manager</div><div class="role-ability"><strong>Ability:</strong> When triggered: as the driver of project milestones, you may stop any other player from using their ability during this scenario and force the team to reach a decision on the resolution path within 1 minute. Once per game.</div></div>
+        <div class="role-card"><div class="badge" style="background:#dde3ed;color:#4a5a78;">Business Analyst</div><div class="role-ability"><strong>Ability:</strong> When triggered: reveal what you learned from your review of scope, dependencies, or risk in this scenario. Read the reveal aloud to the team. Once per game — use it on the card where your insight matters most.</div></div>
       <div class="note-box">The game works best with all seven roles represented. Do not run with fewer than 4 players as the multi-role resolution mechanic breaks below that.</div>
     </div>
   </div>
@@ -617,10 +628,10 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
           <tr><td><span class="badge badge-coral" style="margin:0;">Progress (P)</span></td><td>Product Manager (1), Delivery Manager (1), Business Analyst (1)</td><td>Required for unblocking decisions, accelerating progress, or overriding gates.</td></tr>
         </tbody>
       </table>
-      <div class="note-box">Tokens reset at the start of each phase. Unused tokens do not carry over. The Delivery Manager's borrowing ability pulls from next phase's allocation — track this explicitly, and note it cannot be used in the Live phase.</div>
+      <div class="note-box">Tokens reset at the start of each phase. Unused tokens do not carry over.</div>
     </div>
     <div class="section-panel">
-      <p>Each scenario card has two or three resolution paths. Before the team chooses a path, triggered players state their perspective and may declare their ability. The Product Manager may call a silent vote at this point. Once all abilities have been used or waived, the team agrees a path and the facilitator reveals the resolution panel. Click the chosen path on the game board to apply its scores and log the decision.</p>
+      <p>Each scenario card has two or three resolution paths. Before the team chooses a path, triggered players state their perspective and may declare their ability. The Delivery Manager may block other abilities and impose a 1-minute decision deadline. The Product Manager may overrule the team and choose the path directly. Once all abilities have been used or waived, the team agrees a path and the facilitator clicks it on the game board to apply its scores and log the decision.</p>
       <table class="outcome-table">
         <thead><tr><th>Path</th><th>Typical tendency</th><th>Score effect</th><th>When to use</th></tr></thead>
         <tbody>
@@ -707,6 +718,11 @@ var sessionLog = []; // {step, cardId, title, path, dpDelta, sqDelta}
 var chosenPaths = {}; // cardId -> path key
 var appliedEvents = {}; // cardId -> true, prevents double-applying auto-penalties
 
+// Ability state — 5 roles with reveal abilities: ur, cd, id, sd, ba
+var abilitySpent = {ur:false, cd:false, id:false, sd:false, ba:false};
+// Tracks which reveals have been shown on which cards: {cardId: {roleKey: true}}
+var revealedAbilities = {};
+
 // Roster
 var roster = {ur:'',cd:'',id:'',sd:'',pm:'',dm:'',ba:''};
 
@@ -730,6 +746,7 @@ function updateRoster(){
   roster.sd = document.getElementById('name-sd').value.trim();
   roster.pm = document.getElementById('name-pm').value.trim();
   roster.dm = document.getElementById('name-dm').value.trim();
+  roster.ba = document.getElementById('name-ba').value.trim();
   // Re-render active card if any to update badges
   if(activeCell !== null) selectStep(activeCell, true);
 }
@@ -877,6 +894,200 @@ function resolveConditional(phase){
 
 var PHASE_CSS={discovery:'ph-disc',alpha:'ph-alpha',beta:'ph-beta',live:'ph-live',review:'ph-rev'};
 var PHASE_NAMES={discovery:'Discovery',alpha:'Alpha',beta:'Beta',live:'Live',review:'Review'};
+
+// ============================================================
+// ROLE REVEALS DATA — v3.1
+// Keys: cardId → { roleKey: 'reveal text' }
+// Only the 5 roles with reveal abilities are included.
+// ============================================================
+var ROLE_REVEALS = {
+  D1:{
+    ur:"I ran rapid interviews with members of the public and learned that people do not just want to report symptoms; they want reassurance about what happens after they report and whether they can trust AI-generated advice based on their data.",
+    ba:"Following a scope and assumptions review, I learned that accepting the brief unchanged would make symptom reporting the centre of the service, rather than public health decision support. Changing this later would affect the data model, AI advice rules and privacy notice.",
+    cd:"I reviewed the draft service language and learned that \"report your symptoms\" makes the service feel like a black box. People need clearer wording about what happens next and how their report affects the advice they receive.",
+    id:"I walked through the draft journey and learned that it asks for health, location, contact and wearable data before explaining the value. This creates hesitation at the first screen.",
+    sd:"I mapped the wider service and learned that users will still move between NHS, local authority and helpline routes. If we treat symptom reporting as the whole service, we create another disconnected entry point."
+  },
+  D2:{
+    ur:"I ran rapid testing of health advice language and learned that people describe symptoms in everyday terms, not clinical labels. If we skip this learning, symptom reports may be incomplete or misleading.",
+    ba:"I reviewed the timeline and learned that there is no allowance for rework to the symptom flow once Alpha starts. A late change could affect the data model, AI prompts, privacy wording and clinical safety review.",
+    cd:"I compared draft symptom categories with user language and learned that people say things like \"chest feels tight\" or \"wiped out\", not the wording in the form.",
+    id:"I tested the symptom form flow and learned that people compare options, go backwards and worry that choosing the wrong symptom will change their AI advice.",
+    sd:"I traced the downstream impact and learned that poor symptom data would affect public health reporting, local outbreak monitoring and advice routing."
+  },
+  D3:{
+    ur:"I mapped the end-to-end journey with users and learned that they do not separate symptom reporting, national health advice, local outbreak guidance and contact notification. Conflicting services feel like one unreliable public health system.",
+    ba:"After mapping dependencies, I learned that two neighbouring teams are already planning related outbreak communication and contact-tracing features. Without ownership, the same user may receive conflicting advice.",
+    cd:"I reviewed cross-channel wording and learned that different teams are using different names for the infection, risk level and isolation advice.",
+    id:"I walked through the handoff and learned that users can complete symptom reporting but miss the next action to check local advice.",
+    sd:"I mapped service ownership and learned that responsibility for urgent changes to advice could fall between teams during the outbreak."
+  },
+  D4:{
+    ur:"I tested the stakeholder's proposed wording and learned that users struggle with it, but I also learned that her input reveals important eligibility rules around location, household risk and local infection rates.",
+    ba:"I reviewed stakeholder dependencies and learned that the policy official controls access to clinical policy leads and local public health constraints. Excluding her may delay advice-rule sign-off later.",
+    cd:"I ran a plain-English review of the wireframe and learned that it uses policy language that sounds authoritative but is hard for the public to act on. Some useful distinctions need translating, not discarding.",
+    id:"I reviewed the proposed flow and learned that it puts policy categories before user tasks, which could lead people into the wrong route.",
+    sd:"I mapped the stakeholder ecosystem and learned that the issue is not whether the policy official is involved, but whether decision boundaries are clear."
+  },
+  D5:{
+    ur:"I reviewed early research notes and learned that we have useful fragments about privacy, AI advice and symptom severity, but no shared problem statement tying them together.",
+    ba:"I analysed the backlog and learned that it mixes discovery questions, AI advice requirements, data-sharing assumptions and delivery commitments. We cannot yet tell which items are blockers.",
+    cd:"I reviewed draft content and learned that it is trying to explain infection advice, AI limits, data consent and reporting all at once. The guidance is becoming muddled.",
+    id:"I compared versions of the prototype flow and learned that the journey changes depending on who explains it, which suggests we have not agreed the core user journey.",
+    sd:"I looked across the service and learned that the team is optimising reporting, advice, data capture and policy assurance separately, rather than designing one coherent service."
+  },
+  A1:{
+    ur:"I ran usability testing and learned that users misunderstood the AI advice screen. Several thought the advice was a confirmed diagnosis, not guidance based on partial data.",
+    ba:"I reviewed the milestone plan and learned that the next show-and-tell is being treated as evidence that the service is safe enough to continue. Showing misunderstood AI advice may create more concern than a delay.",
+    cd:"I tested the advice wording and learned that \"Your result\" sounds too certain. People need language about confidence, uncertainty and when to seek urgent help.",
+    id:"I observed the prototype flow and learned that users reach the AI advice screen but miss the caveat explaining that advice is based only on data they chose to share.",
+    sd:"I mapped likely support impact and learned that misunderstood AI advice could drive unnecessary calls to NHS 111 or local services, or stop people seeking help when they should."
+  },
+  A2:{
+    ur:"I showed users the expanded journey and learned that asking for symptoms, location, contacts and wearable data feels like too much unless each data point has a clear purpose.",
+    ba:"I assessed the new scope and learned that two added features need new consent wording, data retention rules, support processes and clinical safety checks.",
+    cd:"I reviewed the consent content and learned that users cannot tell which data is optional, which is required and what each item changes.",
+    id:"I mapped the expanded flow and learned that each extra data request creates another point where users may hesitate or drop out before advice.",
+    sd:"I reviewed downstream responsibilities and learned that the extra features create new work around data queries, contact concerns, wearable-data errors and local advice updates."
+  },
+  A3:{
+    ur:"I tested the prototype with placeholder content and learned that some users thought wearable data was mandatory and others thought they could not use the service without sharing contact data.",
+    ba:"I reviewed the consent and safety requirements and learned that content decisions affect what users believe they are agreeing to.",
+    cd:"I reviewed the placeholder copy and learned that it makes optional data-sharing look compulsory, which risks invalid consent and loss of trust.",
+    id:"I reviewed the interface hierarchy and learned that mandatory symptom questions and optional data choices have the same visual weight.",
+    sd:"I mapped the service impact and learned that people who believe data-sharing is compulsory may abandon the service or seek advice through already pressured channels."
+  },
+  A4:{
+    ur:"I ran a quick test of alternative journeys and learned that users will accept one extra step if it clearly explains why location or wearable data is needed.",
+    ba:"I reviewed the workaround dependency and learned that another team's integration layer has no confirmed support commitment. If it fails, users may get incomplete AI advice without knowing data was missing.",
+    cd:"I reviewed the workaround messaging and learned that we would need to explain missing or delayed data clearly, otherwise the advice may sound more complete than it is.",
+    id:"I compared the workaround with a redesigned journey and learned that the redesign can show which data was used, while the workaround hides the system state.",
+    sd:"I mapped the clinical and support impact and learned that downstream teams may not know when advice was generated using incomplete data."
+  },
+  A5_lowSQ:{
+    ur:"I reviewed the evidence base and learned that we have not tested whether people understand and trust AI-generated advice based on personal health and location data.",
+    ba:"I mapped the feedback against assessment risks and learned that weak user evidence, unclear accessibility, poor privacy explanation and weak AI traceability are all likely issues.",
+    cd:"I reviewed the evidence pack and learned that it shows screens, but not whether users understand the health advice, AI limitations or data consent language.",
+    id:"I checked the critical journeys and learned that we have not shown enough evidence from users with assistive technology, low digital confidence or high stress.",
+    sd:"I reviewed the wider service and learned that assisted-digital support, unsafe-advice escalation and handoff to local health guidance are not clear enough."
+  },
+  A5_lowDP:{
+    ur:"I reviewed the research decisions made so far and learned that slower work prevented two high-risk mistakes: making wearable data appear mandatory and making AI advice sound too certain.",
+    ba:"I analysed the board concern and learned that they need a clearer explanation of progress during an emergency, not just faster delivery.",
+    cd:"I reviewed the content improvements and learned that clearer consent, safer AI advice and better symptom guidance are visible deliverables we can show as progress.",
+    id:"I reviewed the prototype changes and learned that we have removed two confusing steps. A safer, simpler flow may reassure the board better than a list of activities.",
+    sd:"I mapped the operational impact and learned that the delay has clarified post-reporting support, advice ownership and support-channel handling."
+  },
+  A5_standard:{
+    ur:"I reviewed the remaining research plan and learned that one activity is essential now: testing whether users understand the AI advice and data consent journey. The others can move later.",
+    ba:"I reviewed decision dependencies and learned that only one research activity is tied to a live decision before Beta. Pausing everything is unnecessary, but dropping everything creates a major evidence gap.",
+    cd:"I reviewed the content risks and learned that the AI advice and consent wording need attention now; other guidance can be refined later.",
+    id:"I reviewed the prototype and learned that we can still test the riskiest journey lightly: data consent, symptom entry, AI advice and next steps.",
+    sd:"I mapped team capability and learned that losing the researcher also weakens the link between design decisions, evidence and service assessment readiness."
+  },
+  B1:{
+    ur:"I ran an assisted-digital session and learned that the keyboard trap prevents some users from reporting symptoms at all. The inaccessible PDF is also serious because it contains isolation advice.",
+    ba:"I checked the acceptance criteria and learned that the keyboard trap and inaccessible health advice are launch blockers. The other issues need a named owner, date and risk acceptance if deferred.",
+    cd:"I reviewed the PDF content and learned that it contains important isolation and symptom-worsening advice that is not available in accessible HTML.",
+    id:"I tested the main journey with keyboard navigation and learned that the trap stops task completion before users can submit symptoms or receive advice.",
+    sd:"I mapped alternative channels and learned that users blocked from the digital route do not have a clearly designed support route."
+  },
+  B2:{
+    ur:"I ran follow-up interviews and learned that users abandon at step three because they do not understand what the AI will do with their symptom, contact, location and wearable data.",
+    ba:"I reviewed the success measures and learned that a quick interface fix may improve completion while leaving trust and consent unresolved.",
+    cd:"I reviewed the consent step and learned that users are not rejecting data use; they cannot understand the explanation quickly enough.",
+    id:"I mapped the flow and learned that the consent step interrupts users just when they expect to receive advice. The service asks for trust before it has earned it.",
+    sd:"I traced the impact and learned that abandonment at the data step loses both symptom reports and the chance to route people to public health advice."
+  },
+  B3:{
+    ur:"I tested the contractor's changes with users and learned that some feel more modern, but two remove familiar patterns people rely on when sharing sensitive health data.",
+    ba:"I reviewed accountability and learned that the team remains responsible for standards compliance and clinical safety, even if a contractor produced the work.",
+    cd:"I reviewed the revised copy and learned that plain health guidance has been replaced with more promotional wording, weakening clarity around risk and next steps.",
+    id:"I reviewed the design patterns and learned that custom components may make it harder for users to review answers, change data-sharing choices or find help.",
+    sd:"I reviewed maintainability and learned that fast contractor output may leave BAU with unfamiliar components that are harder to update during a changing outbreak."
+  },
+  B4:{
+    ur:"I ran comparative sessions and learned that users prefer the charity service's warmer tone, but trust the government service more when it explains evidence, uncertainty and data use clearly.",
+    ba:"I compared obligations and learned that the charity service can give advice and collect data in ways this public health service may not be able to.",
+    cd:"I reviewed the competitor's content and learned that its strongest feature is reassuring language about what users can do next, not the interface itself.",
+    id:"I compared the two journeys and learned that the charity service gives quick feedback before asking for more data, while our service asks for more data earlier.",
+    sd:"I mapped the cross-service journey and learned that people may move between both services. If advice differs, they may not know which source to trust."
+  },
+  B5_lowSQ:{
+    ur:"I observed frontline support and learned that users complete the digital journey but then call staff because they do not understand what the AI advice means or what to do next.",
+    ba:"I reviewed operational impact and learned that frontline staff are already acting as an unofficial support channel, shifting cost and risk into local health services.",
+    cd:"I reviewed the final guidance and learned that phrases like \"monitor symptoms\" and \"follow local advice\" do not tell users what action to take today.",
+    id:"I reviewed the final page and learned that it looks like an endpoint, but users still need routes to local guidance, urgent help or report confirmation.",
+    sd:"I mapped the support model and learned that frontline staff are now an unplanned part of the service and their feedback needs a designed route."
+  },
+  B5_lowDP:{
+    ur:"I reviewed user feedback and learned that the service is useful but uneven. It helps people report symptoms, but trust in AI advice and data use still needs work.",
+    ba:"I assessed funder expectations and learned that a scripted demo could make the AI advice capability look more mature than it is.",
+    cd:"I reviewed the demo script and learned that it could overstate what the AI advice can safely do unless we make uncertainty and limits visible.",
+    id:"I reviewed the demo journey and learned that a polished path can hide weak points users actually encounter: consent, uncertainty and what happens after advice.",
+    sd:"I mapped what the funder needs to understand and learned that screens alone are not enough; support, escalation, content updates and data governance matter too."
+  },
+  B5_standard:{
+    ur:"I reviewed research playback notes and learned that the same concern has appeared three times: people want clearer explanations of how health and location data shape advice.",
+    ba:"I reviewed the decision record and learned that we cannot explain why some data, AI and content choices were made, which increases assessment, privacy and accountability risk.",
+    cd:"I reviewed the working process and learned that consent and advice wording are being fitted into structures after interface decisions have already been made.",
+    id:"I reviewed design governance and learned that decisions are being finalised before the team understands the full user journey, causing avoidable rework.",
+    sd:"I mapped the service decisions and learned that data, AI advice, content, support and public health messaging are being decided in separate conversations."
+  },
+  L1:{
+    ur:"I tested the dashboard idea with users and learned that they do not want a real-time usage dashboard; they want to understand what the service does with outbreak reports and how advice is generated.",
+    ba:"I reviewed the feature impact and learned that a dashboard adds data governance, accessibility, performance, privacy, media-handling and support requirements.",
+    cd:"I reviewed dashboard wording and learned that people could misread it as a live infection-risk map unless uncertainty and data limits are very clear.",
+    id:"I reviewed the launch journey and learned that a new dashboard would create an untested high-traffic journey three days before launch.",
+    sd:"I mapped the ecosystem impact and learned that a dashboard changes expectations for local authorities, media teams, analysts and support channels."
+  },
+  L2:{
+    ur:"I analysed free-text feedback and learned that users are anxious because the confirmation page does not explain whether their symptom report was received, whether advice will change or whether anyone will contact them.",
+    ba:"I reviewed support data and learned that confusion is creating avoidable contact through support channels, even where the digital journey appears successful.",
+    cd:"I reviewed the confirmation message and learned that \"submitted successfully\" does not answer users' real questions about isolation, contact, changing advice and next steps.",
+    id:"I reviewed the end of the journey and learned that the service stops at submission while users are still in the middle of a health decision.",
+    sd:"I mapped post-submission support and learned that users are falling into helplines, local services and informal advice routes because the digital service does not complete the journey."
+  },
+  L3:{
+    ur:"I reviewed research records and learned that some choices about AI advice wording, wearable data and localised guidance were based on informal observations that were never written up.",
+    ba:"I reviewed the audit trail and learned that Legal can manage the FOI response, but weak documentation may damage public trust even if we are technically compliant.",
+    cd:"I reviewed terminology across documents and learned that we have used different labels for AI advice, risk score and recommendation, making the evidence trail harder to explain.",
+    id:"I reviewed design rationale and learned that some visible design decisions are not documented, including why users are asked for data in a particular order.",
+    sd:"I mapped accountability across the service and learned that the FOI request tests whether we can explain decisions across research, policy, AI advice, data governance and operations."
+  },
+  L4:{
+    ur:"I reviewed support calls and learned that users affected by verification failure think they personally did something wrong. Some abandon before receiving any health advice.",
+    ba:"I reviewed the supplier agreement and learned that the third party does not guarantee a fix date. Escalation alone may not unblock users quickly enough.",
+    cd:"I reviewed the error message and learned that \"verification failed\" does not tell users whether their symptom report was saved, whether advice is still valid or what to do next.",
+    id:"I reviewed the failure journey and learned that the error appears after users have shared sensitive information, so a dead end damages trust.",
+    sd:"I mapped the service impact and learned that the failure affects reporting, advice, support and trust, so we need an alternative route and a clear owner."
+  },
+  L5_lowSQ:{
+    ur:"I ran follow-up sessions with affected users and learned that four of the six barriers stop people reporting symptoms or understanding isolation advice.",
+    ba:"I reviewed public commitments and learned that communications alone will not resolve barriers that may breach launch commitments and undermine trust in official health advice.",
+    cd:"I reviewed the content barriers and learned that isolation guidance is too dense, headings do not support screen-reader navigation and key actions are buried.",
+    id:"I reviewed the main symptom-reporting path and learned that some barriers affect core completion for keyboard and screen-reader users.",
+    sd:"I mapped stakeholder relationships and learned that the advocacy group should be treated as a service partner, not only a communications risk."
+  },
+  L5_lowDP:{
+    ur:"I reviewed user outcome data and learned that the service helps some people report symptoms faster, but the biggest unmet need is post-submission support: what do I do now?",
+    ba:"I reviewed the continuation case and learned that the board needs outcomes, cost, public health value and next-phase priorities, not delivery metrics alone.",
+    cd:"I reviewed content needs for the next phase and learned that users need clearer follow-up advice and updates when guidance changes, not just more features.",
+    id:"I reviewed the live journey and learned that it is strongest up to submission and weakest after advice is given, when users need follow-up actions and routes to help.",
+    sd:"I mapped the next-phase service and learned that follow-up, local guidance updates, support channels, data queries and outbreak adaptation need to be central."
+  },
+  L5_standard:{
+    ur:"I interviewed the BAU team and learned that they understand the service purpose but lack confidence handling disputed AI advice, accessibility complaints, data queries and local guidance changes.",
+    ba:"I reviewed the handover plan and learned that it covers normal operation but not complaints, content updates, supplier failures, clinical safety escalation, AI advice changes or privacy queries.",
+    cd:"I reviewed content ownership and learned that there is no clear process for quickly updating, approving and retiring public health guidance.",
+    id:"I reviewed edge-case journeys and learned that BAU has not practised failed data sharing, changed advice, withdrawn consent or urgent help patterns.",
+    sd:"I mapped the operating model and learned that handover is being treated as documentation when the service needs roles, escalation routes, supplier responsibilities, governance and feedback loops."
+  }
+};
+
+// Which roles have reveal abilities (keyed by ROLE_MAP key)
+var REVEAL_ROLES = ['ur','cd','id','sd','ba'];
+var REVEAL_ROLE_NAMES = {ur:'User Researcher', cd:'Content Designer', id:'Interaction Designer', sd:'Service Designer', ba:'Business Analyst'};
 
 // Role key → {label, css, rosterKey}
 var ROLE_MAP = {
@@ -1519,20 +1730,45 @@ function selectStep(n, silent){
   html += '<span class="card-tag '+card.tagCss+'">'+card.tag+'</span>';
   html += '<div class="card-title">'+card.title+'</div>';
 
-  // Triggered roles block
+  // Triggered roles block — with reveal buttons for eligible roles
   if(card.triggeredRoles && card.triggeredRoles.length > 0){
+    var cardReveals = ROLE_REVEALS[step.card] || {};
+    var cardRevealedSoFar = revealedAbilities[step.card] || {};
     html += '<div class="triggered-roles-block">';
     html += '<div class="triggered-roles-label">Roles triggered this card</div>';
-    html += '<div class="triggered-roles-row">';
     card.triggeredRoles.forEach(function(role){
       var rm = ROLE_MAP[role];
       var playerName = rm ? roster[rm.key] : '';
+      var rk = rm ? rm.key : null;
+      var hasReveal = rk && cardReveals[rk];
+      var isRevealRole = rk && REVEAL_ROLES.indexOf(rk) !== -1;
+      html += '<div class="triggered-role-row">';
       html += '<span class="role-badge '+(rm?rm.css:'')+'">';
       html += role;
       if(playerName) html += ' <span class="player-name">— '+playerName+'</span>';
       html += '</span>';
+      // Reveal button — only for the 5 eligible roles and only when this card has reveal text for them
+      if(hasReveal && isRevealRole){
+        var alreadyRevealed = !!cardRevealedSoFar[rk];
+        var alreadySpent = abilitySpent[rk];
+        if(alreadyRevealed){
+          html += '<button class="ability-reveal-btn spent" disabled>✓ Revealed</button>';
+        } else if(alreadySpent){
+          html += '<button class="ability-reveal-btn spent" disabled>Ability spent</button>';
+        } else {
+          html += '<button class="ability-reveal-btn" onclick="revealAbility(\''+rk+'\',\''+step.card+'\','+n+')">Reveal insight</button>';
+        }
+      }
+      html += '</div>';
+      // If already revealed, show the reveal text beneath this role row
+      if(hasReveal && isRevealRole && cardRevealedSoFar[rk]){
+        html += '<div class="ability-reveal-panel">';
+        html += '<div class="ability-reveal-role-label">'+role+' reveals</div>';
+        html += '<div class="ability-reveal-text">&#8220;'+cardReveals[rk]+'&#8221;</div>';
+        html += '</div>';
+      }
     });
-    html += '</div></div>';
+    html += '</div>';
   }
 
   // Scenario body
@@ -1668,9 +1904,24 @@ function applyFacilitatorPenalty(cardId, stepNum){
   selectStep(stepNum, true);
 }
 
+// ============================================================
+// REVEAL ABILITY — v3.1
+// Called when a player uses their reveal ability on a card.
+// roleKey: 'ur'|'cd'|'id'|'sd'|'ba'
+// cardId: the card's ID string (e.g. 'D1', 'A5_lowSQ')
+// stepNum: the current step number (used to re-render)
+// ============================================================
+function revealAbility(roleKey, cardId, stepNum){
+  // Mark ability as spent for this role
+  abilitySpent[roleKey] = true;
+  // Record that this reveal has been shown on this card
+  if(!revealedAbilities[cardId]) revealedAbilities[cardId] = {};
+  revealedAbilities[cardId][roleKey] = true;
+  // Re-render the card display
+  selectStep(stepNum, true);
+}
 
 function getOutcomeLabel(dpVal, sqVal){
-  var gap = dpVal - sqVal;
   if(dpVal >= 6 && sqVal >= 6 && Math.abs(gap) <= 4) return 'Sustainable delivery';
   if(dpVal > sqVal && gap > 6) return 'Delivered, but at a cost';
   if(sqVal > dpVal) return 'High quality, real cost';
