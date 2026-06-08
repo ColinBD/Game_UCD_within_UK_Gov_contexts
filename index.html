@@ -129,8 +129,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 
 /* RESOLUTION PATHS — CLICKABLE */
 .resolution-toggle{margin-top:12px;padding-top:10px;border-top:1px dashed #c5bfb0;}
-.res-toggle-btn{font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:4px 10px;border-radius:4px;cursor:pointer;background:#2a2520;color:#ede8df;border:1px solid #2a2520;letter-spacing:0.04em;}
-.res-toggle-btn:hover{background:#1a1a14;}
 .resolution-content{margin-top:10px;}
 .res-path{padding:10px 14px;background:#fffef9;border:1.5px solid #c5bfb0;border-radius:7px;margin-bottom:8px;cursor:pointer;transition:all 0.15s;font-size:15px;color:#3a3530;line-height:1.7;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;position:relative;}
 .res-path:hover{border-color:#3C3489;background:#f0edf8;}
@@ -139,6 +137,18 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .res-path strong{color:#1a1a1a;font-weight:700;}
 .res-path-hint{font-size:12px;color:#7a7060;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-top:4px;font-style:italic;}
 .res-path-cost{font-size:12px;color:#9a9080;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:4px;}
+/* Event auto-penalty notice */
+.event-penalty-applied{margin-top:12px;padding:9px 12px;background:#26215C;border:1.5px solid #534AB7;border-radius:7px;font-size:13px;color:#CECBF6;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;line-height:1.5;}
+.event-penalty-applied strong{color:#EEEDFE;}
+/* Facilitator penalty button block */
+.event-facilitator-action{margin-top:12px;padding:10px 14px;background:#2a1a14;border:1.5px solid #D85A30;border-radius:7px;}
+.event-facilitator-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#D85A30;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:7px;}
+.event-facilitator-desc{font-size:13px;color:#ede8df;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;line-height:1.6;margin-bottom:9px;}
+.event-penalty-btn{font-size:12px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:6px 14px;border-radius:5px;cursor:pointer;background:#D85A30;color:#fffef9;border:1px solid #D85A30;letter-spacing:0.04em;font-weight:700;transition:all 0.15s;}
+.event-penalty-btn:hover{background:#b84820;}
+.event-penalty-btn:disabled{background:#5a4030;color:#9a7060;border-color:#5a4030;cursor:default;}
+.event-penalty-done{font-size:12px;color:#F5C4B3;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-top:6px;}
+.res-must-choose{font-size:12px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;color:#7a5c30;background:#f5e8cc;border:1px solid #d4b87a;border-radius:5px;padding:6px 10px;margin-bottom:10px;}
 /* Unchosen paths after a decision — collapsed/dimmed */
 .res-path.unchosen{background:#f0ede8;border-color:#d8d0c4;cursor:default;opacity:0.5;}
 .res-path.unchosen:hover{border-color:#d8d0c4;background:#f0ede8;}
@@ -695,6 +705,7 @@ var dp = 0, sq = 0;
 var activeCell = null;
 var sessionLog = []; // {step, cardId, title, path, dpDelta, sqDelta}
 var chosenPaths = {}; // cardId -> path key
+var appliedEvents = {}; // cardId -> true, prevents double-applying auto-penalties
 
 // Roster
 var roster = {ur:'',cd:'',id:'',sd:'',pm:'',dm:'',ba:''};
@@ -965,7 +976,8 @@ var CARDS={
 
   E1:{tag:'Event',tagCss:'tag-event',title:'A minister has publicly questioned the programme',
     followsOn:null,triggeredRoles:[],paths:[],
-    scenario:'The Secretary of State has commented in a select committee session that digital health programmes "often cost more than they deliver." The team\'s programme is not named but colleagues in the department are nervous.\n\nEffect: \u22121 DP. The team spends time reassuring stakeholders rather than progressing discovery.'},
+    autoEvent:{dpDelta:-1,sqDelta:0},
+    scenario:'The Secretary of State has commented in a select committee session that digital health programmes "often cost more than they deliver." The team\'s programme is not named but colleagues in the department are nervous.\n\nEffect: \u22121 DP has been applied automatically. The team spends time reassuring stakeholders rather than progressing discovery.'},
 
   G1:{tag:'Phase gate',tagCss:'tag-gate',title:'Discovery to Alpha',
     followsOn:null,triggeredRoles:[],paths:[],
@@ -1086,7 +1098,7 @@ var CARDS={
 
   E2:{tag:'Event',tagCss:'tag-event',title:'A key team member is seconded to another programme',
     followsOn:null,triggeredRoles:[],paths:[],
-    scenario:'The user researcher has been asked to support a higher-priority crisis response programme for three weeks. It is not optional. Research capacity is reduced for the remainder of this phase.\n\nEffect: Remove 1 Research token from the current phase\'s remaining allocation.'},
+    scenario:'The user researcher has been asked to support a higher-priority crisis response programme for three weeks. It is not optional. Research capacity is reduced for the remainder of this phase.\n\nEffect: The facilitator should now remove 1 Research token from the current phase\'s remaining allocation. Ask the player holding the Research role to mark one of their tokens as spent.'},
 
   G2:{tag:'Phase gate',tagCss:'tag-gate',title:'Alpha to Beta',
     followsOn:null,triggeredRoles:[],paths:[],
@@ -1207,7 +1219,8 @@ var CARDS={
 
   E3:{tag:'Event',tagCss:'tag-event',title:'A comparable service has been criticised in the press',
     followsOn:null,triggeredRoles:[],paths:[],
-    scenario:'A government digital service in a related area has received significant negative press coverage for accessibility failures and confusing guidance. The team\'s work is mentioned in passing. Stakeholder scrutiny increases.\n\nEffect: One Research token must be spent before the end of this phase on an accessibility or content quality check. If no Research token is available, \u22121 SQ applies.'},
+    facilitatorEvent:{sqDelta:-1,dpDelta:0,desc:'If the team reaches the next gate without spending a Research token on an accessibility or content quality check, apply the −1 SQ penalty now.',btnLabel:'Apply −1 SQ penalty',logLabel:'E3 penalty applied — no Research token spent on accessibility check'},
+    scenario:'A government digital service in a related area has received significant negative press coverage for accessibility failures and confusing guidance. The team\'s work is mentioned in passing. Stakeholder scrutiny increases.\n\nEffect: One Research token must be spent before the end of this phase on an accessibility or content quality check. If the team reaches the next gate without spending a Research token on this, the facilitator should apply the \u22121 SQ penalty using the button below.'},
 
   G3:{tag:'Phase gate',tagCss:'tag-gate',title:'Beta to Live',
     followsOn:null,triggeredRoles:[],paths:[],
@@ -1328,7 +1341,8 @@ var CARDS={
 
   E4:{tag:'Event',tagCss:'tag-event',title:'A team member is close to burnout',
     followsOn:null,triggeredRoles:[],paths:[],
-    scenario:'A team member (chosen by the facilitator, or drawn randomly) has flagged that they are struggling. The workload since launch has been significant. Other team members have noticed but have not said anything.\n\nEffect: The team must respond. If two other players agree to redistribute work by each spending 1 token of any type: no penalty. If the team does not respond: \u22121 SQ and that player\'s tokens are halved for the remainder of the phase.'},
+    facilitatorEvent:{sqDelta:-1,dpDelta:0,desc:'If two other players do not each spend 1 token of any type, apply the −1 SQ penalty. (The affected player\'s tokens should also be halved for the remainder of the phase.)',btnLabel:'Apply −1 SQ penalty (team did not respond)',logLabel:'E4 penalty applied — team did not respond to burnout'},
+    scenario:'A team member (chosen by the facilitator, or drawn randomly) has flagged that they are struggling. The workload since launch has been significant. Other team members have noticed but have not said anything.\n\nEffect: The team must respond. If two other players each spend 1 token of any type: no penalty applies. If the team does not respond, the facilitator should apply the penalty using the button below: \u22121 SQ, and that player\'s tokens are halved for the remainder of the phase.'},
 
   G4:{tag:'Phase gate',tagCss:'tag-gate',title:'Live to Review',
     followsOn:null,triggeredRoles:[],paths:[],
@@ -1399,10 +1413,11 @@ function buildBoard(){
     grid.appendChild(vrow);
   });
 
-  // Review row — aligned left to sit below cell-16
+  // Review row — cell-17 sits directly below cell-16.
+  // The Live row is R→L so cell-16 renders as the leftmost cell in a centred 4-cell row.
+  // Match that by building a full-width centred row: cell-17 + 3 invisible spacers (cell+arrow pairs).
   var revRow = document.createElement('div');
   revRow.className = 'board-row';
-  revRow.style.justifyContent = 'flex-start';
   var revStep = STEPS[16]; // step 17
   var revCell = document.createElement('div');
   revCell.className = 'cell cell-review-final';
@@ -1419,6 +1434,17 @@ function buildBoard(){
   revCell.appendChild(revInner);
   revCell.addEventListener('click',function(){selectStep(17);});
   revRow.appendChild(revCell);
+  // Add 3 invisible arrow+cell spacers so this row has the same total width as the 4-cell rows
+  for(var sp=0; sp<3; sp++){
+    var spArr = document.createElement('div');
+    spArr.className = 'arrow-h';
+    spArr.style.visibility = 'hidden';
+    revRow.appendChild(spArr);
+    var spCell = document.createElement('div');
+    spCell.className = 'cell';
+    spCell.style.visibility = 'hidden';
+    revRow.appendChild(spCell);
+  }
   grid.appendChild(revRow);
 
   positionVerticalArrows();
@@ -1458,8 +1484,10 @@ function selectStep(n, silent){
     if(n === 7)  resolveConditional('alpha');
     if(n === 11) resolveConditional('beta');
     if(n === 15) resolveConditional('live');
-    // Unlock the next step if it exists and is still locked
-    if(n < 17){
+    // Unlock the next step — for scenarios, this happens only after a path is chosen (in chooseResolution).
+    // For events, gates, and review: unlock immediately.
+    var stepType = STEPS[n-1] ? STEPS[n-1].type : null;
+    if(n < 17 && stepType !== 'scenario'){
       var nextEl = document.getElementById('cell-'+(n+1));
       if(nextEl && nextEl.classList.contains('locked')) nextEl.classList.remove('locked');
     }
@@ -1469,6 +1497,23 @@ function selectStep(n, silent){
   var card = CARDS[step.card];
   var disp = document.getElementById('card-display');
   if(!card){disp.innerHTML='<div class="card-empty">No content for this step.</div>';return;}
+
+  // ── Auto-apply fixed event penalties (E1) ──────────────────
+  if(!silent && card.autoEvent && !appliedEvents[step.card]){
+    appliedEvents[step.card] = true;
+    applyScore(card.autoEvent.dpDelta || 0, card.autoEvent.sqDelta || 0);
+    sessionLog.push({
+      step: n,
+      phase: PHASE_NAMES[step.phase],
+      cardId: step.card,
+      title: card.title,
+      pathLabel: 'Auto-applied penalty',
+      pathType: 'event',
+      dpDelta: card.autoEvent.dpDelta || 0,
+      sqDelta: card.autoEvent.sqDelta || 0
+    });
+    updateDebriefSummary();
+  }
 
   var html = '';
   html += '<span class="card-tag '+card.tagCss+'">'+card.tag+'</span>';
@@ -1494,13 +1539,45 @@ function selectStep(n, silent){
   var scenarioText = card.scenario.replace(/\n/g,'<br>');
   html += '<div class="card-body" style="margin-top:8px;">'+scenarioText+'</div>';
 
+  // Event penalty UI
+  if(card.autoEvent){
+    // E1-style: fixed penalty, already applied
+    html += '<div class="event-penalty-applied">';
+    html += '<strong>Penalty applied automatically:</strong> ';
+    var parts = [];
+    if(card.autoEvent.dpDelta) parts.push((card.autoEvent.dpDelta > 0 ? '+' : '') + card.autoEvent.dpDelta + ' DP');
+    if(card.autoEvent.sqDelta) parts.push((card.autoEvent.sqDelta > 0 ? '+' : '') + card.autoEvent.sqDelta + ' SQ');
+    html += parts.join(', ') + ' has been applied to the scoreboard.';
+    html += '</div>';
+  }
+  if(card.facilitatorEvent){
+    var fe = card.facilitatorEvent;
+    var alreadyApplied = !!appliedEvents[step.card + '_facilitator'];
+    html += '<div class="event-facilitator-action">';
+    html += '<div class="event-facilitator-label">Facilitator action</div>';
+    html += '<div class="event-facilitator-desc">'+fe.desc+'</div>';
+    var btnDisabled = alreadyApplied ? ' disabled' : '';
+    html += '<button class="event-penalty-btn" onclick="applyFacilitatorPenalty(\''+step.card+'\','+n+')"'+btnDisabled+'>';
+    html += alreadyApplied ? '✓ Penalty applied' : fe.btnLabel;
+    html += '</button>';
+    if(alreadyApplied){
+      var ap = [];
+      if(fe.dpDelta) ap.push((fe.dpDelta > 0 ? '+' : '') + fe.dpDelta + ' DP');
+      if(fe.sqDelta) ap.push((fe.sqDelta > 0 ? '+' : '') + fe.sqDelta + ' SQ');
+      html += '<div class="event-penalty-done">Applied: '+ap.join(', ')+'</div>';
+    }
+    html += '</div>';
+  }
+
   // Resolution paths
   if(card.paths && card.paths.length > 0){
     html += '<div class="resolution-toggle">';
-    html += '<button class="res-toggle-btn" onclick="toggleRes(this)">Show resolution paths</button>';
-    html += '<div class="resolution-content" style="display:none;">';
+    html += '<div class="resolution-content">';
     var alreadyChosen = chosenPaths[step.card];
     var hasChosen = (alreadyChosen !== undefined);
+    if(!hasChosen){
+      html += '<div class="res-must-choose">Choose a resolution path to unlock the next step.</div>';
+    }
     card.paths.forEach(function(path, pi){
       var isChosen = hasChosen && (alreadyChosen === pi);
       var isUnchosen = hasChosen && !isChosen;
@@ -1535,14 +1612,6 @@ function selectStep(n, silent){
   disp.innerHTML = html;
 }
 
-function toggleRes(btn){
-  var content = btn.nextElementSibling;
-  if(content.style.display==='none'){
-    content.style.display='block'; btn.textContent='Hide resolution paths';
-  } else {
-    content.style.display='none'; btn.textContent='Show resolution paths';
-  }
-}
 
 // ============================================================
 // CHOOSE RESOLUTION
@@ -1567,19 +1636,39 @@ function chooseResolution(cardId, stepNum, pathIndex){
   });
   // Re-render the card to show chosen state
   selectStep(stepNum, true);
-  // Restore toggle open state
-  var disp = document.getElementById('card-display');
-  var btn = disp.querySelector('.res-toggle-btn');
-  var content = disp.querySelector('.resolution-content');
-  if(btn && content){
-    content.style.display='block';
-    btn.textContent='Hide resolution paths';
+  // Now unlock the next step (held back until a path was chosen)
+  if(stepNum < 17){
+    var nextEl = document.getElementById('cell-'+(stepNum+1));
+    if(nextEl && nextEl.classList.contains('locked')) nextEl.classList.remove('locked');
   }
 }
 
 // ============================================================
-// DEBRIEF SUMMARY
+// APPLY FACILITATOR EVENT PENALTY (E3, E4)
 // ============================================================
+function applyFacilitatorPenalty(cardId, stepNum){
+  if(appliedEvents[cardId + '_facilitator']) return;
+  appliedEvents[cardId + '_facilitator'] = true;
+  var card = CARDS[cardId];
+  var fe = card.facilitatorEvent;
+  applyScore(fe.dpDelta || 0, fe.sqDelta || 0);
+  var stepData = STEPS[stepNum-1];
+  sessionLog.push({
+    step: stepNum,
+    phase: PHASE_NAMES[stepData.phase],
+    cardId: cardId,
+    title: card.title,
+    pathLabel: fe.logLabel,
+    pathType: 'event',
+    dpDelta: fe.dpDelta || 0,
+    sqDelta: fe.sqDelta || 0
+  });
+  updateDebriefSummary();
+  // Re-render card to show applied state
+  selectStep(stepNum, true);
+}
+
+
 function getOutcomeLabel(dpVal, sqVal){
   var gap = dpVal - sqVal;
   if(dpVal >= 6 && sqVal >= 6 && Math.abs(gap) <= 4) return 'Sustainable delivery';
