@@ -804,7 +804,8 @@ var sessionScenarios = {
   disc1: null, disc2: null,
   alpha1: null, alpha2: null,
   beta1: null,  beta2: null,
-  live1: null,  live2: null
+  live1: null,  live2: null,
+  event1: null, event2: null, event3: null, event4: null
 };
 
 function pickRandom(arr, n){
@@ -818,7 +819,7 @@ function pickRandom(arr, n){
 }
 
 function generateSession(){
-  // Discovery: pick 2 from [D1,D2,D3,D4,D5]
+  // Discovery: pick 2 scenarios from [D1,D2,D3,D4,D5]
   var discPicks = pickRandom(['D1','D2','D3','D4','D5'], 2);
   sessionScenarios.disc1  = discPicks[0];
   sessionScenarios.disc2  = discPicks[1];
@@ -832,24 +833,29 @@ function generateSession(){
   sessionScenarios.alpha2 = 'A5_standard';
   sessionScenarios.beta2  = 'B5_standard';
   sessionScenarios.live2  = 'L5_standard';
+  // Events: pick 1 per phase from each pool
+  sessionScenarios.event1 = pickRandom(['E1','E1b','E1c','E1d'], 1)[0];
+  sessionScenarios.event2 = pickRandom(['E2','E2b','E2c','E2d'], 1)[0];
+  sessionScenarios.event3 = pickRandom(['E3','E3b','E3c','E3d'], 1)[0];
+  sessionScenarios.event4 = pickRandom(['E4','E4b','E4c','E4d'], 1)[0];
 }
 
 function buildSteps(){
   STEPS = [
     {n:1,  type:'scenario', phase:'discovery', label:'Scenario',   card: sessionScenarios.disc1},
-    {n:2,  type:'event',    phase:'discovery', label:'Event',      card:'E1'},
+    {n:2,  type:'event',    phase:'discovery', label:'Event',      card: sessionScenarios.event1},
     {n:3,  type:'scenario', phase:'discovery', label:'Scenario',   card: sessionScenarios.disc2},
     {n:4,  type:'gate',     phase:'discovery', label:'Phase gate', card:'G1'},
     {n:5,  type:'scenario', phase:'alpha',     label:'Scenario',   card: sessionScenarios.alpha1},
-    {n:6,  type:'event',    phase:'alpha',     label:'Event',      card:'E2'},
+    {n:6,  type:'event',    phase:'alpha',     label:'Event',      card: sessionScenarios.event2},
     {n:7,  type:'scenario', phase:'alpha',     label:'Scenario',   card: sessionScenarios.alpha2},
     {n:8,  type:'gate',     phase:'alpha',     label:'Phase gate', card:'G2'},
     {n:9,  type:'scenario', phase:'beta',      label:'Scenario',   card: sessionScenarios.beta1},
-    {n:10, type:'event',    phase:'beta',      label:'Event',      card:'E3'},
+    {n:10, type:'event',    phase:'beta',      label:'Event',      card: sessionScenarios.event3},
     {n:11, type:'scenario', phase:'beta',      label:'Scenario',   card: sessionScenarios.beta2},
     {n:12, type:'gate',     phase:'beta',      label:'Phase gate', card:'G3'},
     {n:13, type:'scenario', phase:'live',      label:'Scenario',   card: sessionScenarios.live1},
-    {n:14, type:'event',    phase:'live',      label:'Event',      card:'E4'},
+    {n:14, type:'event',    phase:'live',      label:'Event',      card: sessionScenarios.event4},
     {n:15, type:'scenario', phase:'live',      label:'Scenario',   card: sessionScenarios.live2},
     {n:16, type:'gate',     phase:'live',      label:'Phase gate', card:'G4'},
     {n:17, type:'review',   phase:'review',    label:'Review',     card:'REV'}
@@ -1190,6 +1196,21 @@ var CARDS={
     autoEvent:{dpDelta:-1,sqDelta:0},
     scenario:'The Secretary of State has commented in a select committee session that digital health programmes "often cost more than they deliver." The team\'s programme is not named but colleagues in the department are nervous.\n\nEffect: \u22121 DP has been applied automatically. The team spends time reassuring stakeholders rather than progressing discovery.'},
 
+  E1b:{tag:'Event',tagCss:'tag-event',title:'A recruitment route has fallen through',
+    followsOn:null,triggeredRoles:[],paths:[],
+    facilitatorEvent:{sqDelta:-1,dpDelta:0,desc:'Remove 1 Research token from the current phase\'s remaining allocation (ask the User Researcher or Business Analyst to mark one R token as spent). If no Research token is available, apply the \u22121 SQ penalty instead.',btnLabel:'Apply \u22121 SQ (no Research token available)',logLabel:'E1b penalty applied \u2014 no Research token available for recruitment fallthrough'},
+    scenario:'A partner organisation that had agreed to help recruit users has withdrawn at short notice. The user researcher now has fewer participants than planned, and the delivery manager is concerned about slipping the phase.\n\nEffect: Remove 1 Research token from the current phase\'s remaining allocation. If no Research token is available, \u22121 SQ has been applied using the button below.'},
+
+  E1c:{tag:'Event',tagCss:'tag-event',title:'A policy lead shares useful existing evidence',
+    followsOn:null,triggeredRoles:[],paths:[],
+    autoEvent:{dpDelta:0,sqDelta:1},
+    scenario:'A policy lead has surfaced a well-kept set of recent insights from related work, including service complaints, contact-centre themes, and stakeholder interviews. It does not replace user research, but it gives the team a stronger starting point.\n\nEffect: +1 SQ has been applied automatically.'},
+
+  E1d:{tag:'Event',tagCss:'tag-event',title:'The programme board wants a confidence update',
+    followsOn:null,triggeredRoles:[],paths:[],
+    autoEvent:{dpDelta:-1,sqDelta:0},
+    scenario:'The programme board has asked for an early confidence update before Discovery is complete. The team must spend time explaining what is known, what is still uncertain, and why that uncertainty matters.\n\nEffect: \u22121 DP has been applied automatically.'},
+
   G1:{tag:'Phase gate',tagCss:'tag-gate',title:'Discovery to Alpha',
     followsOn:null,triggeredRoles:[],paths:[],
     scenario:'Gate question: Have we found out enough to build something?\n\nCheck the current SQ score.\n\nIf SQ is below 1: the discovery evidence base is too thin to build on confidently. Remove 1 Research token and 1 Design token from the team\'s Alpha starting allocation. The team enters Alpha carrying a knowledge debt.\n\nIf SQ is 1 or above: advance to Alpha with full token allocation.'},
@@ -1309,7 +1330,21 @@ var CARDS={
 
   E2:{tag:'Event',tagCss:'tag-event',title:'A key team member is seconded to another programme',
     followsOn:null,triggeredRoles:[],paths:[],
-    scenario:'The user researcher has been asked to support a higher-priority crisis response programme for three weeks. It is not optional. Research capacity is reduced for the remainder of this phase.\n\nEffect: The facilitator should now remove 1 Research token from the current phase\'s remaining allocation. Ask the player holding the Research role to mark one of their tokens as spent.'},
+    scenario:'The user researcher has been asked to support a higher-priority crisis response programme for three weeks. It is not optional. Research capacity is reduced for the remainder of this phase.\n\nEffect: Remove 1 Research token from the current phase\'s remaining allocation. Ask the player holding a Research token to mark one as spent.'},
+
+  E2b:{tag:'Event',tagCss:'tag-event',title:'A developer with relevant service experience joins temporarily',
+    followsOn:null,triggeredRoles:[],paths:[],
+    scenario:'A developer from another programme joins the team for one sprint. They have worked on similar journeys before and quickly identify two practical ways to simplify the prototype and reduce rework.\n\nEffect: Gain 1 Progress token for the current phase. Ask the Product Manager or Delivery Manager to unmark one spent P token, or note the gain if all tokens are unspent.'},
+
+  E2c:{tag:'Event',tagCss:'tag-event',title:'A key assumption is disproved in testing',
+    followsOn:null,triggeredRoles:[],paths:[],
+    autoEvent:{dpDelta:-1,sqDelta:1},
+    scenario:'A pattern the team had expected users to understand turns out not to work at all in testing. The finding is valuable, but it means some Alpha work cannot continue as planned.\n\nEffect: \u22121 DP and +1 SQ have been applied automatically.'},
+
+  E2d:{tag:'Event',tagCss:'tag-event',title:'The design system has changed mid-phase',
+    followsOn:null,triggeredRoles:[],paths:[],
+    facilitatorEvent:{sqDelta:-1,dpDelta:0,desc:'Ask a player holding a Design token to mark 1 D token as spent. If no Design token is available, apply the \u22121 SQ penalty instead.',btnLabel:'Apply \u22121 SQ (no Design token available)',logLabel:'E2d penalty applied \u2014 no Design token available for design system change'},
+    scenario:'A change to the shared design system affects components the Alpha prototype relies on. Some screens now need to be updated to stay aligned, even though the change is not the team\'s fault.\n\nEffect: Spend 1 Design token. If no Design token is available, use the button below to apply \u22121 SQ.'},
 
   G2:{tag:'Phase gate',tagCss:'tag-gate',title:'Alpha to Beta',
     followsOn:null,triggeredRoles:[],paths:[],
@@ -1433,6 +1468,21 @@ var CARDS={
     facilitatorEvent:{sqDelta:-1,dpDelta:0,desc:'If the team reaches the next gate without spending a Research token on an accessibility or content quality check, apply the −1 SQ penalty now.',btnLabel:'Apply −1 SQ penalty',logLabel:'E3 penalty applied — no Research token spent on accessibility check'},
     scenario:'A government digital service in a related area has received significant negative press coverage for accessibility failures and confusing guidance. The team\'s work is mentioned in passing. Stakeholder scrutiny increases.\n\nEffect: One Research token must be spent before the end of this phase on an accessibility or content quality check. If the team reaches the next gate without spending a Research token on this, the facilitator should apply the \u22121 SQ penalty using the button below.'},
 
+  E3b:{tag:'Event',tagCss:'tag-event',title:'Operations staff spot a recurring failure pattern',
+    followsOn:null,triggeredRoles:[],paths:[],
+    facilitatorEvent:{sqDelta:-1,dpDelta:0,desc:'If the team does not spend 1 Research token to investigate, apply the \u22121 SQ penalty now.',btnLabel:'Apply \u22121 SQ (team did not investigate)',logLabel:'E3b penalty applied \u2014 team did not spend Research token on recurring failure'},
+    scenario:'An operations team member has noticed a recurring issue affecting users, and they raise it before it becomes a public problem. The team can act on it now, but it creates pressure on the current Beta plan.\n\nEffect: Spend 1 Research token to investigate and avoid the penalty, or use the button below to apply \u22121 SQ.'},
+
+  E3c:{tag:'Event',tagCss:'tag-event',title:'A stakeholder asks for an unscheduled demo',
+    followsOn:null,triggeredRoles:[],paths:[],
+    autoEvent:{dpDelta:-1,sqDelta:0},
+    scenario:'A senior stakeholder has asked to see the Beta service in action this week. Preparing a credible demonstration will take time away from planned work.\n\nEffect: \u22121 DP has been applied automatically.'},
+
+  E3d:{tag:'Event',tagCss:'tag-event',title:'Pilot users report the service is easier than expected',
+    followsOn:null,triggeredRoles:[],paths:[],
+    autoEvent:{dpDelta:0,sqDelta:1},
+    scenario:'A small pilot group reports that one part of the service is working more smoothly than expected. The team gains confidence that a risky design decision may have paid off.\n\nEffect: +1 SQ has been applied automatically.'},
+
   G3:{tag:'Phase gate',tagCss:'tag-gate',title:'Beta to Live',
     followsOn:null,triggeredRoles:[],paths:[],
     scenario:'Gate question: Is the service ready for wider use?\n\nCheck whether SQ is at least half of DP (i.e. SQ ≥ DP ÷ 2).\n\nIf the threshold is met: advance to Live with full token allocation.\n\nIf the threshold is not met: the service quality is too low to go wider. Remove 1 Design token and 1 Research token from the team\'s Live starting allocation before proceeding.'},
@@ -1554,6 +1604,21 @@ var CARDS={
     followsOn:null,triggeredRoles:[],paths:[],
     facilitatorEvent:{sqDelta:-1,dpDelta:0,desc:'If two other players do not each spend 1 token of any type, apply the −1 SQ penalty. (The affected player\'s tokens should also be halved for the remainder of the phase.)',btnLabel:'Apply −1 SQ penalty (team did not respond)',logLabel:'E4 penalty applied — team did not respond to burnout'},
     scenario:'A team member (chosen by the facilitator, or drawn randomly) has flagged that they are struggling. The workload since launch has been significant. Other team members have noticed but have not said anything.\n\nEffect: The team must respond. If two other players each spend 1 token of any type: no penalty applies. If the team does not respond, the facilitator should apply the penalty using the button below: \u22121 SQ, and that player\'s tokens are halved for the remainder of the phase.'},
+
+  E4b:{tag:'Event',tagCss:'tag-event',title:'Demand is higher than forecast',
+    followsOn:null,triggeredRoles:[],paths:[],
+    autoEvent:{dpDelta:1,sqDelta:-1},
+    scenario:'The service has seen a bigger take-up than expected in its first weeks live. This is positive in one sense, but it has exposed strain in support processes and backlog capacity.\n\nEffect: +1 DP and \u22121 SQ have been applied automatically.'},
+
+  E4c:{tag:'Event',tagCss:'tag-event',title:'A support manager suggests a quick operational fix',
+    followsOn:null,triggeredRoles:[],paths:[],
+    autoEvent:{dpDelta:0,sqDelta:1},
+    scenario:'A support manager has identified a simple operational change that reduces avoidable contact from users. It does not solve the root cause, but it improves the live experience immediately.\n\nEffect: +1 SQ has been applied automatically.'},
+
+  E4d:{tag:'Event',tagCss:'tag-event',title:'An internal audit asks for evidence at short notice',
+    followsOn:null,triggeredRoles:[],paths:[],
+    facilitatorEvent:{sqDelta:0,dpDelta:-1,desc:'Ask a player holding a Progress token to mark 1 P token as spent. If no Progress token is available, apply the \u22121 DP penalty instead.',btnLabel:'Apply \u22121 DP (no Progress token available)',logLabel:'E4d penalty applied \u2014 no Progress token available for internal audit'},
+    scenario:'An internal audit team has requested evidence about decisions, risks, and mitigations with very little notice. Preparing the material is manageable, but it interrupts planned improvement work.\n\nEffect: Spend 1 Progress token. If no Progress token is available, use the button below to apply \u22121 DP.'},
 
   G4:{tag:'Phase gate',tagCss:'tag-gate',title:'Live to Review',
     followsOn:null,triggeredRoles:[],paths:[],
