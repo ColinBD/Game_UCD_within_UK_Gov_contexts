@@ -328,12 +328,14 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <div class="modal-section">
         <div class="modal-section-label">Session timing</div>
         <p>The session runs against a <strong>60-minute countdown timer</strong> on the game board. Start it once roles are assigned and play begins. If the team does not reach the Review step within 60 minutes, a penalty of −3 DP per incomplete phase is applied automatically and the team proceeds straight to the debrief.</p>
+        <p>It is recommended that the <strong>Delivery Manager</strong> takes responsibility for keeping the team on course to finish within the 60 minutes — calling out when discussions are running long and nudging the group towards a decision.</p>
         <p>Allow an additional <strong>20–30 minutes for debrief</strong> after gameplay concludes.</p>
       </div>
       <div class="modal-section">
         <div class="modal-section-label">Before you start</div>
         <p>Assign a role to each player. Seven roles are available: User Researcher, Content Designer, Interaction Designer, Service Designer, Product Manager, Delivery Manager, and Business Analyst.</p>
         <p>Each role has a unique ability, which is shared knowledge — abilities are visible to everyone on the Roles tab. Each role also has a private pressure: a default instinct that reflects how that role tends to behave under real project conditions. Each role also holds a number of tokens to spend each phase — these represent the bandwidth and influence that role has in resolving scenarios. Token allocations are shown on the game board next to each player's name.</p>
+        <p><strong>If the team cannot afford any of the available paths</strong> — because the combined token cost of every option exceeds what the team currently holds — they must take the least costly path. The facilitator applies a <strong>−2 SQ penalty</strong> to reflect the consequence of being unable to respond properly.</p>
         <p><strong>Pressures are private.</strong> Before dismissing this brief, tell each player their pressure individually — send it to them via a back channel e.g. MS Teams or email. Players should not share their pressure with the group. The tension between ability and pressure is the game, and it works best when pressures are discovered through play, not announced in advance.</p>
         <button onclick="togglePressures(this)" style="font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:5px 12px;border-radius:4px;cursor:pointer;background:#2a2520;color:#ede8df;border:1px solid #2a2520;letter-spacing:0.04em;margin-bottom:8px;">Show pressure information</button>
         <div id="pressure-list" style="display:none;">
@@ -641,6 +643,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         </tbody>
       </table>
       <div class="note-box">Exact token costs vary by card and are shown on each resolution path. Path A is not always the "right" answer — it depends on the scenario and the team's situation.</div>
+      <div class="warn-box"><strong>If the team cannot afford any available path</strong> — because every option's token cost exceeds what the team currently holds — they must take the least costly path. The facilitator applies a <strong>−2 SQ penalty</strong> immediately. This reflects the real consequence of being under-resourced: the team is forced into a response they would not have chosen.</div>
     </div>
     <div class="section-panel">
       <h2>Scoring</h2>
@@ -696,7 +699,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         <li>The delivery manager and product manager will often favour Path B or Path C. Let them, then debrief it.</li>
         <li>The Business Analyst will often want more time to clarify requirements. Watch for whether the team uses this productively or as avoidance.</li>
         <li>Keep the resolution paths hidden until the team has agreed their approach. Use the toggle on the game board.</li>
-        <li>Some scenario cards include a "Note for facilitator" that references a decision made in an earlier card. Because scenarios are randomly selected, the referenced card may not have appeared this session — use your judgement about whether the note is relevant, and skip it if not.</li>
         <li>Aim for 5–7 minutes per scenario. The 60-minute session timer creates collective pressure — name it if discussions are running long. Remind players that incomplete phases carry a −3 DP penalty.</li>
         <li>Do not intervene in decisions, even clearly bad ones. The discomfort is the learning.</li>
         <li>After a full run, ask players which scenario they want to replay differently.</li>
@@ -1370,7 +1372,7 @@ var CARDS={
   B2:{tag:'Scenario',tagCss:'tag-scenario',title:'"The data is telling a different story"',
     followsOn:'A1',
     triggeredRoles:['User Researcher','Content Designer','Service Designer','Product Manager'],
-    scenario:'Beta analytics show 38% of users abandoning at step three of the main journey. The product manager wants to ship a fix based on the data pattern alone. The user researcher believes the data indicates a comprehension problem that needs investigation before any change is made. The content designer and service designer have different hypotheses.\n\nNote for facilitator: If the team took Path C in A1 (proceeded with broken prototype), this data is likely a direct consequence.',
+    scenario:'Beta analytics show 38% of users abandoning at step three of the main journey. The product manager wants to ship a fix based on the data pattern alone. The user researcher believes the data indicates a comprehension problem that needs investigation before any change is made. The content designer and service designer have different hypotheses.',
     paths:[
       {type:'a',label:'Path A',tokenCost:'2 Research + 1 Design',dpDelta:0,sqDelta:2,
        intent:'User Researcher runs six interviews focused on step three.',
@@ -1491,7 +1493,7 @@ var CARDS={
   L1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The minister wants a feature that wasn\'t planned"',
     followsOn:'D3',
     triggeredRoles:['Product Manager','Delivery Manager','Business Analyst','Service Designer'],
-    scenario:'Three days before go-live, the minister\'s office has requested a real-time usage dashboard. It was not in scope. The product manager is under pressure to agree. The business analyst believes an impact assessment would take two days. The delivery manager thinks a minimal version can be built without one.\n\nNote for facilitator: If the team did not resolve the ownership question in D3, the minister may not have a clear point of contact for this request.',
+    scenario:'Three days before go-live, the minister\'s office has requested a real-time usage dashboard. It was not in scope. The product manager is under pressure to agree. The business analyst believes an impact assessment would take two days. The delivery manager thinks a minimal version can be built without one.',
     paths:[
       {type:'a',label:'Path A',tokenCost:'2 Research + 1 Progress',dpDelta:0,sqDelta:2,
        intent:'Business Analyst produces a rapid impact assessment.',
@@ -1507,7 +1509,7 @@ var CARDS={
   L2:{tag:'Scenario',tagCss:'tag-scenario',title:'"Early user feedback after launch is mixed"',
     followsOn:'B2',
     triggeredRoles:['User Researcher','Content Designer','Service Designer'],
-    scenario:'The service has been live for three weeks. Formal feedback channels show moderate satisfaction scores. But the user researcher has been reviewing free-text feedback and has identified a pattern: users are completing the service but reporting confusion about what happens next and whether their submission has been received. The content designer has a hypothesis.\n\nNote for facilitator: If the team took Path B in B2 (shipped an unvalidated fix), this confusion may be partly a consequence of that decision.',
+    scenario:'The service has been live for three weeks. Formal feedback channels show moderate satisfaction scores. But the user researcher has been reviewing free-text feedback and has identified a pattern: users are completing the service but reporting confusion about what happens next and whether their submission has been received. The content designer has a hypothesis.',
     paths:[
       {type:'a',label:'Path A',tokenCost:'2 Research + 1 Design',dpDelta:0,sqDelta:2,
        intent:'User Researcher and Content Designer investigate and find the confirmation journey is genuinely unclear.',
@@ -1523,7 +1525,7 @@ var CARDS={
   L3:{tag:'Scenario',tagCss:'tag-scenario',title:'"A journalist has submitted an FOI request"',
     followsOn:'D2',
     triggeredRoles:['User Researcher','Content Designer','Business Analyst','Product Manager'],
-    scenario:'A journalist has submitted a Freedom of Information request for all user research and usability test findings. The product manager is concerned. Documentation from Discovery was produced under time pressure and some decisions are not clearly evidenced.\n\nNote for facilitator: If the team took Path C in D2 (skipped research), the documentation gap is significant. If they took Path A, the research record is strong. Acknowledge this.',
+    scenario:'A journalist has submitted a Freedom of Information request for all user research and usability test findings. The product manager is concerned. Documentation from Discovery was produced under time pressure and some decisions are not clearly evidenced.',
     paths:[
       {type:'a',label:'Path A',tokenCost:'2 Research + 1 Design',dpDelta:1,sqDelta:1,
        intent:'Business Analyst and User Researcher compile a clear, honest account of what was researched, what decisions it informed, and what was not researched and why.',
