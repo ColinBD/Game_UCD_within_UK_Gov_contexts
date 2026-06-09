@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The UCD Challenge — v3.1</title>
+<title>The UCD Challenge — v3.2</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1a;min-height:100vh;}
@@ -1221,7 +1221,7 @@ var CARDS={
     triggeredRoles:['Interaction Designer','User Researcher','Content Designer'],
     scenario:'The first round of usability testing on the Alpha prototype returns poor results. Users are confused by the main flow. The interaction designer says the core journey needs rethinking. The delivery manager notes the next stakeholder show-and-tell is in ten days.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'2 Design',dpDelta:-1,sqDelta:2,
+      {type:'a',label:'Path A',tokenCost:'2 Design + 1 Research',dpDelta:-1,sqDelta:2,
        intent:'Interaction Designer and Content Designer spend three days redesigning the core flow.',
        outcome:'Interaction Designer and Content Designer spend three days redesigning the core flow. The show-and-tell is delayed by a week. The revised prototype is significantly clearer in the next round of testing.'},
       {type:'b',label:'Path B',tokenCost:'1 Design + 1 Research',dpDelta:1,sqDelta:1,
@@ -1253,7 +1253,7 @@ var CARDS={
     triggeredRoles:['Content Designer','Interaction Designer','Product Manager'],
     scenario:'The Alpha prototype has been built using placeholder text. The content designer was not involved in wireframing and has only just been shown the designs. She identifies that several page structures will not work for plain English guidance. Two weeks of design work may need to be revisited.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'2 Design',dpDelta:-1,sqDelta:2,
+      {type:'a',label:'Path A',tokenCost:'2 Design + 1 Research',dpDelta:-1,sqDelta:2,
        intent:'Content Designer and Interaction Designer spend two days restructuring the most problematic screens together.',
        outcome:'Content Designer and Interaction Designer spend two days restructuring the most problematic screens together. A new working agreement is made: content designer joins wireframe reviews from now on.'},
       {type:'b',label:'Path B',tokenCost:'1 Design',dpDelta:1,sqDelta:1,
@@ -1275,7 +1275,7 @@ var CARDS={
       {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:2,sqDelta:0,
        intent:'Accept the workaround at face value and build it into the plan.',
        outcome:'The delivery manager accepts the workaround at face value and builds it into the plan. It works in testing but introduces a dependency that has not been fully stress-tested. It may be fine. It may cause an issue later. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
-      {type:'c',label:'Path C',tokenCost:'2 Design + 1 Research',dpDelta:-1,sqDelta:1,
+      {type:'c',label:'Path C',tokenCost:'2 Design + 2 Research',dpDelta:-1,sqDelta:1,
        intent:'Interaction Designer proposes redesigning the journey to avoid the constraint entirely.',
        outcome:'Interaction Designer proposes redesigning the journey to avoid the constraint entirely. It takes longer but produces a cleaner, simpler solution. The development team is relieved. The user journey is arguably better than the original.'}
     ]},
@@ -1285,7 +1285,7 @@ var CARDS={
     triggeredRoles:['User Researcher','Service Designer','Product Manager','Content Designer'],
     scenario:'The team has shared their Alpha work with the service assessment panel for an informal pre-review. The feedback is blunt: the team has not provided sufficient evidence of understanding user needs, and the accessibility approach is not convincing. An official assessment is in four weeks.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'2 Research + 1 Design',dpDelta:-1,sqDelta:2,
+      {type:'a',label:'Path A',tokenCost:'2 Research + 2 Design',dpDelta:-1,sqDelta:2,
        intent:'User Researcher runs a rapid evidence-gathering sprint.',
        outcome:'User Researcher runs a rapid evidence-gathering sprint. Content Designer and Service Designer restructure the evidence pack. The pre-review panel is re-engaged informally. The feedback improves but significant work remains. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
       {type:'b',label:'Path B',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
@@ -1356,10 +1356,10 @@ var CARDS={
     triggeredRoles:['Interaction Designer','Content Designer','Delivery Manager'],
     scenario:'An independent accessibility audit has returned four critical failures: missing alternative text, a colour contrast failure on the primary action, a keyboard trap in the main form, and a PDF download that is not screen-reader compatible. The interaction designer estimates three to four days to fix all four. The release schedule does not have four days in it.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'2 Design',dpDelta:-1,sqDelta:2,
+      {type:'a',label:'Path A',tokenCost:'2 Design + 1 Research',dpDelta:-1,sqDelta:2,
        intent:'Interaction Designer and Content Designer fix all four issues.',
        outcome:'Interaction Designer and Content Designer fix all four issues. The release date moves. The service is fully accessible at launch. No further remediation will be needed.'},
-      {type:'b',label:'Path B',tokenCost:'1 Design',dpDelta:1,sqDelta:1,
+      {type:'b',label:'Path B',tokenCost:'1 Design + 1 Research',dpDelta:1,sqDelta:1,
        intent:'Fix the two most critical issues now.',
        outcome:'The two most critical issues are fixed now. Two are deferred with a documented remediation plan. The service is partially accessible at launch. The deferred issues carry a reputational risk if surfaced publicly.'},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
@@ -1372,7 +1372,7 @@ var CARDS={
     triggeredRoles:['User Researcher','Content Designer','Service Designer','Product Manager'],
     scenario:'Beta analytics show 38% of users abandoning at step three of the main journey. The product manager wants to ship a fix based on the data pattern alone. The user researcher believes the data indicates a comprehension problem that needs investigation before any change is made. The content designer and service designer have different hypotheses.\n\nNote for facilitator: If the team took Path C in A1 (proceeded with broken prototype), this data is likely a direct consequence.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Design',dpDelta:0,sqDelta:2,
+      {type:'a',label:'Path A',tokenCost:'2 Research + 1 Design',dpDelta:0,sqDelta:2,
        intent:'User Researcher runs six interviews focused on step three.',
        outcome:'User Researcher runs six interviews focused on step three. Content Designer and Service Designer each propose a change based on the findings. Both changes are made. The abandonment rate falls significantly in the next analysis cycle. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'},
       {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:2,sqDelta:0,
@@ -1394,7 +1394,7 @@ var CARDS={
       {type:'b',label:'Path B',tokenCost:'1 Design',dpDelta:2,sqDelta:-1,
        intent:"Content Designer reviews the contractor's output and flags the specific changes that conflict with standards.",
        outcome:"The content designer reviews the contractor's output and flags the specific changes that conflict with standards. The contractor addresses those. Other changes stand. Some of the contractor's work represents a genuine improvement; some is standard-non-compliant and will require attention later. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage."},
-      {type:'c',label:'Path C',tokenCost:'2 Progress',dpDelta:-1,sqDelta:2,
+      {type:'c',label:'Path C',tokenCost:'2 Progress + 1 Design',dpDelta:-1,sqDelta:2,
        intent:"Interaction Designer pauses the contractor's work and conducts a full review of everything produced in the first two weeks.",
        outcome:"Interaction Designer pauses the contractor's work and conducts a full review of everything produced in the first two weeks. Standards compliance is confirmed throughout. The contractor is given a detailed briefing. Two weeks of work is partially redone. Quality is high but time has been spent."}
     ]},
@@ -1407,7 +1407,7 @@ var CARDS={
       {type:'a',label:'Path A',tokenCost:'1 Research',dpDelta:1,sqDelta:1,
        intent:'User Researcher runs a structured comparative session.',
        outcome:'User Researcher runs a structured comparative session. Several features of the charity service are genuinely better for users. The team adopts two of them. The service improves. The comparison has been useful without driving the team to over-engineer.'},
-      {type:'b',label:'Path B',tokenCost:'1 Design + 1 Research',dpDelta:-1,sqDelta:2,
+      {type:'b',label:'Path B',tokenCost:'2 Design + 1 Research',dpDelta:-1,sqDelta:2,
        intent:'Service Designer and Content Designer conduct a thorough comparative analysis.',
        outcome:'Service Designer and Content Designer conduct a thorough comparative analysis. Several significant improvements are identified and implemented. The service is meaningfully better. The timeline has extended by two weeks. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
@@ -1420,7 +1420,7 @@ var CARDS={
     triggeredRoles:['User Researcher','Service Designer','Content Designer'],
     scenario:'A network of frontline staff who help users access the service have been sharing concerns informally for several weeks. Three staff members have now formally written to the programme team: users are struggling with the service in ways that the analytics are not capturing. The product manager has not yet responded.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'2 Research',dpDelta:-1,sqDelta:2,
+      {type:'a',label:'Path A',tokenCost:'2 Research + 1 Design',dpDelta:-1,sqDelta:2,
        intent:'User Researcher visits two frontline offices and spends a day observing users with the service.',
        outcome:'User Researcher visits two frontline offices and spends a day observing users with the service. The findings are significant. Service Designer maps the failure points. Four changes are prioritised for the current phase. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
       {type:'b',label:'Path B',tokenCost:'1 Research + 1 Design',dpDelta:1,sqDelta:1,
@@ -1439,7 +1439,7 @@ var CARDS={
       {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Business Analyst prepares a clear and honest narrative of progress and what remains.',
        outcome:'Business Analyst prepares a clear and honest narrative of progress and what remains. Product Manager frames the demonstration around what works well and is transparent about what is in progress. The funder is satisfied with the honesty and agrees a revised milestone plan.'},
-      {type:'b',label:'Path B',tokenCost:'2 Progress',dpDelta:2,sqDelta:0,
+      {type:'b',label:'Path B',tokenCost:'2 Progress + 1 Design',dpDelta:2,sqDelta:0,
        intent:'Rush to produce a scripted demonstration that showcases the strongest parts of the service.',
        outcome:"The team rushes to produce a scripted demonstration that showcases the strongest parts of the service. It goes well. The funder is impressed. The parts of the service that are not working are not shown. The funder's expectations are now higher than the service can currently meet. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward."},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:1,sqDelta:2,
@@ -1493,10 +1493,10 @@ var CARDS={
     triggeredRoles:['Product Manager','Delivery Manager','Business Analyst','Service Designer'],
     scenario:'Three days before go-live, the minister\'s office has requested a real-time usage dashboard. It was not in scope. The product manager is under pressure to agree. The business analyst believes an impact assessment would take two days. The delivery manager thinks a minimal version can be built without one.\n\nNote for facilitator: If the team did not resolve the ownership question in D3, the minister may not have a clear point of contact for this request.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:0,sqDelta:2,
+      {type:'a',label:'Path A',tokenCost:'2 Research + 1 Progress',dpDelta:0,sqDelta:2,
        intent:'Business Analyst produces a rapid impact assessment.',
        outcome:"Business Analyst produces a rapid impact assessment. Product Manager uses it to propose a post-launch roadmap item with a clear timeline. The minister's office accepts this. Launch is not delayed. The dashboard will be built properly. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward."},
-      {type:'b',label:'Path B',tokenCost:'2 Progress',dpDelta:2,sqDelta:-1,
+      {type:'b',label:'Path B',tokenCost:'2 Progress + 1 Design',dpDelta:2,sqDelta:-1,
        intent:'Build a minimal dashboard over two days without assessment or testing.',
        outcome:'A minimal dashboard is built over two days without assessment or testing. It is functional but not accessible and has not been through any quality checks. It is politically useful but may become a liability.'},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:1,sqDelta:1,
@@ -1509,7 +1509,7 @@ var CARDS={
     triggeredRoles:['User Researcher','Content Designer','Service Designer'],
     scenario:'The service has been live for three weeks. Formal feedback channels show moderate satisfaction scores. But the user researcher has been reviewing free-text feedback and has identified a pattern: users are completing the service but reporting confusion about what happens next and whether their submission has been received. The content designer has a hypothesis.\n\nNote for facilitator: If the team took Path B in B2 (shipped an unvalidated fix), this confusion may be partly a consequence of that decision.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Design',dpDelta:0,sqDelta:2,
+      {type:'a',label:'Path A',tokenCost:'2 Research + 1 Design',dpDelta:0,sqDelta:2,
        intent:'User Researcher and Content Designer investigate and find the confirmation journey is genuinely unclear.',
        outcome:'User Researcher and Content Designer investigate and find the confirmation journey is genuinely unclear. A content redesign of three screens is shipped within a week. Feedback improves notably.'},
       {type:'b',label:'Path B',tokenCost:'1 Design',dpDelta:1,sqDelta:1,
@@ -1525,13 +1525,13 @@ var CARDS={
     triggeredRoles:['User Researcher','Content Designer','Business Analyst','Product Manager'],
     scenario:'A journalist has submitted a Freedom of Information request for all user research and usability test findings. The product manager is concerned. Documentation from Discovery was produced under time pressure and some decisions are not clearly evidenced.\n\nNote for facilitator: If the team took Path C in D2 (skipped research), the documentation gap is significant. If they took Path A, the research record is strong. Acknowledge this.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Design',dpDelta:1,sqDelta:1,
+      {type:'a',label:'Path A',tokenCost:'2 Research + 1 Design',dpDelta:1,sqDelta:1,
        intent:'Business Analyst and User Researcher compile a clear, honest account of what was researched, what decisions it informed, and what was not researched and why.',
        outcome:'Business Analyst and User Researcher compile a clear, honest account of what was researched, what decisions it informed, and what was not researched and why. Content Designer shapes the submission. It is transparent and complete.'},
       {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
        intent:'Ask Legal to lead the response.',
        outcome:'The UCD squad contacts the Legal department and their team leads the response. Much is redacted or withheld under exemptions. The response is technically compliant but tells little. The journalist publishes a story about lack of transparency.'},
-      {type:'c',label:'Path C',tokenCost:'2 Research',dpDelta:-1,sqDelta:2,
+      {type:'c',label:'Path C',tokenCost:'2 Research + 1 Design',dpDelta:-1,sqDelta:2,
        intent:'User Researcher and Business Analyst spend a week producing a comprehensive evidence trail that goes beyond what was requested.',
        outcome:'User Researcher and Business Analyst spend a week producing a comprehensive evidence trail that goes beyond what was requested. The response is exemplary. It costs time but significantly enhances public trust and becomes a model for other programmes.'}
     ]},
@@ -1541,10 +1541,10 @@ var CARDS={
     triggeredRoles:['Interaction Designer','Delivery Manager','Business Analyst','Product Manager'],
     scenario:'A post-launch monitoring report shows that 12% of users are encountering an error at the point where the service connects to a third-party data verification system. Some complete the journey and experience the error silently. Others are blocked. The third party acknowledges a compatibility issue but their fix timeline is unknown.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:0,sqDelta:2,
+      {type:'a',label:'Path A',tokenCost:'2 Research + 1 Progress',dpDelta:0,sqDelta:2,
        intent:'Business Analyst maps the failure modes with the development team.',
        outcome:'Business Analyst maps the failure modes with the development team. Interaction Designer designs a clear error state and a manual fallback journey for affected users. The fix is shipped within a week. No user is left stuck. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
-      {type:'b',label:'Path B',tokenCost:'2 Progress',dpDelta:2,sqDelta:-1,
+      {type:'b',label:'Path B',tokenCost:'2 Progress + 1 Design',dpDelta:2,sqDelta:-1,
        intent:'Delivery Manager escalates to the third party and sets a deadline.',
        outcome:'Delivery Manager escalates to the third party and sets a deadline. In the interim, affected users receive an automated email telling them to try again later. The error is not resolved but is mitigated. Some users drop out. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:1,sqDelta:1,
@@ -1557,7 +1557,7 @@ var CARDS={
     triggeredRoles:['Interaction Designer','Content Designer','User Researcher','Product Manager'],
     scenario:'A disability rights organisation has published a detailed blog post identifying six specific barriers in the live service. The post is being shared widely. The product manager is fielding calls from the communications team.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'2 Design + 1 Research',dpDelta:-1,sqDelta:2,
+      {type:'a',label:'Path A',tokenCost:'2 Design + 2 Research',dpDelta:-1,sqDelta:2,
        intent:'Publicly acknowledge the issues, commit to a fix timeline, and invite the organisation to review the changes before they are shipped.',
        outcome:'The team publicly acknowledges the issues, commits to a fix timeline, and invites the organisation to review the changes before they are shipped. User Researcher conducts a session with affected users. All six issues are addressed.'},
       {type:'b',label:'Path B',tokenCost:'1 Design + 1 Progress',dpDelta:1,sqDelta:1,
@@ -1573,13 +1573,13 @@ var CARDS={
     triggeredRoles:['Delivery Manager','Product Manager','Service Designer','Business Analyst'],
     scenario:"The programme board has raised concerns about the pace of delivery during the Live phase and is asking for a plan for what comes after. The delivery manager has not yet started this planning. The business analyst believes the current data could support a strong case for continuation if framed correctly.",
     paths:[
-      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:2,sqDelta:0,
+      {type:'a',label:'Path A',tokenCost:'2 Research + 1 Progress',dpDelta:2,sqDelta:0,
        intent:'Business Analyst and Delivery Manager produce a clear case for continuation, drawing on the service data.',
        outcome:'Business Analyst and Delivery Manager produce a clear case for continuation, drawing on the service data. It is presented to the board. The next phase is approved with a tighter milestone structure. Progress is visible. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'},
       {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:1,sqDelta:1,
        intent:'Service Designer contributes a user outcomes narrative alongside the delivery metrics.',
        outcome:'Service Designer contributes a user outcomes narrative alongside the delivery metrics. The presentation balances pace evidence with quality evidence. The board approves the next phase with no conditions attached.'},
-      {type:'c',label:'Path C',tokenCost:'2 Research',dpDelta:-1,sqDelta:2,
+      {type:'c',label:'Path C',tokenCost:'2 Research + 1 Progress',dpDelta:-1,sqDelta:2,
        intent:'User Researcher presents a detailed picture of user outcomes and remaining unmet need.',
        outcome:'User Researcher presents a detailed picture of user outcomes and remaining unmet need. The case for continuation is compelling on quality grounds even if the delivery pace has been slow. The board approves but asks for a delivery recovery plan.'}
     ]},
@@ -1589,10 +1589,10 @@ var CARDS={
     triggeredRoles:['Delivery Manager','Product Manager','Business Analyst','Service Designer'],
     scenario:"The programme team's contract ends in six weeks. The service owner has asked for a handover plan. The business-as-usual team who will run the service has limited digital capability and is already stretched. The delivery manager is concerned the handover will not stick.",
     paths:[
-      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+      {type:'a',label:'Path A',tokenCost:'2 Research + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Business Analyst documents the service architecture, known issues, and outstanding work clearly.',
        outcome:'Business Analyst documents the service architecture, known issues, and outstanding work clearly. Delivery Manager builds in two structured handover sessions. The BAU team feels equipped. Some things will still be lost in the transition.'},
-      {type:'b',label:'Path B',tokenCost:'2 Progress',dpDelta:2,sqDelta:-1,
+      {type:'b',label:'Path B',tokenCost:'2 Progress + 1 Design',dpDelta:2,sqDelta:-1,
        intent:'Do the handover quickly.',
        outcome:'The handover is done quickly. Documentation is functional but thin. The BAU team raises concerns but is told the timeline is fixed. The service will likely need further intervention in six months.'},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:0,sqDelta:2,
