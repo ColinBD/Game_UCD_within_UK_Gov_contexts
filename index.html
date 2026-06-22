@@ -301,17 +301,26 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
     <div class="modal-header">
       <div>
         <div class="modal-header-sub">The UCD Challenge — Facilitator brief</div>
-        <h2>Read this together before you begin</h2>
+        <h2>Watch this together before you begin</h2>
       </div>
     </div>
     <div class="modal-body">
       <div class="modal-section">
+        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;background:#1a1a1a;">
+          <iframe
+            src="https://player.vimeo.com/video/1203424405?autoplay=0&title=0&byline=0&portrait=0"
+            style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowfullscreen
+            title="Player briefing video">
+          </iframe>
+        </div>
+      </div>
+      <div class="modal-section" id="text-briefing-section" style="display:none;">
         <div class="modal-section-label">Scenario context</div>
         <p>A new viral infection has been detected in the UK. Your team is building a digital health service that lets people report symptoms, read the latest health advice, and receive AI-generated guidance based on their location, contacts, and wearable health data.</p>
         <p>There is pressure to ship quickly. This is a live public health emergency. But the team also has to think carefully about what it puts out under public health branding, and what it means to use this kind of personal data.</p>
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-label">Your mission</div>
+        <div class="modal-section-label" style="margin-top:14px;">Your mission</div>
         <p>Take the service through five phases (Discovery, Alpha, Beta, Live, and Review) while aiming to keep two things in balance:</p>
         <div class="mission-grid">
           <div class="mission-cell mission-dp">
@@ -324,15 +333,11 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
           </div>
         </div>
         <p style="margin-top:10px;">There is no win or lose. The final scores create the conditions for an honest debrief.</p>
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-label">Session timing</div>
+        <div class="modal-section-label" style="margin-top:14px;">Session timing</div>
         <p>The session runs against a <strong>60-minute countdown timer</strong> on the game board. Start it once roles are assigned and play begins. If the team does not reach the Review step in time, a penalty of −3 DP per incomplete phase is applied automatically and the team goes straight to the debrief.</p>
         <p>The <strong>Delivery Manager</strong> should take the lead on keeping the team on track. If a discussion is running long, it is their job to call it and push for a decision.</p>
         <p>Set aside an additional <strong>20–30 minutes for debrief</strong> after play ends.</p>
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-label">Before you start</div>
+        <div class="modal-section-label" style="margin-top:14px;">Before you start</div>
         <p>Assign one role to each player. The seven roles are: User Researcher, Content Designer, Interaction Designer, Service Designer, Product Manager, Delivery Manager, and Business Analyst.</p>
         <p>Each role has a unique ability. Abilities are shared knowledge and are listed on the Roles tab. Each role also has a private pressure: a personal instinct that shapes how that role tends to behave under project conditions. Pressures are not shared. Each role also holds a small number of tokens per phase, which are spent when choosing how to resolve scenarios. Token allocations are shown on the game board next to each player's name.</p>
         <p><strong>If the team cannot afford any of the available paths</strong> (because every option costs more tokens than the team currently holds) they must take the least costly path and the facilitator applies a <strong>−2 SQ penalty</strong>.</p>
@@ -350,9 +355,12 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
             <li><strong>Business Analyst:</strong> "We need to define the requirements before we can decide."</li>
           </ul>
         </div>
-        <p style="color:#712B13;font-weight:700;">Facilitator: brief each player on their pressure privately, ensure the pressure info is hidden from view, then share your screen and click "We've read the brief" below to begin.</p>
+        <p style="color:#712B13;font-weight:700;">Facilitator: brief each player on their pressure privately, ensure the pressure info is hidden from view, then share your screen and click "We've watched the brief" below to begin.</p>
       </div>
-      <button class="modal-dismiss-btn" onclick="dismissBrief()">We've read the brief — let's start</button>
+      <div style="text-align:center;margin:4px 0 10px;">
+        <button onclick="toggleTextBriefing(this)" style="font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:5px 12px;border-radius:4px;cursor:pointer;background:transparent;color:#7a7060;border:1px solid #c5bfb0;letter-spacing:0.04em;">&#9432; Read the text briefing instead</button>
+      </div>
+      <button class="modal-dismiss-btn" onclick="dismissBrief()">We've watched the brief — let's start</button>
       <div class="modal-note">This brief can be reopened at any time using the Brief button next to the tabs.</div>
     </div>
   </div>
@@ -2171,6 +2179,21 @@ function togglePressures(btn){
   } else {
     list.style.display = 'none';
     btn.textContent = 'Show pressure information';
+  }
+}
+
+function toggleTextBriefing(btn){
+  var section = document.getElementById('text-briefing-section');
+  if(section.style.display === 'none'){
+    section.style.display = 'block';
+    btn.textContent = '\u25b2 Hide text briefing';
+    btn.style.color = '#3C3489';
+    btn.style.borderColor = '#3C3489';
+  } else {
+    section.style.display = 'none';
+    btn.innerHTML = '&#9432; Read the text briefing instead';
+    btn.style.color = '#7a7060';
+    btn.style.borderColor = '#c5bfb0';
   }
 }
 
