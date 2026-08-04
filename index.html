@@ -52,6 +52,8 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .token-reset-panel{background:#1e1a14;border:2px solid #3C3489;border-radius:10px;padding:10px 12px;margin-bottom:14px;}
 .token-reset-title{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9994bb;margin-bottom:8px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-bottom:1px solid #3C3489;padding-bottom:6px;}
 
+.token-pool-note{font-size:10px;line-height:1.45;color:#8a8296;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:9px;}
+.token-count{float:right;font-size:9px;color:#7a7490;letter-spacing:0.03em;text-transform:none;}
 .token-section{margin-bottom:8px;}
 .token-lbl{font-size:9px;color:#9994bb;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:4px;letter-spacing:0.05em;text-transform:uppercase;}
 .token-row{display:flex;gap:5px;flex-wrap:wrap;}
@@ -251,7 +253,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 /* ROSTER TOKEN ROWS */
 .roster-lbl{font-size:11px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;display:block;margin-bottom:3px;}
 .roster-inline{display:flex;align-items:center;gap:5px;}
-.roster-input{font-size:13px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:3px 5px;border-radius:4px;border:1px solid #534AB7;background:#1e1a14;color:#ede8df;width:80px;min-width:0;outline:none;flex-shrink:0;}
+.roster-input{font-size:13px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:3px 5px;border-radius:4px;border:1px solid #534AB7;background:#1e1a14;color:#ede8df;min-width:0;outline:none;flex:1 1 auto;}
 .roster-input::placeholder{color:#5a5450;font-size:12px;}
 .roster-input:focus{border-color:#7F77DD;}
 .roster-token-row{display:flex;gap:4px;flex-wrap:wrap;align-items:center;}
@@ -339,7 +341,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         <p>Set aside an additional <strong>20–30 minutes for debrief</strong> after play ends.</p>
         <div class="modal-section-label" style="margin-top:14px;">Before you start</div>
         <p>Assign one role to each player. The seven roles are: User Researcher, Content Designer, Interaction Designer, Service Designer, Product Manager, Delivery Manager, and Business Analyst.</p>
-        <p>Each role has a unique ability. Abilities are shared knowledge and are listed on the Roles tab. Each role also has a private pressure: a personal instinct that shapes how that role tends to behave under project conditions. Pressures are not shared. Each role also holds a small number of tokens per phase, which are spent when choosing how to resolve scenarios. Token allocations are shown on the game board next to each player's name.</p>
+        <p>Each role has a unique ability. Abilities are shared knowledge and are listed on the Roles tab. Each role also has a private pressure: a personal instinct that shapes how that role tends to behave under project conditions. Pressures are not shared. The team holds a shared pool of tokens each phase, which are spent when choosing how to resolve scenarios. The pool is shown on the game board and belongs to the whole team rather than to any individual player.</p>
         <p><strong>If the team cannot afford any of the available paths</strong> (because every option costs more tokens than the team currently holds) they must take the least costly path and the facilitator applies a <strong>−2 SQ penalty</strong>.</p>
         <p><strong>Pressures are private.</strong> Before dismissing this brief, send each player their pressure individually via a back channel such as MS Teams or email. Players should not share their pressure with the group. It works best when pressures surface through play rather than being announced upfront.</p>
         <button onclick="togglePressures(this)" style="font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:5px 12px;border-radius:4px;cursor:pointer;background:#2a2520;color:#ede8df;border:1px solid #2a2520;letter-spacing:0.04em;margin-bottom:8px;">Show pressure information</button>
@@ -393,10 +395,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
               <div class="roster-lbl rl-ur">User Researcher</div>
               <div class="roster-inline">
                 <input class="roster-input" id="name-ur" type="text" placeholder="Name" oninput="updateRoster()">
-                <div class="roster-token-row">
-                  <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
-                  <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
-                </div>
               </div>
             </div>
 
@@ -404,9 +402,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
               <div class="roster-lbl rl-cd">Content Designer</div>
               <div class="roster-inline">
                 <input class="roster-input" id="name-cd" type="text" placeholder="Name" oninput="updateRoster()">
-                <div class="roster-token-row">
-                  <div class="tok-sm tok-sm-d" onclick="this.classList.toggle('spent')">D</div>
-                </div>
               </div>
             </div>
 
@@ -414,9 +409,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
               <div class="roster-lbl rl-id">Interaction Designer</div>
               <div class="roster-inline">
                 <input class="roster-input" id="name-id" type="text" placeholder="Name" oninput="updateRoster()">
-                <div class="roster-token-row">
-                  <div class="tok-sm tok-sm-d" onclick="this.classList.toggle('spent')">D</div>
-                </div>
               </div>
             </div>
 
@@ -424,9 +416,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
               <div class="roster-lbl rl-sd">Service Designer</div>
               <div class="roster-inline">
                 <input class="roster-input" id="name-sd" type="text" placeholder="Name" oninput="updateRoster()">
-                <div class="roster-token-row">
-                  <div class="tok-sm tok-sm-d" onclick="this.classList.toggle('spent')">D</div>
-                </div>
               </div>
             </div>
 
@@ -434,9 +423,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
               <div class="roster-lbl rl-pm">Product Manager</div>
               <div class="roster-inline">
                 <input class="roster-input" id="name-pm" type="text" placeholder="Name" oninput="updateRoster()">
-                <div class="roster-token-row">
-                  <div class="tok-sm tok-sm-p" onclick="this.classList.toggle('spent')">P</div>
-                </div>
               </div>
             </div>
 
@@ -444,9 +430,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
               <div class="roster-lbl rl-dm">Delivery Manager</div>
               <div class="roster-inline">
                 <input class="roster-input" id="name-dm" type="text" placeholder="Name" oninput="updateRoster()">
-                <div class="roster-token-row">
-                  <div class="tok-sm tok-sm-p" onclick="this.classList.toggle('spent')">P</div>
-                </div>
               </div>
             </div>
 
@@ -454,9 +437,6 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
               <div class="roster-lbl rl-ba">Business Analyst</div>
               <div class="roster-inline">
                 <input class="roster-input" id="name-ba" type="text" placeholder="Name" oninput="updateRoster()">
-                <div class="roster-token-row">
-                  <div class="tok-sm tok-sm-r" onclick="this.classList.toggle('spent')">R</div>
-                </div>
               </div>
             </div>
 
@@ -509,9 +489,37 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
           </div>
         </div>
 
-        <!-- TOKEN RESET -->
+        <!-- TEAM TOKEN POOL -->
         <div class="token-reset-panel">
-          <div class="token-reset-title">Tokens</div>
+          <div class="token-reset-title">Team token pool</div>
+          <div class="token-pool-note">Tokens belong to the team, not to individual players. Click a token to mark it spent.</div>
+
+          <div class="token-section">
+            <div class="token-lbl">Research <span class="token-count" id="tok-count-r"></span></div>
+            <div class="token-row" id="tok-row-r">
+              <div class="tok tok-r" onclick="toggleToken(this)">R</div>
+              <div class="tok tok-r" onclick="toggleToken(this)">R</div>
+              <div class="tok tok-r" onclick="toggleToken(this)">R</div>
+            </div>
+          </div>
+
+          <div class="token-section">
+            <div class="token-lbl">Design <span class="token-count" id="tok-count-d"></span></div>
+            <div class="token-row" id="tok-row-d">
+              <div class="tok tok-d" onclick="toggleToken(this)">D</div>
+              <div class="tok tok-d" onclick="toggleToken(this)">D</div>
+              <div class="tok tok-d" onclick="toggleToken(this)">D</div>
+            </div>
+          </div>
+
+          <div class="token-section">
+            <div class="token-lbl">Progress <span class="token-count" id="tok-count-p"></span></div>
+            <div class="token-row" id="tok-row-p">
+              <div class="tok tok-p" onclick="toggleToken(this)">P</div>
+              <div class="tok tok-p" onclick="toggleToken(this)">P</div>
+            </div>
+          </div>
+
           <button class="reset-btn" onclick="resetTokens()">Reset all tokens (new phase)</button>
         </div>
 
@@ -629,13 +637,13 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
   <!-- MECHANICS -->
   <div id="tab-mechanics" class="tab-content">
     <div class="section-panel">
-      <p>Each player starts each phase with a token allocation. Tokens represent bandwidth and are spent to resolve scenarios or activate abilities. Each ability can only be used once per game, and only during a scenario on which your role is triggered. Abilities must be declared before the team chooses their approach.</p>
+      <p>The team starts each phase with a shared pool of tokens. Tokens represent the team's collective bandwidth and are spent to resolve scenarios or activate abilities. Any token can be spent by the team, whoever is playing which role. Each ability can only be used once per game, and only during a scenario on which your role is triggered. Abilities must be declared before the team chooses their approach.</p>
       <table class="outcome-table">
-        <thead><tr><th>Token type</th><th>Held by</th><th>Spend effect</th></tr></thead>
+        <thead><tr><th>Token type</th><th>Pool per phase</th><th>Spend effect</th></tr></thead>
         <tbody>
-          <tr><td><span class="badge badge-teal" style="margin:0;">Research (R)</span></td><td>User Researcher (2), Business Analyst (1)</td><td>Required for any resolution that involves user evidence. Spent once per card.</td></tr>
-          <tr><td><span class="badge badge-purple" style="margin:0;">Design (D)</span></td><td>Content Designer (1), Interaction Designer (1), Service Designer (1)</td><td>Required for usability, content, or design quality resolutions.</td></tr>
-          <tr><td><span class="badge badge-coral" style="margin:0;">Progress (P)</span></td><td>Product Manager (1), Delivery Manager (1), Business Analyst (1)</td><td>Required for unblocking decisions, accelerating progress, or overriding gates.</td></tr>
+          <tr><td><span class="badge badge-teal" style="margin:0;">Research (R)</span></td><td>3</td><td>Required for any resolution that involves user evidence. Spent once per card.</td></tr>
+          <tr><td><span class="badge badge-purple" style="margin:0;">Design (D)</span></td><td>3</td><td>Required for usability, content, or design quality resolutions.</td></tr>
+          <tr><td><span class="badge badge-coral" style="margin:0;">Progress (P)</span></td><td>2</td><td>Required for unblocking decisions, accelerating progress, or overriding gates.</td></tr>
         </tbody>
       </table>
       <div class="note-box">Tokens reset at the start of each phase. Unused tokens do not carry over.</div>
@@ -645,9 +653,9 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <table class="outcome-table">
         <thead><tr><th>Path</th><th>Typical tendency</th><th>Score effect</th><th>When to use</th></tr></thead>
         <tbody>
-          <tr><td><strong>Path A</strong></td><td>Higher token cost</td><td>Typically +SQ, sometimes −DP</td><td>Team takes time to address the root cause</td></tr>
+          <tr><td><strong>Path A</strong></td><td>Usually the highest token cost</td><td>Typically +SQ, sometimes −DP</td><td>Team takes time to address the root cause</td></tr>
           <tr><td><strong>Path B</strong></td><td>Moderate token cost</td><td>Typically balanced or +DP</td><td>Team finds a workable middle ground</td></tr>
-          <tr><td><strong>Path C</strong></td><td>Lower or no token cost</td><td>Typically +DP, risk of −SQ</td><td>Team deprioritises quality to hit the milestone</td></tr>
+          <tr><td><strong>Path C</strong></td><td>Usually the lowest token cost</td><td>Typically +DP, risk of −SQ</td><td>Team deprioritises quality to hit the milestone</td></tr>
         </tbody>
       </table>
       <div class="note-box">Exact token costs vary by card and are shown on each resolution path. Path A is not always the "right" answer — it depends on the scenario and the team's situation.</div>
@@ -733,6 +741,22 @@ var abilitySpent = {ur:false, cd:false, id:false, sd:false, ba:false};
 // Tracks which reveals have been shown on which cards: {cardId: {roleKey: true}}
 var revealedAbilities = {};
 
+// Randomised display order for the "Roles triggered this card" panel.
+// Shuffled once per card on first view, then cached so the order stays put
+// when the card is re-rendered (e.g. after a reveal or a name change).
+var triggeredOrder = {}; // cardId -> array of role names in display order
+function getTriggeredOrder(cardId, roles){
+  if(!triggeredOrder[cardId]){
+    var a = roles.slice();
+    for(var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    triggeredOrder[cardId] = a;
+  }
+  return triggeredOrder[cardId];
+}
+
 // Roster
 var roster = {ur:'',cd:'',id:'',sd:'',pm:'',dm:'',ba:''};
 
@@ -777,6 +801,21 @@ function applyScore(dpDelta, sqDelta){
 }
 function resetTokens(){
   document.querySelectorAll('.tok,.tok-sm').forEach(function(t){t.classList.remove('spent');});
+  updateTokenCounts();
+}
+function toggleToken(el){
+  el.classList.toggle('spent');
+  updateTokenCounts();
+}
+function updateTokenCounts(){
+  ['r','d','p'].forEach(function(k){
+    var row = document.getElementById('tok-row-'+k);
+    var lbl = document.getElementById('tok-count-'+k);
+    if(!row || !lbl) return;
+    var total = row.querySelectorAll('.tok').length;
+    var spent = row.querySelectorAll('.tok.spent').length;
+    lbl.textContent = (total - spent) + ' of ' + total + ' left';
+  });
 }
 
 function revealScores(){
@@ -1126,7 +1165,7 @@ var CARDS={
     triggeredRoles:['User Researcher','Product Manager','Business Analyst'],
     scenario:'A senior stakeholder has shared a brief that assumes the user need is already understood from previous policy work. The user researcher has flagged that the assumed need may not fully match what she has seen in analogous services. The programme board meets in two weeks and expects a confirmed scope.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'2 Research',dpDelta:0,sqDelta:2,
+      {type:'a',label:'Path A',tokenCost:'2 Research + 1 Progress',dpDelta:0,sqDelta:2,
        intent:'Pause to review the evidence.',
        outcome:'The team pauses to review the evidence. User Researcher presents three case studies from comparable services. The scope is partially reframed. The programme board meeting is postponed by a week. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'},
       {type:'b',label:'Path B',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
@@ -1142,7 +1181,7 @@ var CARDS={
     triggeredRoles:['User Researcher','Delivery Manager','Content Designer'],
     scenario:'The discovery phase has a fixed end date. The user researcher has scoped a proper round of contextual interviews, but the delivery manager calculates they will not complete in time. The content designer points out that without real user language, the content strategy will be built on assumptions.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'2 Research',dpDelta:-1,sqDelta:2,
+      {type:'a',label:'Path A',tokenCost:'2 Research + 1 Progress',dpDelta:-1,sqDelta:2,
        intent:'Run a condensed but genuine research sprint — five contextual interviews over four days.',
        outcome:'The team runs a condensed but genuine research sprint — five contextual interviews over four days. The end date slips by a week. The findings reshape two assumptions in the brief.'},
       {type:'b',label:'Path B',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
@@ -1158,7 +1197,7 @@ var CARDS={
     triggeredRoles:['Product Manager','Service Designer','Delivery Manager','Business Analyst'],
     scenario:'Halfway through discovery, the service designer has mapped the user journey and found that a neighbouring team is working on an adjacent piece of the same journey. Neither team was aware of the other. The programme board expects one coherent service. The two product managers have not yet spoken.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:0,sqDelta:2,
+      {type:'a',label:'Path A',tokenCost:'2 Research + 1 Progress',dpDelta:0,sqDelta:2,
        intent:'Service Designer facilitates a joint mapping session with both teams.',
        outcome:'Service Designer facilitates a joint mapping session with both teams. Business Analyst documents the handoff points. It takes two days but the overlap is resolved and findings will be shared. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'},
       {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:1,sqDelta:1,
@@ -1180,7 +1219,7 @@ var CARDS={
       {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:2,sqDelta:0,
        intent:"Give the official a regular update meeting and use her wireframe as a reference point, not a specification.",
        outcome:"The official is given a regular update meeting and her wireframe is used as a reference point but not a specification. The team retains autonomy in practice, though there is an unspoken expectation to consider her preferences. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward."},
-      {type:'c',label:'Path C',tokenCost:'1 Research',dpDelta:0,sqDelta:2,
+      {type:'c',label:'Path C',tokenCost:'2 Research',dpDelta:0,sqDelta:2,
        intent:'Service Designer invites the official into a co-design workshop.',
        outcome:"Service Designer invites the official into a co-design workshop. Her knowledge of the policy context is genuinely useful and surfaces three constraints the team had not considered. The relationship is now collaborative, though her expectations of influence have grown. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward."}
     ]},
@@ -1193,7 +1232,7 @@ var CARDS={
       {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Product Manager facilitates a short team alignment session before the sprint review.',
        outcome:"Product Manager facilitates a short team alignment session before the sprint review. The team agrees a shared definition of what they are trying to learn and what decision it will inform. Tension reduced; some underlying disagreement remains about pace."},
-      {type:'b',label:'Path B',tokenCost:'2 Research',dpDelta:-1,sqDelta:2,
+      {type:'b',label:'Path B',tokenCost:'2 Research + 1 Progress',dpDelta:-1,sqDelta:2,
        intent:'Service Designer proposes the team pauses and explicitly revisits the discovery brief.',
        outcome:'Service Designer proposes the team pauses and explicitly revisits the discovery brief. It takes half a day. The resulting clarity reshapes the research plan and produces a sharper problem statement.'},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
@@ -1208,7 +1247,7 @@ var CARDS={
 
   E1b:{tag:'Event',tagCss:'tag-event',title:'A recruitment route has fallen through',
     followsOn:null,triggeredRoles:[],paths:[],
-    facilitatorEvent:{sqDelta:-1,dpDelta:0,desc:'Remove 1 Research token from the current phase\'s remaining allocation (ask the User Researcher or Business Analyst to mark one R token as spent). If no Research token is available, apply the \u22121 SQ penalty instead.',btnLabel:'Apply \u22121 SQ (no Research token available)',logLabel:'E1b penalty applied \u2014 no Research token available for recruitment fallthrough'},
+    facilitatorEvent:{sqDelta:-1,dpDelta:0,desc:'Remove 1 Research token from the current phase\'s remaining allocation (mark one R token in the team pool as spent). If no Research token is available, apply the \u22121 SQ penalty instead.',btnLabel:'Apply \u22121 SQ (no Research token available)',logLabel:'E1b penalty applied \u2014 no Research token available for recruitment fallthrough'},
     scenario:'A partner organisation that had agreed to help recruit users has withdrawn at short notice. The user researcher now has fewer participants than planned, and the delivery manager is concerned about slipping the phase.\n\nEffect: Remove 1 Research token from the current phase\'s remaining allocation. If no Research token is available, \u22121 SQ has been applied using the button below.'},
 
   E1c:{tag:'Event',tagCss:'tag-event',title:'A policy lead shares useful existing evidence',
@@ -1234,7 +1273,7 @@ var CARDS={
       {type:'a',label:'Path A',tokenCost:'2 Design + 1 Research',dpDelta:-1,sqDelta:2,
        intent:'Interaction Designer and Content Designer spend three days redesigning the core flow.',
        outcome:'Interaction Designer and Content Designer spend three days redesigning the core flow. The show-and-tell is delayed by a week. The revised prototype is significantly clearer in the next round of testing.'},
-      {type:'b',label:'Path B',tokenCost:'1 Design + 1 Research',dpDelta:1,sqDelta:1,
+      {type:'b',label:'Path B',tokenCost:'1 Design + 1 Research + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Make targeted changes to the two most problematic screens and run a lightweight second round of testing.',
        outcome:'The team makes targeted changes to the two most problematic screens and runs a lightweight second round of testing. The show-and-tell proceeds. The prototype is better, though some issues remain.'},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
@@ -1253,7 +1292,7 @@ var CARDS={
       {type:'b',label:'Path B',tokenCost:'2 Progress',dpDelta:2,sqDelta:-1,
        intent:'Absorb the additional features.',
        outcome:'The team absorbs the additional features. The delivery manager extends the Alpha timeline by two weeks. Some design work will be rushed. The features are retained but may not be well-integrated.'},
-      {type:'c',label:'Path C',tokenCost:'1 Research',dpDelta:0,sqDelta:2,
+      {type:'c',label:'Path C',tokenCost:'1 Research + 1 Design',dpDelta:0,sqDelta:2,
        intent:'Service Designer maps the full service against the expanded scope and identifies that two of the three features are actually in tension with the core user journey.',
        outcome:'Service Designer maps the full service against the expanded scope and identifies that two of the three features are actually in tension with the core user journey. Product Manager uses this evidence to remove them from scope entirely. Alpha is cleaner but the stakeholder relationship is strained.'}
     ]},
@@ -1266,7 +1305,7 @@ var CARDS={
       {type:'a',label:'Path A',tokenCost:'2 Design + 1 Research',dpDelta:-1,sqDelta:2,
        intent:'Content Designer and Interaction Designer spend two days restructuring the most problematic screens together.',
        outcome:'Content Designer and Interaction Designer spend two days restructuring the most problematic screens together. A new working agreement is made: content designer joins wireframe reviews from now on.'},
-      {type:'b',label:'Path B',tokenCost:'1 Design',dpDelta:1,sqDelta:1,
+      {type:'b',label:'Path B',tokenCost:'1 Design + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Content Designer retrofits content into the existing structure where possible.',
        outcome:'Content Designer retrofits content into the existing structure where possible. Some pages require compromise. A note is added to the backlog to revisit three journeys in Beta.'},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
@@ -1279,7 +1318,7 @@ var CARDS={
     triggeredRoles:['Interaction Designer','Delivery Manager','Service Designer','Business Analyst'],
     scenario:'The development team has raised a constraint with the integration layer: one of the core user journeys as designed requires a data handoff that the existing infrastructure cannot support without significant additional work. The business analyst thinks there may be a workaround. The delivery manager wants a decision this week.',
     paths:[
-      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Progress',dpDelta:0,sqDelta:2,
+      {type:'a',label:'Path A',tokenCost:'2 Research + 1 Progress',dpDelta:0,sqDelta:2,
        intent:'Business Analyst investigates the workaround in depth.',
        outcome:'Business Analyst investigates the workaround in depth. It is viable but adds complexity. Service Designer maps the impact on the user journey. The team redesigns around the constraint. The journey is slightly longer but coherent. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'},
       {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:2,sqDelta:0,
@@ -1298,7 +1337,7 @@ var CARDS={
       {type:'a',label:'Path A',tokenCost:'2 Research + 2 Design',dpDelta:-1,sqDelta:2,
        intent:'User Researcher runs a rapid evidence-gathering sprint.',
        outcome:'User Researcher runs a rapid evidence-gathering sprint. Content Designer and Service Designer restructure the evidence pack. The pre-review panel is re-engaged informally. The feedback improves but significant work remains. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
-      {type:'b',label:'Path B',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+      {type:'b',label:'Path B',tokenCost:'1 Research + 1 Design + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Address the two most critical gaps and resubmit the evidence pack.',
        outcome:'The team addresses the two most critical gaps and resubmits the evidence pack. The panel acknowledges the effort. The assessment is unlikely to be failed but confidence is not high.'},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
@@ -1317,7 +1356,7 @@ var CARDS={
       {type:'b',label:'Path B',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Business Analyst produces a clear narrative of what has been learned and why it matters for quality.',
        outcome:'Business Analyst produces a clear narrative of what has been learned and why it matters for quality. Delivery Manager shows a revised timeline that is tighter but realistic. The board is partially reassured.'},
-      {type:'c',label:'Path C',tokenCost:'1 Research',dpDelta:0,sqDelta:2,
+      {type:'c',label:'Path C',tokenCost:'1 Research + 1 Design',dpDelta:0,sqDelta:2,
        intent:"Product Manager pushes back on the board directly, with evidence that the team's pace reflects necessary rigour.",
        outcome:"Product Manager pushes back on the board directly, with evidence that the team's pace reflects necessary rigour. The board is not fully convinced but agrees to a four-week review. The team continues at its own pace. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage."}
     ]},
@@ -1330,7 +1369,7 @@ var CARDS={
       {type:'a',label:'Path A',tokenCost:'2 Research',dpDelta:-1,sqDelta:1,
        intent:'Pause the research activities until an interim researcher is contracted.',
        outcome:'The team pauses the research activities until an interim researcher is contracted. It takes two weeks. The research is done properly when it resumes, though the delay has knock-on effects on the Alpha timeline. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
-      {type:'b',label:'Path B',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+      {type:'b',label:'Path B',tokenCost:'2 Research + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Service Designer takes on a light research facilitation role for two sessions.',
        outcome:'Service Designer takes on a light research facilitation role for two sessions. The product manager contracts a junior researcher for the third. The coverage is adequate if not ideal.'},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
@@ -1340,11 +1379,11 @@ var CARDS={
 
   E2:{tag:'Event',tagCss:'tag-event',title:'A key team member is seconded to another programme',
     followsOn:null,triggeredRoles:[],paths:[],
-    scenario:'The user researcher has been asked to support a higher-priority crisis response programme for three weeks. It is not optional. Research capacity is reduced for the remainder of this phase.\n\nEffect: Remove 1 Research token from the current phase\'s remaining allocation. Ask the player holding a Research token to mark one as spent.'},
+    scenario:'The user researcher has been asked to support a higher-priority crisis response programme for three weeks. It is not optional. Research capacity is reduced for the remainder of this phase.\n\nEffect: Remove 1 Research token from the current phase\'s remaining allocation. Mark one R token in the team pool as spent.'},
 
   E2b:{tag:'Event',tagCss:'tag-event',title:'A developer with relevant service experience joins temporarily',
     followsOn:null,triggeredRoles:[],paths:[],
-    scenario:'A developer from another programme joins the team for one sprint. They have worked on similar journeys before and quickly identify two practical ways to simplify the prototype and reduce rework.\n\nEffect: Gain 1 Progress token for the current phase. Ask the Product Manager or Delivery Manager to unmark one spent P token, or note the gain if all tokens are unspent.'},
+    scenario:'A developer from another programme joins the team for one sprint. They have worked on similar journeys before and quickly identify two practical ways to simplify the prototype and reduce rework.\n\nEffect: Gain 1 Progress token for the current phase. Unmark one spent P token in the team pool, or note the gain if all tokens are unspent.'},
 
   E2c:{tag:'Event',tagCss:'tag-event',title:'A key assumption is disproved in testing',
     followsOn:null,triggeredRoles:[],paths:[],
@@ -1353,7 +1392,7 @@ var CARDS={
 
   E2d:{tag:'Event',tagCss:'tag-event',title:'The design system has changed mid-phase',
     followsOn:null,triggeredRoles:[],paths:[],
-    facilitatorEvent:{sqDelta:-1,dpDelta:0,desc:'Ask a player holding a Design token to mark 1 D token as spent. If no Design token is available, apply the \u22121 SQ penalty instead.',btnLabel:'Apply \u22121 SQ (no Design token available)',logLabel:'E2d penalty applied \u2014 no Design token available for design system change'},
+    facilitatorEvent:{sqDelta:-1,dpDelta:0,desc:'Mark 1 D token in the team pool as spent. If no Design token is available, apply the \u22121 SQ penalty instead.',btnLabel:'Apply \u22121 SQ (no Design token available)',logLabel:'E2d penalty applied \u2014 no Design token available for design system change'},
     scenario:'A change to the shared design system affects components the Alpha prototype relies on. Some screens now need to be updated to stay aligned, even though the change is not the team\'s fault.\n\nEffect: Spend 1 Design token. If no Design token is available, use the button below to apply \u22121 SQ.'},
 
   G2:{tag:'Phase gate',tagCss:'tag-gate',title:'Alpha to Beta',
@@ -1369,7 +1408,7 @@ var CARDS={
       {type:'a',label:'Path A',tokenCost:'2 Design + 1 Research',dpDelta:-1,sqDelta:2,
        intent:'Interaction Designer and Content Designer fix all four issues.',
        outcome:'Interaction Designer and Content Designer fix all four issues. The release date moves. The service is fully accessible at launch. No further remediation will be needed.'},
-      {type:'b',label:'Path B',tokenCost:'1 Design + 1 Research',dpDelta:1,sqDelta:1,
+      {type:'b',label:'Path B',tokenCost:'1 Design + 1 Research + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Fix the two most critical issues now.',
        outcome:'The two most critical issues are fixed now. Two are deferred with a documented remediation plan. The service is partially accessible at launch. The deferred issues carry a reputational risk if surfaced publicly.'},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
@@ -1388,7 +1427,7 @@ var CARDS={
       {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:2,sqDelta:0,
        intent:'Product Manager ships the most plausible fix based on the data pattern without user research.',
        outcome:'Product Manager ships the most plausible fix based on the data pattern without user research. The abandonment rate improves slightly. The underlying reason is not confirmed. The improvement may be real or it may be noise. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
-      {type:'c',label:'Path C',tokenCost:'1 Research + 1 Progress',dpDelta:1,sqDelta:1,
+      {type:'c',label:'Path C',tokenCost:'1 Research + 1 Design + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Run a rapid A/B test with two proposed changes.',
        outcome:'A rapid A/B test is run with two proposed changes. Results are inconclusive after a week. The team picks the marginally better performing option and ships it. It is not a definitive answer but it is evidence-adjacent.'}
     ]},
@@ -1398,7 +1437,7 @@ var CARDS={
     triggeredRoles:['Interaction Designer','Content Designer','Delivery Manager'],
     scenario:"A senior interaction designer contractor has joined for Beta. They are skilled and experienced, but not in UK government service standards. They have begun reworking several components, some of which were deliberately designed to meet specific standard requirements. The content designer is concerned. The delivery manager values the contractor's output speed.",
     paths:[
-      {type:'a',label:'Path A',tokenCost:'1 Design + 1 Progress',dpDelta:0,sqDelta:1,
+      {type:'a',label:'Path A',tokenCost:'2 Design + 1 Progress',dpDelta:0,sqDelta:1,
        intent:'Delivery Manager creates a structured handover session.',
        outcome:'Delivery Manager creates a structured handover session. Content Designer walks through the design decisions and their rationale. The contractor realigns. Two components are revised back. Pace slows for a week then recovers.'},
       {type:'b',label:'Path B',tokenCost:'1 Design',dpDelta:2,sqDelta:-1,
@@ -1414,7 +1453,7 @@ var CARDS={
     triggeredRoles:['Service Designer','User Researcher','Product Manager','Content Designer'],
     scenario:"A charity has launched a comparable service for the same user group, built more quickly and with a more modern interface. Users in research sessions have begun comparing the two. Some team members think this is a useful benchmark. Others are concerned it is setting an inappropriate standard for a government service with different obligations.",
     paths:[
-      {type:'a',label:'Path A',tokenCost:'1 Research',dpDelta:1,sqDelta:1,
+      {type:'a',label:'Path A',tokenCost:'1 Research + 1 Design',dpDelta:1,sqDelta:1,
        intent:'User Researcher runs a structured comparative session.',
        outcome:'User Researcher runs a structured comparative session. Several features of the charity service are genuinely better for users. The team adopts two of them. The service improves. The comparison has been useful without driving the team to over-engineer.'},
       {type:'b',label:'Path B',tokenCost:'2 Design + 1 Research',dpDelta:-1,sqDelta:2,
@@ -1433,7 +1472,7 @@ var CARDS={
       {type:'a',label:'Path A',tokenCost:'2 Research + 1 Design',dpDelta:-1,sqDelta:2,
        intent:'User Researcher visits two frontline offices and spends a day observing users with the service.',
        outcome:'User Researcher visits two frontline offices and spends a day observing users with the service. The findings are significant. Service Designer maps the failure points. Four changes are prioritised for the current phase. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
-      {type:'b',label:'Path B',tokenCost:'1 Research + 1 Design',dpDelta:1,sqDelta:1,
+      {type:'b',label:'Path B',tokenCost:'1 Research + 1 Design + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Content Designer and Service Designer meet with two of the frontline staff remotely.',
        outcome:'Content Designer and Service Designer meet with two of the frontline staff remotely. Three specific issues are identified and addressed. Other concerns are documented for the next phase. The staff feel heard.'},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
@@ -1452,7 +1491,7 @@ var CARDS={
       {type:'b',label:'Path B',tokenCost:'2 Progress + 1 Design',dpDelta:2,sqDelta:0,
        intent:'Rush to produce a scripted demonstration that showcases the strongest parts of the service.',
        outcome:"The team rushes to produce a scripted demonstration that showcases the strongest parts of the service. It goes well. The funder is impressed. The parts of the service that are not working are not shown. The funder's expectations are now higher than the service can currently meet. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward."},
-      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:1,sqDelta:2,
+      {type:'c',label:'Path C',tokenCost:'1 Design + 1 Progress',dpDelta:1,sqDelta:2,
        intent:'Delivery Manager pushes back on the demonstration request and proposes a written progress report instead.',
        outcome:'Delivery Manager pushes back on the demonstration request and proposes a written progress report instead. The funder accepts this reluctantly. The team avoids the pressure of a demonstration and can continue at their pace. The relationship with the funder is slightly cooler. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'}
     ]},
@@ -1468,7 +1507,7 @@ var CARDS={
       {type:'b',label:'Path B',tokenCost:'None',dpDelta:2,sqDelta:-1,
        intent:'Product Manager acknowledges the issue and commits to improving communication.',
        outcome:'Product Manager acknowledges the issue and commits to improving communication. No structural change is made. The problem persists at a lower level. Progress continues at pace.'},
-      {type:'c',label:'Path C',tokenCost:'1 Research + 1 Progress',dpDelta:0,sqDelta:2,
+      {type:'c',label:'Path C',tokenCost:'1 Research + 1 Design + 1 Progress',dpDelta:0,sqDelta:2,
        intent:'User Researcher facilitates a team working-agreement session.',
        outcome:'User Researcher facilitates a team working-agreement session. The root cause is identified as an informal hierarchy in the team rather than a process failure. Structural changes are made. The team is more collaborative from this point. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'}
     ]},
@@ -1509,7 +1548,7 @@ var CARDS={
       {type:'b',label:'Path B',tokenCost:'2 Progress + 1 Design',dpDelta:2,sqDelta:-1,
        intent:'Build a minimal dashboard over two days without assessment or testing.',
        outcome:'A minimal dashboard is built over two days without assessment or testing. It is functional but not accessible and has not been through any quality checks. It is politically useful but may become a liability.'},
-      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:1,sqDelta:1,
+      {type:'c',label:'Path C',tokenCost:'1 Design + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Product Manager negotiates a middle ground: a simple static summary page showing key metrics, built from existing data.',
        outcome:'Product Manager negotiates a middle ground: a simple static summary page showing key metrics, built from existing data. It is not what was asked for but it is deliverable, accurate, and accessible.'}
     ]},
@@ -1522,7 +1561,7 @@ var CARDS={
       {type:'a',label:'Path A',tokenCost:'2 Research + 1 Design',dpDelta:0,sqDelta:2,
        intent:'User Researcher and Content Designer investigate and find the confirmation journey is genuinely unclear.',
        outcome:'User Researcher and Content Designer investigate and find the confirmation journey is genuinely unclear. A content redesign of three screens is shipped within a week. Feedback improves notably.'},
-      {type:'b',label:'Path B',tokenCost:'1 Design',dpDelta:1,sqDelta:1,
+      {type:'b',label:'Path B',tokenCost:'1 Design + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Content Designer updates the confirmation messaging based on her hypothesis without further research.',
        outcome:'Content Designer updates the confirmation messaging based on her hypothesis without further research. The change is an improvement. It may have solved the problem entirely, or it may have addressed only part of it. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-1,
@@ -1557,7 +1596,7 @@ var CARDS={
       {type:'b',label:'Path B',tokenCost:'2 Progress + 1 Design',dpDelta:2,sqDelta:-1,
        intent:'Delivery Manager escalates to the third party and sets a deadline.',
        outcome:'Delivery Manager escalates to the third party and sets a deadline. In the interim, affected users receive an automated email telling them to try again later. The error is not resolved but is mitigated. Some users drop out. This was a defensible choice in context, but the trade-off created a consequence the team now needs to manage.'},
-      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:1,sqDelta:1,
+      {type:'c',label:'Path C',tokenCost:'1 Design + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Implement a simple warning message at the integration point explaining the issue and offering an alternative contact route.',
        outcome:'The team implements a simple warning message at the integration point explaining the issue and offering an alternative contact route. The third-party fix arrives ten days later. Users who saw the warning mostly completed via the alternative. Some did not.'}
     ]},
@@ -1570,7 +1609,7 @@ var CARDS={
       {type:'a',label:'Path A',tokenCost:'2 Design + 2 Research',dpDelta:-1,sqDelta:2,
        intent:'Publicly acknowledge the issues, commit to a fix timeline, and invite the organisation to review the changes before they are shipped.',
        outcome:'The team publicly acknowledges the issues, commits to a fix timeline, and invites the organisation to review the changes before they are shipped. User Researcher conducts a session with affected users. All six issues are addressed.'},
-      {type:'b',label:'Path B',tokenCost:'1 Design + 1 Progress',dpDelta:1,sqDelta:1,
+      {type:'b',label:'Path B',tokenCost:'1 Design + 2 Progress',dpDelta:1,sqDelta:1,
        intent:'Fix the most visible issues quickly.',
        outcome:'The most visible issues are fixed quickly. The organisation is contacted privately and given an update. A public statement is made. Four of the six issues are resolved. Two remain in the backlog.'},
       {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:2,sqDelta:-2,
@@ -1586,7 +1625,7 @@ var CARDS={
       {type:'a',label:'Path A',tokenCost:'2 Research + 1 Progress',dpDelta:2,sqDelta:0,
        intent:'Business Analyst and Delivery Manager produce a clear case for continuation, drawing on the service data.',
        outcome:'Business Analyst and Delivery Manager produce a clear case for continuation, drawing on the service data. It is presented to the board. The next phase is approved with a tighter milestone structure. Progress is visible. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward.'},
-      {type:'b',label:'Path B',tokenCost:'1 Progress',dpDelta:1,sqDelta:1,
+      {type:'b',label:'Path B',tokenCost:'1 Design + 1 Progress',dpDelta:1,sqDelta:1,
        intent:'Service Designer contributes a user outcomes narrative alongside the delivery metrics.',
        outcome:'Service Designer contributes a user outcomes narrative alongside the delivery metrics. The presentation balances pace evidence with quality evidence. The board approves the next phase with no conditions attached.'},
       {type:'c',label:'Path C',tokenCost:'2 Research + 1 Progress',dpDelta:-1,sqDelta:2,
@@ -1605,15 +1644,15 @@ var CARDS={
       {type:'b',label:'Path B',tokenCost:'2 Progress + 1 Design',dpDelta:2,sqDelta:-1,
        intent:'Do the handover quickly.',
        outcome:'The handover is done quickly. Documentation is functional but thin. The BAU team raises concerns but is told the timeline is fixed. The service will likely need further intervention in six months.'},
-      {type:'c',label:'Path C',tokenCost:'1 Progress',dpDelta:0,sqDelta:2,
+      {type:'c',label:'Path C',tokenCost:'1 Research + 1 Progress',dpDelta:0,sqDelta:2,
        intent:'Service Designer advocates for a longer transition period and the service owner agrees to a six-week extension.',
        outcome:"Service Designer advocates for a longer transition period and the service owner agrees to a six-week extension. The handover is thorough. The BAU team is confident. The programme team's contract extension costs the programme budget but protects the service. The choice worked broadly as intended, while still leaving useful learning for the team to carry forward."}
     ]},
 
   E4:{tag:'Event',tagCss:'tag-event',title:'A team member is close to burnout',
     followsOn:null,triggeredRoles:[],paths:[],
-    facilitatorEvent:{sqDelta:-1,dpDelta:0,desc:'If two other players do not each spend 1 token of any type, apply the −1 SQ penalty. (The affected player\'s tokens should also be halved for the remainder of the phase.)',btnLabel:'Apply −1 SQ penalty (team did not respond)',logLabel:'E4 penalty applied — team did not respond to burnout'},
-    scenario:'A team member (chosen by the facilitator, or drawn randomly) has flagged that they are struggling. The workload since launch has been significant. Other team members have noticed but have not said anything.\n\nEffect: The team must respond. If two other players each spend 1 token of any type: no penalty applies. If the team does not respond, the facilitator should apply the penalty using the button below: \u22121 SQ, and that player\'s tokens are halved for the remainder of the phase.'},
+    facilitatorEvent:{sqDelta:-1,dpDelta:0,desc:'If the team does not spend 2 tokens of any type from the pool, apply the −1 SQ penalty. (The team\'s remaining pool should also be halved, rounded down, for the remainder of the phase.)',btnLabel:'Apply −1 SQ penalty (team did not respond)',logLabel:'E4 penalty applied — team did not respond to burnout'},
+    scenario:'A team member (chosen by the facilitator, or drawn randomly) has flagged that they are struggling. The workload since launch has been significant. Other team members have noticed but have not said anything.\n\nEffect: The team must respond. If the team spends 2 tokens of any type from the pool: no penalty applies. If the team does not respond, the facilitator should apply the penalty using the button below: \u22121 SQ, and the team\'s remaining pool is halved, rounded down, for the remainder of the phase.'},
 
   E4b:{tag:'Event',tagCss:'tag-event',title:'Demand is higher than forecast',
     followsOn:null,triggeredRoles:[],paths:[],
@@ -1627,7 +1666,7 @@ var CARDS={
 
   E4d:{tag:'Event',tagCss:'tag-event',title:'An internal audit asks for evidence at short notice',
     followsOn:null,triggeredRoles:[],paths:[],
-    facilitatorEvent:{sqDelta:0,dpDelta:-1,desc:'Ask a player holding a Progress token to mark 1 P token as spent. If no Progress token is available, apply the \u22121 DP penalty instead.',btnLabel:'Apply \u22121 DP (no Progress token available)',logLabel:'E4d penalty applied \u2014 no Progress token available for internal audit'},
+    facilitatorEvent:{sqDelta:0,dpDelta:-1,desc:'Mark 1 P token in the team pool as spent. If no Progress token is available, apply the \u22121 DP penalty instead.',btnLabel:'Apply \u22121 DP (no Progress token available)',logLabel:'E4d penalty applied \u2014 no Progress token available for internal audit'},
     scenario:'An internal audit team has requested evidence about decisions, risks, and mitigations with very little notice. Preparing the material is manageable, but it interrupts planned improvement work.\n\nEffect: Spend 1 Progress token. If no Progress token is available, use the button below to apply \u22121 DP.'},
 
   G4:{tag:'Phase gate',tagCss:'tag-gate',title:'Live to Review',
@@ -1811,7 +1850,7 @@ function selectStep(n, silent){
     var cardRevealedSoFar = revealedAbilities[step.card] || {};
     html += '<div class="triggered-roles-block">';
     html += '<div class="triggered-roles-label">Roles triggered this card</div>';
-    card.triggeredRoles.forEach(function(role){
+    getTriggeredOrder(step.card, card.triggeredRoles).forEach(function(role){
       var rm = ROLE_MAP[role];
       var playerName = rm ? roster[rm.key] : '';
       var rk = rm ? rm.key : null;
@@ -2203,6 +2242,7 @@ function toggleTextBriefing(btn){
 generateSession();
 buildSteps();
 buildBoard();
+updateTokenCounts();
 
 // Reposition vertical arrows on window resize
 window.addEventListener('resize', function(){
