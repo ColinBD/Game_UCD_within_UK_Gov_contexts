@@ -281,6 +281,12 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .timer-panel{background:#1e1a14;border:2px solid #3C3489;border-radius:10px;padding:12px;margin-bottom:14px;color:#ede8df;}
 .timer-title{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9994bb;margin-bottom:10px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-bottom:1px solid #3C3489;padding-bottom:6px;}
 .timer-display{font-size:38px;font-weight:700;text-align:center;letter-spacing:0.06em;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;line-height:1;margin-bottom:10px;transition:color 0.3s;}
+.timer-adjust-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.timer-adjust-row .timer-display{margin-bottom:0;flex:1 1 auto;}
+.timer-adjust-btn{width:30px;height:30px;flex:0 0 auto;padding:0;border:1px solid #534AB7;border-radius:6px;background:#3C3489;color:#EEEDFE;font-size:18px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;transition:background 0.15s;}
+.timer-adjust-btn:hover:not(:disabled){background:#534AB7;}
+.timer-adjust-btn:disabled{opacity:0.28;cursor:default;}
+.timer-length-lbl{font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:#6b6560;text-align:center;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin:6px 0 10px;}
 .timer-display.running{color:#5DCAA5;}
 .timer-display.paused{color:#F0997B;}
 .timer-display.warning{color:#F0997B;}
@@ -336,7 +342,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         </div>
         <p style="margin-top:10px;">There is no win or lose. The final scores create the conditions for an honest debrief.</p>
         <div class="modal-section-label" style="margin-top:14px;">Session timing</div>
-        <p>The session runs against a <strong>60-minute countdown timer</strong> on the game board. Start it once roles are assigned and play begins. If the team does not reach the Review step in time, a penalty of −3 DP per incomplete phase is applied automatically and the team goes straight to the debrief.</p>
+        <p>The session runs against a <strong>60-minute countdown timer</strong> on the game board, which the facilitator can adjust in 5-minute steps using the plus and minus buttons. Start it once roles are assigned and play begins. If the team does not reach the Review step in time, a penalty of −3 DP per incomplete phase is applied automatically and the team goes straight to the debrief.</p>
         <p>The <strong>Delivery Manager</strong> should take the lead on keeping the team on track. If a discussion is running long, it is their job to call it and push for a decision.</p>
         <p>Set aside an additional <strong>20–30 minutes for debrief</strong> after play ends.</p>
         <div class="modal-section-label" style="margin-top:14px;">Before you start</div>
@@ -446,7 +452,12 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         <!-- SESSION TIMER -->
         <div class="timer-panel">
           <div class="timer-title">Session timer</div>
-          <div class="timer-display idle" id="timer-display">60:00</div>
+          <div class="timer-adjust-row">
+            <button class="timer-adjust-btn" id="timer-minus-btn" onclick="adjustTimer(-5)" title="Reduce session length by 5 minutes" aria-label="Reduce session length by 5 minutes">&minus;</button>
+            <div class="timer-display idle" id="timer-display">60:00</div>
+            <button class="timer-adjust-btn" id="timer-plus-btn" onclick="adjustTimer(5)" title="Add 5 minutes to the session length" aria-label="Add 5 minutes to the session length">+</button>
+          </div>
+          <div class="timer-length-lbl" id="timer-length-lbl">Session length 60 min</div>
           <div class="timer-expired-msg" id="timer-expired-msg">
             <strong>Time's up!</strong>
             Proceed to the Debrief tab. A penalty of −3 DP has been applied for each phase not completed.
@@ -579,7 +590,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
     </div>
     <div class="section-panel">
       <h2>Session timing</h2>
-      <p>The session runs against a <strong>60-minute countdown timer</strong> on the game board. The facilitator starts it once the brief has been read and roles assigned. If the team does not reach the Review step within 60 minutes, a penalty of <strong>−3 DP per incomplete phase</strong> is applied automatically when time expires.</p>
+      <p>The session runs against a <strong>60-minute countdown timer</strong> on the game board. The facilitator can set a different length before play using the plus and minus buttons, which move the clock in 5-minute steps, and can also put time back on the clock mid-session. The facilitator starts the timer once the brief has been read and roles assigned. If the team does not reach the Review step before the clock runs out, a penalty of <strong>−3 DP per incomplete phase</strong> is applied automatically when time expires.</p>
       <table class="outcome-table">
         <thead><tr><th>Part</th><th>Expected time</th><th>Notes</th></tr></thead>
         <tbody>
@@ -589,7 +600,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
           <tr><td><strong>Debrief</strong></td><td>20–30 min</td><td>See Debrief tab for guide and questions — run after gameplay regardless of whether Review was reached</td></tr>
         </tbody>
       </table>
-      <div class="note-box">Aim for 5–7 minutes per scenario. The 60-minute session timer creates the pressure — name it if discussions are running long. If the group stalls, remind them that unfinished phases carry a penalty.</div>
+      <div class="note-box">Aim for 5–7 minutes per scenario. The session timer creates the pressure — name it if discussions are running long. If the group stalls, remind them that unfinished phases carry a penalty.</div>
       <div class="warn-box">If time expires before Review, go straight to the Debrief tab. The penalty is applied automatically. The incomplete run still produces enough scenario decisions for a meaningful debrief.</div>
     </div>
     <div class="section-panel">
@@ -715,7 +726,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         <li>The delivery manager and product manager will often favour Path B or Path C. Let them, then debrief it.</li>
         <li>The Business Analyst will often want more time to clarify requirements. Watch for whether the team uses this productively or as avoidance.</li>
         <li>Keep the resolution paths hidden until the team has agreed their approach. Use the toggle on the game board.</li>
-        <li>Aim for 5–7 minutes per scenario. The 60-minute session timer creates collective pressure — name it if discussions are running long. Remind players that incomplete phases carry a −3 DP penalty.</li>
+        <li>Aim for 5–7 minutes per scenario. The session timer creates collective pressure — name it if discussions are running long. Remind players that incomplete phases carry a −3 DP penalty.</li>
         <li>Do not intervene in decisions, even clearly bad ones. The discomfort is the learning.</li>
         <li>After a full run, ask players which scenario they want to replay differently.</li>
         <li>The session summary above records which resolution path was chosen for each scenario — use it as your debrief data.</li>
@@ -2095,6 +2106,59 @@ var timerRemaining = timerDuration;
 var timerInterval = null;
 var timerRunning = false;
 var timerExpiredFired = false;
+var TIMER_STEP_MIN = 5;              // minutes added or removed per press
+var TIMER_MIN_SECS = 5 * 60;         // shortest session length
+var TIMER_MAX_SECS = 120 * 60;       // longest session length
+
+// Facilitator adjusts the session length in 5-minute steps. The change applies
+// to both the total length and the time still on the clock, so it can be used
+// before the game starts or to hand the team extra time mid-session.
+function adjustTimer(mins){
+  var target = timerDuration + (mins * 60);
+  if(target < TIMER_MIN_SECS) target = TIMER_MIN_SECS;
+  if(target > TIMER_MAX_SECS) target = TIMER_MAX_SECS;
+  var delta = target - timerDuration;
+  if(delta === 0) return;
+  timerDuration = target;
+  timerRemaining += delta;
+  if(timerRemaining < 0) timerRemaining = 0;
+
+  var disp = document.getElementById('timer-display');
+  if(timerRemaining === 0 && timerRunning){
+    // Cutting a running clock to nothing counts as time expiring
+    if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+    timerRunning = false;
+    disp.className = 'timer-display expired';
+    document.getElementById('timer-start-btn').textContent = 'Start';
+    if(!timerExpiredFired){ timerExpiredFired = true; onTimerExpired(); }
+  } else {
+    // Putting time back on an expired clock makes it runnable again.
+    // Any penalty already applied stays applied and is not re-applied.
+    if(disp.classList.contains('expired')){
+      disp.className = 'timer-display paused';
+      document.getElementById('timer-expired-msg').style.display = 'none';
+      document.getElementById('timer-start-btn').textContent = 'Resume';
+    }
+    if(timerRunning){
+      disp.classList.remove('running','warning');
+      disp.classList.add(timerRemaining <= 300 ? 'warning' : 'running');
+    } else if(disp.classList.contains('warning') && timerRemaining > 300){
+      disp.classList.remove('warning');
+      disp.classList.add('paused');
+    }
+  }
+  updateTimerDisplay();
+  updateTimerLengthLabel();
+}
+
+function updateTimerLengthLabel(){
+  var lbl = document.getElementById('timer-length-lbl');
+  if(lbl) lbl.textContent = 'Session length ' + Math.round(timerDuration / 60) + ' min';
+  var minus = document.getElementById('timer-minus-btn');
+  var plus = document.getElementById('timer-plus-btn');
+  if(minus) minus.disabled = (timerDuration <= TIMER_MIN_SECS);
+  if(plus) plus.disabled = (timerDuration >= TIMER_MAX_SECS);
+}
 
 function toggleTimer(){
   if(timerRunning){
@@ -2191,6 +2255,7 @@ function resetTimer(){
   var startBtn = document.getElementById('timer-start-btn');
   startBtn.textContent = 'Start';
   document.getElementById('timer-expired-msg').style.display = 'none';
+  updateTimerLengthLabel();
 }
 
 function updateTimerDisplay(){
@@ -2243,6 +2308,7 @@ generateSession();
 buildSteps();
 buildBoard();
 updateTokenCounts();
+updateTimerLengthLabel();
 
 // Reposition vertical arrows on window resize
 window.addEventListener('resize', function(){
