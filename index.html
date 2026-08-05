@@ -105,22 +105,31 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 /* CARD DISPLAY */
 .card-section{background:#f8f3e8;border:2.5px solid #2a2520;border-radius:12px;padding:16px 18px;min-height:90px;box-shadow:3px 3px 0 #2a2520;}
 .card-section-label{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#7a7060;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:10px;}
-.card-tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:3px;margin-bottom:8px;letter-spacing:0.06em;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-transform:uppercase;}
+.card-tag{display:inline-block;font-size:13px;font-weight:700;padding:2px 8px;border-radius:3px;margin-bottom:8px;letter-spacing:0.06em;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-transform:uppercase;}
 .tag-scenario{background:#085041;color:#9FE1CB;}
 .tag-event{background:#712B13;color:#F5C4B3;}
 .tag-gate{background:#0C447C;color:#B5D4F4;}
 .tag-review{background:#3C3489;color:#CECBF6;}
-.card-title{font-size:19px;font-weight:700;margin-bottom:10px;color:#1a1a1a;line-height:1.3;}
-.card-body{font-size:15px;color:#3a3530;line-height:1.7;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.card-title{font-size:22px;font-weight:700;margin-bottom:10px;color:#1a1a1a;line-height:1.3;}
+.card-body{font-size:18px;color:#3a3530;line-height:1.7;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
 .card-body strong{color:#1a1a1a;font-weight:700;}
 .card-empty{font-size:15px;color:#9a9080;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-style:italic;}
 
 /* TRIGGERED ROLES BADGES */
+.gate-outcome{margin:10px 0 4px;padding:11px 13px;border-radius:6px;font-size:15px;line-height:1.55;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.gate-outcome strong{display:block;margin-bottom:4px;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;}
+.gate-pass{background:#E8F5EF;border:1.5px solid #1D9E75;color:#0a4636;}
+.gate-fail{background:#FBEAE3;border:1.5px solid #D85A30;color:#7a2b10;}
+.gate-alloc{margin-top:5px;font-weight:700;}
+.path-notice{margin-bottom:10px;padding:11px 13px;border-radius:6px;font-size:15px;line-height:1.55;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.path-notice strong{display:block;margin-bottom:3px;font-size:15px;}
+.path-notice-blocked{background:#FDF3E3;border:1.5px solid #D8A030;color:#6a4a10;}
+.path-notice-forced{background:#FBEAE3;border:1.5px solid #D85A30;color:#7a2b10;}
 .triggered-roles-block{margin:10px 0 8px;padding:8px 10px;background:#fffef9;border:1.5px solid #3C3489;border-radius:7px;}
-.triggered-roles-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#3C3489;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:6px;}
+.triggered-roles-label{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#3C3489;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:6px;}
 .triggered-roles-row{display:flex;gap:6px;flex-wrap:wrap;}
-.role-badge{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:700;padding:3px 9px;border-radius:4px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;letter-spacing:0.02em;}
-.role-badge .player-name{font-weight:400;font-size:12px;opacity:0.85;}
+.role-badge{display:inline-flex;align-items:center;gap:4px;font-size:15px;font-weight:700;padding:3px 9px;border-radius:4px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;letter-spacing:0.02em;}
+.role-badge .player-name{font-weight:400;font-size:14px;opacity:0.85;}
 .rb-ur{background:#d4ede4;color:#085041;}
 .rb-cd{background:#e4e0f8;color:#3C3489;}
 .rb-id{background:#d0e4f5;color:#0C447C;}
@@ -132,13 +141,13 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 /* RESOLUTION PATHS — CLICKABLE */
 .resolution-toggle{margin-top:12px;padding-top:10px;border-top:1px dashed #c5bfb0;}
 .resolution-content{margin-top:10px;}
-.res-path{padding:10px 14px;background:#fffef9;border:1.5px solid #c5bfb0;border-radius:7px;margin-bottom:8px;cursor:pointer;transition:all 0.15s;font-size:15px;color:#3a3530;line-height:1.7;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;position:relative;}
+.res-path{padding:12px 15px;background:#fffef9;border:1.5px solid #c5bfb0;border-radius:7px;margin-bottom:8px;cursor:pointer;transition:all 0.15s;font-size:17px;color:#3a3530;line-height:1.7;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;position:relative;}
 .res-path:hover{border-color:#3C3489;background:#f0edf8;}
 .res-path.chosen{border-color:#1D9E75;background:#eaf7f2;cursor:default;}
-.res-path.chosen::after{content:'✓ Chosen';position:absolute;top:8px;right:10px;font-size:12px;font-weight:700;color:#085041;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.res-path.chosen::after{content:'✓ Chosen';position:absolute;top:10px;right:12px;font-size:13px;font-weight:700;color:#085041;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
 .res-path strong{color:#1a1a1a;font-weight:700;}
-.res-path-hint{font-size:12px;color:#7a7060;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-top:4px;font-style:italic;}
-.res-path-cost{font-size:12px;color:#9a9080;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:4px;}
+.res-path-hint{font-size:15px;color:#57504a;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-top:4px;font-style:italic;}
+.res-path-cost{font-size:14px;color:#655c50;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:4px;}
 /* Event auto-penalty notice */
 .event-penalty-applied{margin-top:12px;padding:9px 12px;background:#26215C;border:1.5px solid #534AB7;border-radius:7px;font-size:13px;color:#CECBF6;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;line-height:1.5;}
 .event-penalty-applied strong{color:#EEEDFE;}
@@ -150,25 +159,25 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
 .event-penalty-btn:hover{background:#b84820;}
 .event-penalty-btn:disabled{background:#5a4030;color:#9a7060;border-color:#5a4030;cursor:default;}
 .event-penalty-done{font-size:12px;color:#F5C4B3;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-top:6px;}
-.res-must-choose{font-size:12px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;color:#7a5c30;background:#f5e8cc;border:1px solid #d4b87a;border-radius:5px;padding:6px 10px;margin-bottom:10px;}
+.res-must-choose{font-size:14px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;color:#7a5c30;background:#f5e8cc;border:1px solid #d4b87a;border-radius:5px;padding:6px 10px;margin-bottom:10px;}
 /* Unchosen paths after a decision — collapsed/dimmed */
 .res-path.unchosen{background:#f0ede8;border-color:#d8d0c4;cursor:default;opacity:0.5;}
 .res-path.unchosen:hover{border-color:#d8d0c4;background:#f0ede8;}
 .res-path.unchosen .res-path-hint{display:none;}
 .res-path.unchosen .res-path-cost{display:none;}
 /* Outcome reveal block — shown on chosen path after selection */
-.outcome-reveal{margin-top:10px;padding:10px 12px;background:#1e1a14;border:1.5px solid #1D9E75;border-radius:6px;}
-.outcome-reveal-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5DCAA5;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:6px;}
-.outcome-reveal-text{font-size:13px;color:#ede8df;line-height:1.7;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
+.outcome-reveal{margin-top:10px;padding:12px 14px;background:#1e1a14;border:1.5px solid #1D9E75;border-radius:6px;}
+.outcome-reveal-label{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5DCAA5;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:6px;}
+.outcome-reveal-text{font-size:18px;color:#ede8df;line-height:1.7;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;}
 
 /* ABILITY REVEAL BUTTONS & PANEL */
-.ability-reveal-btn{font-size:10px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:3px 8px;border-radius:4px;cursor:pointer;background:#26215C;color:#CECBF6;border:1px solid #534AB7;letter-spacing:0.04em;font-weight:700;transition:all 0.15s;margin-left:6px;white-space:nowrap;}
+.ability-reveal-btn{font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:3px 8px;border-radius:4px;cursor:pointer;background:#26215C;color:#CECBF6;border:1px solid #534AB7;letter-spacing:0.04em;font-weight:700;transition:all 0.15s;margin-left:6px;white-space:nowrap;}
 .ability-reveal-btn:hover{background:#3C3489;color:#EEEDFE;}
 .ability-reveal-btn:disabled{background:#2a2520;color:#5a5450;border-color:#3a3530;cursor:default;opacity:0.6;}
 .ability-reveal-btn.spent{background:#2a2520;color:#5a5450;border-color:#3a3530;cursor:default;opacity:0.6;}
-.ability-reveal-panel{margin-top:6px;padding:9px 12px;background:#1e1a2e;border:1.5px solid #534AB7;border-radius:6px;}
-.ability-reveal-role-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9994bb;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:5px;}
-.ability-reveal-text{font-size:13px;color:#EEEDFE;line-height:1.65;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-style:italic;}
+.ability-reveal-panel{margin-top:6px;padding:12px 14px;background:#1e1a2e;border:1.5px solid #534AB7;border-radius:6px;}
+.ability-reveal-role-label{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9994bb;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;margin-bottom:5px;}
+.ability-reveal-text{font-size:21px;color:#EEEDFE;line-height:1.6;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-style:italic;}
 .triggered-role-row{display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:4px;}
 .triggered-role-row:last-child{margin-bottom:0;}
 
@@ -348,7 +357,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         <div class="modal-section-label" style="margin-top:14px;">Before you start</div>
         <p>Assign one role to each player. The seven roles are: User Researcher, Content Designer, Interaction Designer, Service Designer, Product Manager, Delivery Manager, and Business Analyst.</p>
         <p>Each role has a unique ability. Abilities are shared knowledge and are listed on the Roles tab. Each role also has a private pressure: a personal instinct that shapes how that role tends to behave under project conditions. Pressures are not shared. The team holds a shared pool of tokens each phase, which are spent when choosing how to resolve scenarios. The pool is shown on the game board and belongs to the whole team rather than to any individual player.</p>
-        <p><strong>If the team cannot afford any of the available paths</strong> (because every option costs more tokens than the team currently holds) they must take the least costly path and the facilitator applies a <strong>−2 SQ penalty</strong>.</p>
+        <p>Token costs are deducted automatically when a path is chosen. If a path costs more than the pool holds, the board says so and the team picks again. <strong>If the team cannot afford any of the available paths</strong> (because every option costs more tokens than the team currently holds) the least costly path is taken for them and a <strong>−2 SQ penalty</strong> is applied automatically.</p>
         <p><strong>Pressures are private.</strong> Before dismissing this brief, send each player their pressure individually via a back channel such as MS Teams or email. Players should not share their pressure with the group. It works best when pressures surface through play rather than being announced upfront.</p>
         <button onclick="togglePressures(this)" style="font-size:11px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;padding:5px 12px;border-radius:4px;cursor:pointer;background:#2a2520;color:#ede8df;border:1px solid #2a2520;letter-spacing:0.04em;margin-bottom:8px;">Show pressure information</button>
         <div id="pressure-list" style="display:none;">
@@ -503,35 +512,24 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         <!-- TEAM TOKEN POOL -->
         <div class="token-reset-panel">
           <div class="token-reset-title">Team token pool</div>
-          <div class="token-pool-note">Tokens belong to the team, not to individual players. Click a token to mark it spent.</div>
+          <div class="token-pool-note">Resolution paths are paid for automatically, and the pool refills itself when the team moves past a phase gate. Click a token to change it by hand for event cards.</div>
 
           <div class="token-section">
             <div class="token-lbl">Research <span class="token-count" id="tok-count-r"></span></div>
-            <div class="token-row" id="tok-row-r">
-              <div class="tok tok-r" onclick="toggleToken(this)">R</div>
-              <div class="tok tok-r" onclick="toggleToken(this)">R</div>
-              <div class="tok tok-r" onclick="toggleToken(this)">R</div>
-            </div>
+            <div class="token-row" id="tok-row-r"></div>
           </div>
 
           <div class="token-section">
             <div class="token-lbl">Design <span class="token-count" id="tok-count-d"></span></div>
-            <div class="token-row" id="tok-row-d">
-              <div class="tok tok-d" onclick="toggleToken(this)">D</div>
-              <div class="tok tok-d" onclick="toggleToken(this)">D</div>
-              <div class="tok tok-d" onclick="toggleToken(this)">D</div>
-            </div>
+            <div class="token-row" id="tok-row-d"></div>
           </div>
 
           <div class="token-section">
             <div class="token-lbl">Progress <span class="token-count" id="tok-count-p"></span></div>
-            <div class="token-row" id="tok-row-p">
-              <div class="tok tok-p" onclick="toggleToken(this)">P</div>
-              <div class="tok tok-p" onclick="toggleToken(this)">P</div>
-            </div>
+            <div class="token-row" id="tok-row-p"></div>
           </div>
 
-          <button class="reset-btn" onclick="resetTokens()">Reset all tokens (new phase)</button>
+          <button class="reset-btn" onclick="resetTokens(currentAllocation)">Refill pool (manual override)</button>
         </div>
 
       </div><!-- end left column -->
@@ -608,17 +606,17 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
       <div class="gate-card">
         <div class="gate-label">Discovery to Alpha</div>
         <div class="gate-q">Have we found out enough to build something?</div>
-        <div class="gate-req">Check the current SQ score. If SQ is below 1, the discovery evidence base is too thin: remove 1 Research token and 1 Design token from the Alpha starting allocation. If SQ is 1 or above, advance to Alpha with full token allocation.</div>
+        <div class="gate-req">The board checks the current SQ score. If SQ is below 1, the discovery evidence base is too thin and Alpha starts with 1 Research and 1 Design token removed. If SQ is 1 or above, Alpha starts with a full allocation. The pool refills automatically when the team moves past the gate.</div>
       </div>
       <div class="gate-card">
         <div class="gate-label">Alpha to Beta</div>
         <div class="gate-q">Is there enough to build on?</div>
-        <div class="gate-req">Check whether the team has spent at least 1 Research token during this phase. If fewer than 1 Research token was spent, the evidence base is too thin: remove 1 Research token and 1 Design token from the Beta starting allocation. If the threshold is met, advance to Beta with full token allocation.</div>
+        <div class="gate-req">The board checks whether the team has spent at least 1 Research token during this phase. If none was spent, the evidence base is too thin and Beta starts with 1 Research and 1 Design token removed. If the threshold is met, Beta starts with a full allocation.</div>
       </div>
       <div class="gate-card">
         <div class="gate-label">Beta to Live</div>
         <div class="gate-q">Is the service ready for wider use?</div>
-        <div class="gate-req">SQ must be at least half of DP (SQ ≥ DP ÷ 2). If the threshold is met, advance to Live with full token allocation. If not, remove 1 Design token and 1 Research token from the Live starting allocation before proceeding.</div>
+        <div class="gate-req">SQ must be at least half of DP (SQ ≥ DP ÷ 2). If the threshold is met, Live starts with a full allocation. If not, Live starts with 1 Research and 1 Design token removed.</div>
       </div>
       <div class="gate-card">
         <div class="gate-label">Live to Review</div>
@@ -670,7 +668,7 @@ body{font-family:Georgia,'Times New Roman',serif;background:#f5f0e8;color:#1a1a1
         </tbody>
       </table>
       <div class="note-box">Exact token costs vary by card and are shown on each resolution path. Path A is not always the "right" answer — it depends on the scenario and the team's situation.</div>
-      <div class="warn-box"><strong>If the team cannot afford any available path</strong> — because every option's token cost exceeds what the team currently holds — they must take the least costly path. The facilitator applies a <strong>−2 SQ penalty</strong> immediately. This reflects the real consequence of being under-resourced: the team is forced into a response they would not have chosen.</div>
+      <div class="warn-box"><strong>If the team cannot afford any available path</strong> — because every option's token cost exceeds what the team currently holds — the board takes the least costly path for them and applies a <strong>−2 SQ penalty</strong> automatically. This reflects the real consequence of being under-resourced: the team is forced into a response they would not have chosen. If only some paths are unaffordable, the board blocks the choice, names the options that remain, and lets the team decide again.</div>
     </div>
     <div class="section-panel">
       <h2>Scoring</h2>
@@ -810,23 +808,96 @@ function applyScore(dpDelta, sqDelta){
   document.getElementById('sq-val').textContent = sq;
   updateDebriefSummary();
 }
-function resetTokens(){
-  document.querySelectorAll('.tok,.tok-sm').forEach(function(t){t.classList.remove('spent');});
-  updateTokenCounts();
+// ============================================================
+// TEAM TOKEN POOL
+// Tokens are held as state so resolution paths can be paid for
+// automatically. The facilitator can still click any token to
+// toggle it by hand, for event and phase gate adjustments.
+// ============================================================
+var TOKEN_TYPES = ['Research','Design','Progress'];
+var TOKEN_META = {Research:{key:'r',letter:'R'}, Design:{key:'d',letter:'D'}, Progress:{key:'p',letter:'P'}};
+var TOKEN_FULL_ALLOCATION = {Research:3, Design:3, Progress:2};
+var TOKEN_REDUCED_ALLOCATION = {Research:2, Design:2, Progress:2};   // after a failed phase gate
+var currentAllocation = {Research:3, Design:3, Progress:2};
+var tokenState = {Research:[false,false,false], Design:[false,false,false], Progress:[false,false]};
+var tokensSpentThisPhase = {Research:0, Design:0, Progress:0};
+
+function tokensAvailable(type){
+  return tokenState[type].filter(function(spent){ return !spent; }).length;
 }
-function toggleToken(el){
-  el.classList.toggle('spent');
-  updateTokenCounts();
-}
-function updateTokenCounts(){
-  ['r','d','p'].forEach(function(k){
-    var row = document.getElementById('tok-row-'+k);
-    var lbl = document.getElementById('tok-count-'+k);
-    if(!row || !lbl) return;
-    var total = row.querySelectorAll('.tok').length;
-    var spent = row.querySelectorAll('.tok.spent').length;
-    lbl.textContent = (total - spent) + ' of ' + total + ' left';
+function renderTokens(){
+  TOKEN_TYPES.forEach(function(type){
+    var meta = TOKEN_META[type];
+    var row = document.getElementById('tok-row-'+meta.key);
+    if(row){
+      var html = '';
+      tokenState[type].forEach(function(spent, i){
+        html += '<div class="tok tok-'+meta.key+(spent ? ' spent' : '')+'"'
+             +  ' onclick="toggleToken(\''+type+'\','+i+')"'
+             +  ' title="'+(spent ? 'Spent' : 'Available')+' — click to change by hand">'
+             +  meta.letter+'</div>';
+      });
+      row.innerHTML = html;
+    }
+    var lbl = document.getElementById('tok-count-'+meta.key);
+    if(lbl) lbl.textContent = tokensAvailable(type) + ' of ' + tokenState[type].length + ' left';
   });
+}
+function toggleToken(type, i){
+  tokenState[type][i] = !tokenState[type][i];
+  tokensSpentThisPhase[type] += tokenState[type][i] ? 1 : -1;
+  if(tokensSpentThisPhase[type] < 0) tokensSpentThisPhase[type] = 0;
+  renderTokens();
+}
+// Refills the pool for a new phase. Pass a reduced allocation after a failed gate.
+function resetTokens(alloc){
+  currentAllocation = {
+    Research: (alloc && alloc.Research) || TOKEN_FULL_ALLOCATION.Research,
+    Design:   (alloc && alloc.Design)   || TOKEN_FULL_ALLOCATION.Design,
+    Progress: (alloc && alloc.Progress) || TOKEN_FULL_ALLOCATION.Progress
+  };
+  TOKEN_TYPES.forEach(function(type){
+    tokenState[type] = [];
+    for(var i=0; i<currentAllocation[type]; i++) tokenState[type].push(false);
+    tokensSpentThisPhase[type] = 0;
+  });
+  renderTokens();
+}
+
+// "2 Research + 1 Progress" -> {Research:2, Design:0, Progress:1}
+function parseTokenCost(str){
+  var out = {Research:0, Design:0, Progress:0};
+  if(!str || str.toLowerCase() === 'none') return out;
+  str.split('+').forEach(function(part){
+    var m = part.trim().match(/^(\d+)\s+(Research|Design|Progress)$/i);
+    if(m){
+      var type = m[2].charAt(0).toUpperCase() + m[2].slice(1).toLowerCase();
+      out[type] += parseInt(m[1], 10);
+    }
+  });
+  return out;
+}
+function costTotal(cost){ return cost.Research + cost.Design + cost.Progress; }
+function canAfford(cost){
+  return TOKEN_TYPES.every(function(type){ return cost[type] <= tokensAvailable(type); });
+}
+function spendTokens(cost){
+  TOKEN_TYPES.forEach(function(type){
+    var n = Math.min(cost[type], tokensAvailable(type));
+    tokensSpentThisPhase[type] += n;
+    for(var i=0; i<tokenState[type].length && n>0; i++){
+      if(!tokenState[type][i]){ tokenState[type][i] = true; n--; }
+    }
+  });
+  renderTokens();
+}
+function describePool(){
+  return TOKEN_TYPES.map(function(type){ return tokensAvailable(type) + ' ' + type; }).join(', ');
+}
+function describeCost(cost){
+  var parts = TOKEN_TYPES.filter(function(t){ return cost[t] > 0; })
+                         .map(function(t){ return cost[t] + ' ' + t; });
+  return parts.length ? parts.join(' + ') : 'no tokens';
 }
 
 function revealScores(){
@@ -1273,7 +1344,7 @@ var CARDS={
 
   G1:{tag:'Phase gate',tagCss:'tag-gate',title:'Discovery to Alpha',
     followsOn:null,triggeredRoles:[],paths:[],
-    scenario:'Gate question: Have we found out enough to build something?\n\nCheck the current SQ score.\n\nIf SQ is below 1: the discovery evidence base is too thin to build on confidently. Remove 1 Research token and 1 Design token from the team\'s Alpha starting allocation. The team enters Alpha carrying a knowledge debt.\n\nIf SQ is 1 or above: advance to Alpha with full token allocation.'},
+    scenario:'Gate question: Have we found out enough to build something?\n\nThe board checks the current SQ score.\n\nIf SQ is below 1: the discovery evidence base is too thin to build on confidently. The team enters Alpha carrying a knowledge debt, with 1 Research and 1 Design token removed from its starting allocation.\n\nIf SQ is 1 or above: advance to Alpha with full token allocation.'},
 
   // ── ALPHA ──────────────────────────────────────────────────
   A1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The prototype doesn\'t test well"',
@@ -1408,7 +1479,7 @@ var CARDS={
 
   G2:{tag:'Phase gate',tagCss:'tag-gate',title:'Alpha to Beta',
     followsOn:null,triggeredRoles:[],paths:[],
-    scenario:'Gate question: Is there enough to build on?\n\nCheck whether the team has spent at least 1 Research token during this phase.\n\nIf fewer than 1 Research token was spent: the evidence base is too thin. Remove 1 Research token and 1 Design token from the team\'s Beta starting allocation.\n\nIf the research threshold is met: advance to Beta with full token allocation.'},
+    scenario:'Gate question: Is there enough to build on?\n\nThe board checks whether the team has spent at least 1 Research token during this phase.\n\nIf fewer than 1 Research token was spent: the evidence base is too thin. Beta starts with 1 Research and 1 Design token removed from the allocation.\n\nIf the research threshold is met: advance to Beta with full token allocation.'},
 
   // ── BETA ───────────────────────────────────────────────────
   B1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The accessibility audit came back"',
@@ -1545,7 +1616,7 @@ var CARDS={
 
   G3:{tag:'Phase gate',tagCss:'tag-gate',title:'Beta to Live',
     followsOn:null,triggeredRoles:[],paths:[],
-    scenario:'Gate question: Is the service ready for wider use?\n\nCheck whether SQ is at least half of DP (i.e. SQ ≥ DP ÷ 2).\n\nIf the threshold is met: advance to Live with full token allocation.\n\nIf the threshold is not met: the service quality is too low to go wider. Remove 1 Design token and 1 Research token from the team\'s Live starting allocation before proceeding.'},
+    scenario:'Gate question: Is the service ready for wider use?\n\nThe board checks whether SQ is at least half of DP (i.e. SQ ≥ DP ÷ 2).\n\nIf the threshold is met: advance to Live with full token allocation.\n\nIf the threshold is not met: the service quality is too low to go wider. Live starts with 1 Research and 1 Design token removed from the allocation.'},
 
   // ── LIVE ───────────────────────────────────────────────────
   L1:{tag:'Scenario',tagCss:'tag-scenario',title:'"The minister wants a feature that wasn\'t planned"',
@@ -1805,6 +1876,8 @@ function positionVerticalArrows(){
 // ============================================================
 function selectStep(n, silent){
   if(!silent){
+    // A notice belongs to the card it was raised on
+    if(pathNotice && activeCell !== n) pathNotice = null;
     // Block clicks on locked cells
     var cur = document.getElementById('cell-'+n);
     if(cur && cur.classList.contains('locked')) return;
@@ -1816,6 +1889,8 @@ function selectStep(n, silent){
     activeCell = n;
     // Show scores at gates and review; hide during scenarios and events
     syncScoreVisibility(n);
+    // Moving past a phase gate refills the token pool for the new phase
+    if(n === 5 || n === 9 || n === 13) applyGateReset(n - 1);
     // Resolve conditional scenario when player reaches the second scenario of Alpha/Beta/Live
     if(n === 7)  resolveConditional('alpha');
     if(n === 11) resolveConditional('beta');
@@ -1900,6 +1975,20 @@ function selectStep(n, silent){
   var scenarioText = card.scenario.replace(/\n/g,'<br>');
   html += '<div class="card-body" style="margin-top:8px;">'+scenarioText+'</div>';
 
+  // Phase gate outcome — judged from the board when the team reaches the gate
+  if(step.type === 'gate' && GATE_NEXT_PHASE[n]){
+    var g = evaluateGate(n);
+    if(g){
+      var alloc = g.passed ? TOKEN_FULL_ALLOCATION : TOKEN_REDUCED_ALLOCATION;
+      html += '<div class="gate-outcome '+(g.passed ? 'gate-pass' : 'gate-fail')+'">';
+      html += '<strong>' + (g.passed ? 'Gate met' : 'Gate not met') + '</strong>';
+      html += g.check + ': <b>' + g.reading + '</b>. ' + (g.passed ? g.passText : g.failText);
+      html += '<div class="gate-alloc">' + GATE_NEXT_PHASE[n] + ' starts with ' + describeAllocation(alloc)
+           +  (gateResetDone[n] ? '. The pool has been refilled.' : '. The pool refills when you move to the next step.') + '</div>';
+      html += '</div>';
+    }
+  }
+
   // Event penalty UI
   if(card.autoEvent){
     // E1-style: fixed penalty, already applied
@@ -1936,6 +2025,24 @@ function selectStep(n, silent){
     html += '<div class="resolution-content">';
     var alreadyChosen = chosenPaths[step.card];
     var hasChosen = (alreadyChosen !== undefined);
+
+    if(pathNotice && pathNotice.cardId === step.card){
+      if(pathNotice.kind === 'blocked'){
+        html += '<div class="path-notice path-notice-blocked">';
+        html += '<strong>' + pathNotice.label + ' is out of reach</strong>';
+        html += 'It costs ' + pathNotice.cost + ', and the pool holds ' + pathNotice.pool + '. ';
+        html += 'The team can still afford ' + formatList(pathNotice.options) + '. ';
+        html += (pathNotice.options.length === 1 ? 'Choose that instead.' : 'Choose one of those instead.');
+        html += '</div>';
+      } else if(pathNotice.kind === 'forced'){
+        html += '<div class="path-notice path-notice-forced">';
+        html += '<strong>&minus;2 SQ: the team has run out of tokens</strong>';
+        html += 'No path on this card could be paid for, so the least costly option, ' + pathNotice.label + ', has been taken for you. ';
+        html += 'A penalty of &minus;2 service quality has been applied for mismanaging the team&rsquo;s resources.';
+        html += '</div>';
+      }
+    }
+
     if(!hasChosen){
       html += '<div class="res-must-choose">Choose a resolution path to unlock the next step.</div>';
     }
@@ -1977,12 +2084,129 @@ function selectStep(n, silent){
 // ============================================================
 // CHOOSE RESOLUTION
 // ============================================================
+// ============================================================
+// PHASE GATES
+// Each gate is judged from the board state as the team reaches it,
+// and the result decides what the next phase starts with. The pool
+// is refilled automatically when the team moves past the gate.
+// ============================================================
+var GATE_NEXT_PHASE = {4:'Alpha', 8:'Beta', 12:'Live'};
+var gateOutcomes = {};    // gateStep -> frozen result
+var gateResetDone = {};   // gateStep -> true once the pool has been refilled
+
+function evaluateGate(gateStep){
+  if(gateOutcomes[gateStep]) return gateOutcomes[gateStep];
+  var res = null;
+  if(gateStep === 4){
+    res = {
+      question: 'Have we found out enough to build something?',
+      check: 'Service quality at the end of Discovery',
+      reading: 'SQ ' + sq,
+      passed: sq >= 1,
+      passText: 'SQ is 1 or above, so the evidence base holds up.',
+      failText: 'SQ is below 1, so the discovery evidence base is too thin to build on confidently. The team enters Alpha carrying a knowledge debt.'
+    };
+  } else if(gateStep === 8){
+    res = {
+      question: 'Is there enough to build on?',
+      check: 'Research tokens spent during Alpha',
+      reading: tokensSpentThisPhase.Research + ' spent',
+      passed: tokensSpentThisPhase.Research >= 1,
+      passText: 'At least one Research token was spent, so the research threshold is met.',
+      failText: 'No Research token was spent during Alpha, so the evidence base is too thin.'
+    };
+  } else if(gateStep === 12){
+    res = {
+      question: 'Is the service ready for wider use?',
+      check: 'Service quality against delivery pace',
+      reading: 'SQ ' + sq + ' against DP ' + dp + ' \u00f7 2 = ' + (dp / 2),
+      passed: sq >= (dp / 2),
+      passText: 'Quality has kept pace with delivery, so the service is ready to go wider.',
+      failText: 'Service quality is too low relative to the pace of delivery to go wider.'
+    };
+  }
+  if(res) gateOutcomes[gateStep] = res;
+  return res;
+}
+
+// Called when the team moves from a gate onto the first step of the next phase
+function applyGateReset(gateStep){
+  if(gateResetDone[gateStep]) return;
+  var res = evaluateGate(gateStep);
+  if(!res) return;
+  resetTokens(res.passed ? TOKEN_FULL_ALLOCATION : TOKEN_REDUCED_ALLOCATION);
+  gateResetDone[gateStep] = true;
+  if(!res.passed){
+    sessionLog.push({
+      step: gateStep,
+      phase: 'Penalty',
+      cardId: null,
+      title: 'Phase gate not met',
+      pathLabel: GATE_NEXT_PHASE[gateStep] + ' starts with a reduced allocation: 2 Research, 2 Design, 2 Progress',
+      pathType: 'penalty',
+      dpDelta: 0,
+      sqDelta: 0
+    });
+    updateDebriefSummary();
+  }
+}
+
+function describeAllocation(alloc){
+  return alloc.Research + ' Research, ' + alloc.Design + ' Design, ' + alloc.Progress + ' Progress';
+}
+
+// Message shown on the card after a blocked or forced path selection
+var pathNotice = null;
+
+function formatList(items){
+  if(items.length === 1) return items[0];
+  return items.slice(0, -1).join(', ') + ' and ' + items[items.length - 1];
+}
+
 function chooseResolution(cardId, stepNum, pathIndex){
   var card = CARDS[cardId];
   var path = card.paths[pathIndex];
-  // Apply scores
+  var cost = parseTokenCost(path.tokenCost);
+  var forced = false;
+
+  if(!canAfford(cost)){
+    // Is anything else on this card within reach?
+    var affordable = [];
+    card.paths.forEach(function(p){
+      if(canAfford(parseTokenCost(p.tokenCost))) affordable.push(p.label);
+    });
+
+    if(affordable.length > 0){
+      // Block the choice and point the team at what they can still do
+      pathNotice = {
+        cardId: cardId,
+        kind: 'blocked',
+        label: path.label,
+        cost: describeCost(cost),
+        pool: describePool(),
+        options: affordable
+      };
+      selectStep(stepNum, true);
+      return;
+    }
+
+    // Nothing on the card is affordable — take the least costly path
+    var cheapestIndex = 0, cheapestTotal = Infinity;
+    card.paths.forEach(function(p, i){
+      var t = costTotal(parseTokenCost(p.tokenCost));
+      if(t < cheapestTotal){ cheapestTotal = t; cheapestIndex = i; }
+    });
+    forced = true;
+    pathIndex = cheapestIndex;
+    path = card.paths[pathIndex];
+    cost = parseTokenCost(path.tokenCost);
+  }
+
+  // Pay for it. In the forced case the team pays everything it still holds
+  // of the required types and remains short, which is what the penalty covers.
+  spendTokens(cost);
+
   applyScore(path.dpDelta, path.sqDelta);
-  // Log it
   chosenPaths[cardId] = pathIndex;
   var stepData = STEPS[stepNum-1];
   sessionLog.push({
@@ -1995,6 +2219,25 @@ function chooseResolution(cardId, stepNum, pathIndex){
     dpDelta: path.dpDelta,
     sqDelta: path.sqDelta
   });
+
+  if(forced){
+    applyScore(0, -2);
+    sessionLog.push({
+      step: stepNum,
+      phase: 'Penalty',
+      cardId: cardId,
+      title: 'Out of tokens',
+      pathLabel: 'No affordable path on this card — forced into ' + path.label,
+      pathType: 'penalty',
+      dpDelta: 0,
+      sqDelta: -2
+    });
+    pathNotice = { cardId: cardId, kind: 'forced', label: path.label, cost: describeCost(cost) };
+  } else {
+    pathNotice = null;
+  }
+  updateDebriefSummary();
+
   // Re-render the card to show chosen state
   selectStep(stepNum, true);
   // Now unlock the next step (held back until a path was chosen)
@@ -2079,11 +2322,16 @@ function updateDebriefSummary(){
     var dpStr = (entry.dpDelta>=0?'+':'')+entry.dpDelta;
     var sqStr = (entry.sqDelta>=0?'+':'')+entry.sqDelta;
     if(entry.pathType === 'penalty'){
+      var penStep = entry.step ? 'Step '+entry.step : 'Time';
+      var penScore = '';
+      if(entry.dpDelta) penScore += '<span style="color:#F0997B;">DP '+dpStr+'</span>';
+      if(entry.sqDelta) penScore += (penScore ? ' &nbsp;' : '') + '<span style="color:#F0997B;">SQ '+sqStr+'</span>';
+      if(!penScore) penScore = '<span style="color:#9a9080;">—</span>';
       logHtml += '<div class="log-entry" style="background:#2a1208;border-bottom:1px solid #D85A30;">';
-      logHtml += '<div class="log-step" style="color:#F0997B;">Time<br><span style="font-weight:400;color:#9a9080;">Penalty</span></div>';
+      logHtml += '<div class="log-step" style="color:#F0997B;">'+penStep+'<br><span style="font-weight:400;color:#9a9080;">Penalty</span></div>';
       logHtml += '<div><div style="font-weight:700;font-size:12px;color:#F5C4B3;margin-bottom:2px;">'+entry.title+'</div>';
       logHtml += '<div style="font-size:11px;color:#D85A30;">'+entry.pathLabel+'</div></div>';
-      logHtml += '<div class="log-score"><span style="color:#F0997B;">DP '+dpStr+'</span></div>';
+      logHtml += '<div class="log-score">'+penScore+'</div>';
       logHtml += '</div>';
     } else {
       var pathClass = entry.pathType==='a'?'log-path-a':entry.pathType==='b'?'log-path-b':'log-path-c';
@@ -2307,7 +2555,7 @@ function toggleTextBriefing(btn){
 generateSession();
 buildSteps();
 buildBoard();
-updateTokenCounts();
+resetTokens();
 updateTimerLengthLabel();
 
 // Reposition vertical arrows on window resize
